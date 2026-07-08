@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gstar Workspace | Sales Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<style>
+  .sales-page .hero.sales-hero{
+    background:
+      linear-gradient(135deg, rgba(255,255,255,.78), rgba(234,242,255,.62)),
+      radial-gradient(circle at 90% 12%, rgba(11,92,255,.16), transparent 34%);
+    border:1px solid rgba(255,255,255,.72);
+    box-shadow:0 24px 70px rgba(15,23,42,.10);
+    backdrop-filter:blur(22px);
+  }
+  .sales-page .sales-actions-grid{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:18px;
+  }
+  .sales-page .sales-action-card{
+    position:relative;
+    overflow:hidden;
+    min-height:210px;
+    background:linear-gradient(180deg,rgba(255,255,255,.82),rgba(255,255,255,.62));
+    border:1px solid rgba(255,255,255,.74);
+    border-radius:24px;
+    padding:24px;
+    box-shadow:0 18px 46px rgba(15,23,42,.08);
+    backdrop-filter:blur(18px);
+    transition:.22s ease;
+  }
+  .sales-page .sales-action-card:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(135deg,rgba(11,92,255,.10),transparent 42%);
+    opacity:0;
+    transition:.22s ease;
+  }
+  .sales-page .sales-action-card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(11,92,255,.24);
+    box-shadow:0 28px 70px rgba(15,23,42,.13);
+  }
+  .sales-page .sales-action-card:hover:before{opacity:1;}
+  .sales-page .sales-icon{
+    width:54px;
+    height:54px;
+    border-radius:18px;
+    display:grid;
+    place-items:center;
+    background:rgba(234,242,255,.96);
+    color:#0b5cff;
+    font-size:24px;
+    margin-bottom:22px;
+    position:relative;
+    z-index:1;
+  }
+  .sales-page .sales-action-card h3,
+  .sales-page .sales-action-card p,
+  .sales-page .sales-action-card .sales-card-link{position:relative;z-index:1;}
+  .sales-page .sales-action-card h3{margin:0 0 10px;font-size:19px;letter-spacing:-.03em;}
+  .sales-page .sales-action-card p{margin:0;color:#64748b;font-size:13px;line-height:1.7;}
+  .sales-page .sales-card-link{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-top:22px;
+    color:#0b5cff;
+    font-weight:800;
+    font-size:13px;
+  }
+  .sales-page .sales-promo-layout{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:18px;
+    align-items:stretch;
+  }
+  .sales-page .promotion-card{
+    position:relative;
+    overflow:hidden;
+    border-radius:28px;
+    min-height:320px;
+    background:
+      linear-gradient(135deg, rgba(11,92,255,.92), rgba(8,38,102,.94)),
+      radial-gradient(circle at 85% 10%, rgba(91,231,255,.26), transparent 34%);
+    color:#fff;
+    padding:34px;
+    box-shadow:0 28px 80px rgba(11,92,255,.22);
+  }
+  .sales-page .promotion-card:after{
+    content:"";
+    position:absolute;
+    right:-70px;
+    top:-90px;
+    width:260px;
+    height:260px;
+    border-radius:50%;
+    background:rgba(255,255,255,.14);
+  }
+  .sales-page .promo-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    height:34px;
+    padding:0 13px;
+    border-radius:999px;
+    background:rgba(255,255,255,.16);
+    border:1px solid rgba(255,255,255,.25);
+    font-size:12px;
+    font-weight:800;
+    margin-bottom:22px;
+    position:relative;
+    z-index:1;
+  }
+  .sales-page .promotion-card h3{
+    font-size:34px;
+    line-height:1.08;
+    letter-spacing:-.06em;
+    margin:0 0 14px;
+    max-width:560px;
+    position:relative;
+    z-index:1;
+  }
+  .sales-page .promotion-card p{
+    color:rgba(255,255,255,.78);
+    line-height:1.7;
+    margin:0;
+    max-width:560px;
+    position:relative;
+    z-index:1;
+  }
+  .sales-page .promo-actions{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:28px;
+    position:relative;
+    z-index:1;
+  }
+  .sales-page .promo-btn{
+    min-height:44px;
+    border-radius:14px;
+    padding:0 16px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+    font-size:13px;
+    text-decoration:none;
+  }
+  .sales-page .promo-btn.white{background:#fff;color:#0b5cff;}
+  .sales-page .promo-btn.glass{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.24);color:#fff;}
+  .sales-page .promo-side{
+    display:grid;
+    gap:14px;
+  }
+  .sales-page .promo-mini{
+    background:rgba(255,255,255,.82);
+    border:1px solid rgba(255,255,255,.74);
+    border-radius:22px;
+    padding:22px;
+    box-shadow:0 18px 46px rgba(15,23,42,.07);
+    backdrop-filter:blur(16px);
+  }
+  .sales-page .promo-mini strong{display:block;margin-bottom:6px;}
+  .sales-page .promo-mini span{display:block;color:#64748b;font-size:13px;line-height:1.6;}
+  .sales-page .resource-list{
+    display:grid;
+    gap:12px;
+  }
+  .sales-page .resource-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    background:rgba(255,255,255,.82);
+    border:1px solid rgba(255,255,255,.72);
+    border-radius:18px;
+    padding:18px;
+    box-shadow:0 12px 34px rgba(15,23,42,.055);
+    backdrop-filter:blur(14px);
+  }
+  .sales-page .resource-row strong{display:block;font-size:14px;margin-bottom:4px;}
+  .sales-page .resource-row span{display:block;color:#64748b;font-size:13px;}
+  @media(max-width:1100px){
+    .sales-page .sales-actions-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .sales-page .sales-promo-layout{grid-template-columns:1fr;}
+  }
+  @media(max-width:760px){
+    .sales-page .sales-actions-grid{grid-template-columns:1fr;}
+    .sales-page .promotion-card{padding:26px;min-height:auto;}
+    .sales-page .promotion-card h3{font-size:28px;}
+    .sales-page .resource-row{align-items:flex-start;flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+<aside class="sidebar"><div class="logo">Gstar Workspace</div><nav class="nav">
+<a href="index.html">Dashboard</a>
+<a href="products.html">Products</a>
+<a href="marketing.html">Marketing</a>
+<a class="active" href="sales.html">Sales</a>
+<a href="support.html">Support</a>
+<a href="knowledge.html">Knowledge Base</a>
+<a href="ai-assistant.html">AI Assistant</a>
+<div class="divider"></div>
+<a href="management-login.html">Management</a>
+</nav></aside>
+
+<main class="main sales-page">
+<div class="top">
+  <div>
+    <div class="crumb">Internal Workspace / Sales</div>
+    <h1>Sales Hub</h1>
+  </div>
+  <div class="search">Search anything...</div>
+</div>
+
+<section class="hero sales-hero">
+  <div class="kicker">Sales Enablement</div>
+  <h2>Everything sales needs to respond faster.</h2>
+  <p>พื้นที่รวมไฟล์ ราคา เทมเพลต และโปรโมชั่นที่ฝ่ายขายใช้จริง โดยแยกจาก Product Page เพื่อไม่ให้ข้อมูลซ้ำและแก้ง่ายในอนาคต</p>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <div class="section-title">Sales Resources</div>
+      <div class="section-desc">เมนูหลักที่จำเป็นสำหรับงานขายตอนนี้</div>
+    </div>
+  </div>
+
+  <div class="sales-actions-grid">
+    <a class="sales-action-card" href="#price-lists">
+      <div class="sales-icon">฿</div>
+      <h3>Price Lists</h3>
+      <p>รวมราคา แพ็กเกจ โปรโมชั่น และ reference สำหรับเสนอราคา</p>
+      <span class="sales-card-link">Open Resources →</span>
+    </a>
+
+    <a class="sales-action-card" href="#email-templates">
+      <div class="sales-icon">✉</div>
+      <h3>Email Templates</h3>
+      <p>ข้อความอีเมลที่ฝ่ายขายใช้ส่งลูกค้า เช่น Trial, Quote, Follow-up</p>
+      <span class="sales-card-link">Open Templates →</span>
+    </a>
+
+    <a class="sales-action-card" href="#competitor-comparison">
+      <div class="sales-icon">↔</div>
+      <h3>Competitor Comparison</h3>
+      <p>ข้อมูลเปรียบเทียบคู่แข่ง จุดขาย และคำตอบสำหรับ objection</p>
+      <span class="sales-card-link">Open Comparison →</span>
+    </a>
+
+    <a class="sales-action-card" href="#promotions">
+      <div class="sales-icon">%</div>
+      <h3>Promotions</h3>
+      <p>โปรโมชั่นที่ฝ่ายขายควรรู้ พร้อมลิงก์ไปหน้าเว็บหลัก</p>
+      <span class="sales-card-link">View Promotions →</span>
+    </a>
+  </div>
+</section>
+
+<section class="section" id="promotions">
+  <div class="section-head">
+    <div>
+      <div class="section-title">Featured Promotion</div>
+      <div class="section-desc">อนาคต Admin จะเปลี่ยนรูป ชื่อโปร และลิงก์ปลายทางได้จาก Management</div>
+    </div>
+  </div>
+
+  <div class="sales-promo-layout">
+    <article class="promotion-card">
+      <div class="promo-pill">Featured Promotion</div>
+      <h3>GstarCAD 2027 Upgrade Promotion</h3>
+      <p>อัปเดตโปรโมชันหลักสำหรับฝ่ายขาย กด View Promotion เพื่อเปิดหน้าเว็บไซต์ thaigstarcad.com และส่งต่อให้ลูกค้าได้ทันที</p>
+      <div class="promo-actions">
+        <a class="promo-btn white" href="https://www.thaigstarcad.com/" target="_blank" rel="noopener">View Promotion →</a>
+        <button class="promo-btn glass" type="button" data-copy="https://www.thaigstarcad.com/">Copy Link</button>
+      </div>
+    </article>
+
+    <div class="promo-side">
+      <div class="promo-mini">
+        <strong>Admin editable</strong>
+        <span>Title, Image, URL, Status, Start Date และ End Date จะย้ายไปแก้ใน Management Console</span>
+      </div>
+      <div class="promo-mini">
+        <strong>Single source of truth</strong>
+        <span>Sales Hub แสดงโปร แต่ลิงก์ออกไปหน้าเว็บไซต์หลัก เพื่อไม่ต้องเก็บข้อมูลซ้ำ</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="price-lists">
+  <div class="section-head"><div><div class="section-title">Price Lists</div><div class="section-desc">ลิงก์ตัวอย่างก่อนเชื่อม Apps Script</div></div></div>
+  <div class="resource-list">
+    <div class="resource-row"><div><strong>GstarCAD Price List</strong><span>ไฟล์ราคาหลักสำหรับฝ่ายขาย</span></div><a class="btn secondary" href="#">Open</a></div>
+    <div class="resource-row"><div><strong>GstarBIM Price List</strong><span>ราคาและแพ็กเกจสำหรับ BIM</span></div><a class="btn secondary" href="#">Open</a></div>
+  </div>
+</section>
+
+<section class="section" id="email-templates">
+  <div class="section-head"><div><div class="section-title">Email Templates</div><div class="section-desc">ใช้ส่งลูกค้าได้เร็วขึ้น</div></div></div>
+  <div class="resource-list">
+    <div class="resource-row"><div><strong>Trial Download Email</strong><span>เทมเพลตส่งลิงก์ทดลองใช้งาน</span></div><button class="btn secondary" type="button" data-copy="สวัสดีค่ะ สามารถดาวน์โหลด GstarCAD ได้ที่ลิงก์นี้ค่ะ">Copy</button></div>
+    <div class="resource-row"><div><strong>Quotation Follow-up</strong><span>เทมเพลตติดตามใบเสนอราคา</span></div><button class="btn secondary" type="button" data-copy="สวัสดีค่ะ ขออนุญาตติดตามใบเสนอราคาที่ส่งให้ก่อนหน้านี้ค่ะ">Copy</button></div>
+  </div>
+</section>
+
+<section class="section" id="competitor-comparison">
+  <div class="section-head"><div><div class="section-title">Competitor Comparison</div><div class="section-desc">สำหรับตอบคำถามลูกค้าและเปรียบเทียบทางเลือก</div></div></div>
+  <div class="resource-list">
+    <div class="resource-row"><div><strong>GstarCAD vs AutoCAD LT</strong><span>จุดต่าง ราคา และ Use case ที่เหมาะสม</span></div><a class="btn secondary" href="#">Open</a></div>
+    <div class="resource-row"><div><strong>GstarBIM vs Revit</strong><span>แนวทางอธิบาย BIM transition</span></div><a class="btn secondary" href="#">Open</a></div>
+  </div>
+</section>
+
+<div class="footer">Gstar Workspace · Sales Hub</div>
+</main>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script>
+  document.querySelectorAll('[data-copy]').forEach((btn)=>{
+    btn.addEventListener('click', async()=>{
+      const text = btn.getAttribute('data-copy');
+      try{
+        await navigator.clipboard.writeText(text);
+        const old = btn.textContent;
+        btn.textContent = 'Copied ✓';
+        setTimeout(()=>btn.textContent = old, 1600);
+      }catch(e){
+        alert('Copy failed. Please copy manually.');
+      }
+    });
+  });
+</script>
+</body>
+</html>
