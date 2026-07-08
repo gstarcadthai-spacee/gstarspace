@@ -1,3 +1,4 @@
+
 const navLinks = document.querySelectorAll(".nav a");
 const currentPage = location.pathname.split("/").pop() || "index.html";
 
@@ -8,36 +9,38 @@ navLinks.forEach(link => {
   }
 });
 
-function unlockManagement(){
-  document.body.classList.remove("locked");
-  const gate = document.querySelector(".admin-gate");
-  if(gate) gate.style.display = "none";
-}
+const MANAGEMENT_PASSWORD = "gstar2026";
+const MANAGEMENT_SESSION_KEY = "gstar_management_unlocked";
 
 function logoutManagement(){
-  sessionStorage.removeItem("gstar_management_unlocked");
-  location.reload();
+  sessionStorage.removeItem(MANAGEMENT_SESSION_KEY);
+  window.location.href = "management-login.html";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector("#adminLoginForm");
-  if(!form) return;
+  const loginForm = document.querySelector("#managementLoginForm");
 
-  if(sessionStorage.getItem("gstar_management_unlocked") === "true"){
-    unlockManagement();
+  if(loginForm){
+    loginForm.addEventListener("submit", e => {
+      e.preventDefault();
+
+      const input = document.querySelector("#managementPassword");
+      const error = document.querySelector("#managementError");
+
+      if(input.value.trim() === MANAGEMENT_PASSWORD){
+        sessionStorage.setItem(MANAGEMENT_SESSION_KEY, "true");
+        window.location.href = "Gstar-Management.html";
+      }else{
+        error.classList.add("show");
+        input.value = "";
+        input.focus();
+      }
+    });
   }
 
-  form.addEventListener("submit", e => {
-    e.preventDefault();
-    const input = document.querySelector("#adminPassword");
-    const error = document.querySelector("#adminError");
-    if(input.value.trim() === "gstar2026"){
-      sessionStorage.setItem("gstar_management_unlocked","true");
-      unlockManagement();
-    }else{
-      error.classList.add("show");
-      input.value = "";
-      input.focus();
+  if(currentPage === "Gstar-Management.html"){
+    if(sessionStorage.getItem(MANAGEMENT_SESSION_KEY) !== "true"){
+      window.location.href = "management-login.html";
     }
-  });
+  }
 });

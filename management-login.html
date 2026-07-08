@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gstar Workspace | Management Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+</head>
+<body>
+<div class="login-page">
+  <section class="login-brand-panel">
+    <div class="login-logo">Gstar Workspace</div>
+
+    <div class="login-copy">
+      <div class="kicker">Management Access</div>
+      <h1>Secure access for workspace control.</h1>
+      <p>
+        Manage internal resources, product content, visibility and team operations
+        from the Gstar Workspace management console.
+      </p>
+      <a class="back-link" href="index.html">← Back to Dashboard</a>
+    </div>
+
+    <div class="footer" style="text-align:left">Gstar Workspace · Internal Product Hub</div>
+  </section>
+
+  <section class="login-side">
+    <form class="login-card" id="managementLoginForm">
+      <h2>Sign in to Management</h2>
+      <p>Enter the workspace password to continue to the management console.</p>
+
+      <label for="managementPassword">Password</label>
+      <input type="password" id="managementPassword" placeholder="Enter password" autocomplete="current-password">
+
+      <button class="btn primary" type="submit">Continue</button>
+      <div class="login-error" id="managementError">Incorrect password. Please try again.</div>
+
+      <div class="login-note">
+        Demo password: <strong>gstar2026</strong><br>
+        This is a front-end demo gate for GitHub Pages. For real internal use, connect Google Login or backend authentication.
+      </div>
+    </form>
+  </section>
+</div>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>
