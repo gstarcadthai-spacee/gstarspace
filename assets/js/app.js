@@ -1,183 +1,57 @@
+
 const MANAGEMENT_PASSWORD = "gstar2026";
+const USE_APPS_SCRIPT = false;
+const APPS_SCRIPT_URL = "";
 
-const workspaceSearchData = [
-  {
-    title: "Products",
-    description: "GstarCAD, GstarBIM, CADprofi, 3D FastView และ Product Resources",
-    url: "products.html",
-    icon: "P",
-    keywords: ["products", "product", "gstarcad", "gstarbim", "cadprofi", "3d fastview", "sales kit", "product resources", "สินค้า", "ผลิตภัณฑ์"]
-  },
-  {
-    title: "Marketing Hub",
-    description: "Campaign, Brand Assets, Social Content และ Landing Page",
-    url: "marketing.html",
-    icon: "M",
-    keywords: ["marketing", "campaign", "brand", "assets", "social", "line oa", "landing page", "content", "การตลาด", "แคมเปญ"]
-  },
-  {
-    title: "Sales Hub",
-    description: "Price List, Proposal, Comparison และ Quote Support",
-    url: "sales.html",
-    icon: "S",
-    keywords: ["sales", "price", "price list", "proposal", "comparison", "quote", "quotation", "ขาย", "ราคา", "ใบเสนอราคา"]
-  },
-  {
-    title: "Support Hub",
-    description: "Installation, Activation, License, FAQ และ Troubleshooting",
-    url: "support.html",
-    icon: "T",
-    keywords: ["support", "installation", "install", "activation", "license", "faq", "troubleshooting", "serial", "technical", "ซัพพอร์ต", "ติดตั้ง", "activate"]
-  },
-  {
-    title: "Knowledge Base",
-    description: "How-to, Wiki, Training, Popular Articles และ Internal Knowledge",
-    url: "knowledge.html",
-    icon: "K",
-    keywords: ["knowledge", "wiki", "training", "how to", "article", "guide", "kb", "คู่มือ", "บทความ", "เทรนนิ่ง"]
-  },
-  {
-    title: "AI Assistant",
-    description: "Workspace AI Prototype และ Internal Copilot",
-    url: "ai-assistant.html",
-    icon: "AI",
-    keywords: ["ai", "assistant", "bot", "copilot", "prompt", "chat", "openai", "gemini"]
-  },
-  {
-    title: "Management",
-    description: "Management Login, Resource Library และ Admin Console",
-    url: "management-login.html",
-    icon: "G",
-    keywords: ["management", "admin", "console", "login", "resource", "announcement", "จัดการ", "ผู้ดูแล"]
-  }
+const defaultProducts = [
+  {id:"gstarcad", name:"GstarCAD", category:"CAD", image:"GstarCAD.png", url:"#", description:"2D CAD Software", enabled:true, external:false, status:"Core"},
+  {id:"gstarcad-365", name:"GstarCAD 365", category:"Viewer & Collaboration", image:"GstarCAD-365.png", url:"#", description:"Cloud & collaboration workflow", enabled:true, external:false, status:"Active"},
+  {id:"gstarcad-architecture", name:"GstarCAD Architecture", category:"CAD", image:"GstarCAD-Architecture.png", url:"#", description:"Architecture CAD solution", enabled:true, external:false, status:"CAD"},
+  {id:"gstarcad-mechanical", name:"GstarCAD Mechanical", category:"CAD", image:"GstarCAD-Mechanical.png", url:"#", description:"Mechanical CAD solution", enabled:true, external:false, status:"CAD"},
+  {id:"gstarbim", name:"GstarBIM", category:"BIM", image:"GstarBIM.png", url:"#", description:"BIM transition platform", enabled:true, external:false, status:"Growth"},
+  {id:"cadprofi", name:"CADProfi", category:"Add-ons", image:"CADProfi.png", url:"#", description:"Industry add-on tools", enabled:true, external:false, status:"Add-on"},
+  {id:"3d-fastview", name:"3D FastView", category:"Viewer & Collaboration", image:"3D-Fastview.png", url:"#", description:"3D viewer & collaboration", enabled:true, external:false, status:"Viewer"},
+  {id:"extraxion", name:"ExtraXION", category:"Manufacturing", image:"ExtraXION.png", url:"#", description:"Manufacturing solution", enabled:true, external:false, status:"Active"},
+  {id:"formlabs", name:"FormLabs", category:"3D Printing", image:"FormLabs.png", url:"#", description:"3D printing solution", enabled:true, external:true, status:"Partner"},
+  {id:"solidworks", name:"SolidWorks", category:"CAD", image:"SolidWorks.jpg", url:"https://www.8baht.com/", description:"CAD partner solution", enabled:true, external:true, status:"External"}
 ];
-
-function initManagementLogin() {
-  const form = document.getElementById("managementLoginForm");
-  if (!form) return;
-
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    const input = document.getElementById("managementPassword");
-    const error = document.getElementById("managementError");
-    const value = input ? input.value.trim() : "";
-
-    if (value === MANAGEMENT_PASSWORD) {
-      sessionStorage.setItem("gstarManagementAuth", "true");
-      window.location.href = "Gstar-Management.html";
-      return;
-    }
-
-    if (error) error.classList.add("show");
-  });
-}
-
-function protectManagementPage() {
-  const path = window.location.pathname.toLowerCase();
-  if (!path.endsWith("gstar-management.html")) return;
-
-  const isAuth = sessionStorage.getItem("gstarManagementAuth") === "true";
-  if (!isAuth) window.location.href = "management-login.html";
-}
-
-function logoutManagement() {
-  sessionStorage.removeItem("gstarManagementAuth");
-  window.location.href = "management-login.html";
-}
-
-function initWorkspaceSearch() {
-  const input = document.getElementById("workspaceSearch");
-  const results = document.getElementById("searchResults");
-  if (!input || !results) return;
-
-  function renderResults(query) {
-    const q = query.trim().toLowerCase();
-    if (!q) {
-      results.classList.remove("show");
-      results.innerHTML = "";
-      return;
-    }
-
-    const matches = workspaceSearchData.filter(item => {
-      const haystack = [item.title, item.description, ...item.keywords].join(" ").toLowerCase();
-      return haystack.includes(q);
-    });
-
-    results.classList.add("show");
-
-    if (!matches.length) {
-      results.innerHTML = `<div class="search-empty">No results found for “${escapeHtml(query)}”</div>`;
-      return;
-    }
-
-    results.innerHTML = matches.map(item => `
-      <a class="search-result-item" href="${item.url}">
-        <div class="search-result-icon">${item.icon}</div>
-        <div>
-          <strong>${item.title}</strong>
-          <span>${item.description}</span>
-        </div>
-      </a>
-    `).join("");
-  }
-
-  input.addEventListener("input", function () {
-    renderResults(input.value);
-  });
-
-  input.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-      const firstResult = results.querySelector(".search-result-item");
-      if (firstResult) window.location.href = firstResult.getAttribute("href");
-    }
-    if (event.key === "Escape") {
-      results.classList.remove("show");
-      input.blur();
-    }
-  });
-
-  document.addEventListener("keydown", function (event) {
-    const isShortcut = (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k";
-    if (isShortcut) {
-      event.preventDefault();
-      input.focus();
-    }
-  });
-
-  document.addEventListener("click", function (event) {
-    if (!event.target.closest(".search-wrap")) results.classList.remove("show");
-  });
-}
-
-function initNotifications() {
-  const button = document.getElementById("notificationBtn");
-  const panel = document.getElementById("notificationPanel");
-  if (!button || !panel) return;
-
-  button.addEventListener("click", function (event) {
-    event.stopPropagation();
-    panel.classList.toggle("show");
-  });
-
-  document.addEventListener("click", function (event) {
-    if (!event.target.closest(".notification-panel") && !event.target.closest(".notification-btn")) {
-      panel.classList.remove("show");
-    }
-  });
-}
-
-function escapeHtml(value) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  initManagementLogin();
-  protectManagementPage();
-  initWorkspaceSearch();
-  initNotifications();
-});
+const defaultAnnouncements = [
+  {id:"a1", title:"GstarCAD 2027 Sales Kit Updated", description:"Sales Kit และ Marketing Materials ได้รับการอัปเดตล่าสุด", date:"8 Jul 2026", enabled:true},
+  {id:"a2", title:"GstarBIM Launch Resources", description:"เพิ่มไฟล์ Webinar, Sales Deck และ Landing Page", date:"7 Jul 2026", enabled:true},
+  {id:"a3", title:"Workspace Management", description:"เปิดใช้งานระบบ Management Console สำหรับผู้ดูแลระบบ", date:"6 Jul 2026", enabled:true}
+];
+const icons={
+search:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>',bell:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path></svg>',package:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="m7.5 4.3 9 5.2"></path><path d="M21 8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.7Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>',megaphone:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="m3 11 18-5v12L3 14v-3Z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>',briefcase:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect x="2" y="7" width="20" height="14" rx="2"></rect></svg>',headset:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 11a9 9 0 0 1 18 0"></path><path d="M21 17v1a2 2 0 0 1-2 2h-3"></path><path d="M3 13h3v6H5a2 2 0 0 1-2-2v-4Z"></path><path d="M18 13h3v4a2 2 0 0 1-2 2h-1v-6Z"></path></svg>','book-open':'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3Z"></path></svg>',bot:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M15 13v2"></path><path d="M9 13v2"></path></svg>','file-text':'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>',presentation:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M2 3h20"></path><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"></path><path d="m7 21 5-5 5 5"></path></svg>',scale:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg>',receipt:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"></path><path d="M16 8h-6"></path><path d="M16 12h-6"></path><path d="M16 16h-6"></path></svg>',download:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M7 10l5 5 5-5"></path><path d="M12 15V3"></path></svg>',key:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="7.5" cy="15.5" r="5.5"></circle><path d="m21 2-9.6 9.6"></path><path d="m15.5 7.5 3 3L22 7l-3-3"></path></svg>','shield-check':'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>','circle-help':'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4"></path><path d="M12 17h.01"></path></svg>','list-checks':'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="m3 17 2 2 4-4"></path><path d="m3 7 2 2 4-4"></path><path d="M13 6h8"></path><path d="M13 12h8"></path><path d="M13 18h8"></path></svg>','graduation-cap':'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>',logo:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 21a4 4 0 0 1 0-8h10a4 4 0 0 1 0 8Z"></path><path d="M7 13V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v8"></path></svg>',layout:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>','share-2':'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 13.5 6.8 4"></path><path d="m15.4 6.5-6.8 4"></path></svg>'
+};
+function applyIcons(){document.querySelectorAll('[data-icon]').forEach(el=>{const n=el.dataset.icon;if(icons[n])el.innerHTML=icons[n];});}
+function getProducts(){try{return JSON.parse(localStorage.getItem('gstar_products'))||defaultProducts}catch{return defaultProducts}}
+function setProducts(v){localStorage.setItem('gstar_products',JSON.stringify(v))}
+function getAnnouncements(){try{return JSON.parse(localStorage.getItem('gstar_announcements'))||defaultAnnouncements}catch{return defaultAnnouncements}}
+function setAnnouncements(v){localStorage.setItem('gstar_announcements',JSON.stringify(v))}
+function imgPath(file){return `assets/img/products/${file}`}
+async function fetchAppsScript(action){if(!USE_APPS_SCRIPT||!APPS_SCRIPT_URL)return null;const r=await fetch(`${APPS_SCRIPT_URL}?action=${action}`);return r.json()}
+function activeProducts(){return getProducts().filter(p=>p.enabled)}
+function renderProducts(){const box=document.getElementById('productGroups');if(!box)return;const q=(document.getElementById('productSearch')?.value||'').toLowerCase();const current=document.querySelector('.tab.active')?.dataset.category||'All';let items=activeProducts().filter(p=>(current==='All'||p.category===current)&&`${p.name} ${p.category} ${p.description}`.toLowerCase().includes(q));const cats=['All',...new Set(activeProducts().map(p=>p.category))];const tabs=document.getElementById('categoryTabs');if(tabs&&!tabs.dataset.ready){tabs.innerHTML=cats.map(c=>`<button class="tab ${c==='All'?'active':''}" data-category="${c}">${c} <span>${c==='All'?activeProducts().length:activeProducts().filter(p=>p.category===c).length}</span></button>`).join('');tabs.dataset.ready='1';tabs.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{tabs.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderProducts();});}
+if(!items.length){box.innerHTML='<div class="empty-state">No products found.</div>';return}
+const groups={};items.forEach(p=>(groups[p.category] ||= []).push(p));box.innerHTML=Object.entries(groups).map(([cat,arr])=>`<div><h3 class="product-group-title">${cat}<span class="product-count">${arr.length} products</span></h3><div class="product-grid">${arr.map(productCard).join('')}</div></div>`).join('');applyIcons();}
+function productCard(p){const target=p.external?'target="_blank" rel="noopener"':'';return `<a class="product-card" href="${p.url||'#'}" ${target}>${p.external?'<span class="external-mark">↗</span>':''}<div class="product-logo-wrap"><img class="product-logo" src="${imgPath(p.image)}" alt="${p.name}" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=&quot;icon-badge&quot;><span data-icon=&quot;package&quot;></span></div>'"></div><h3>${p.name}</h3><p>${p.description||''}</p><div class="product-meta"><span class="tag blue">${p.category}</span><span class="tag">${p.status||'Active'}</span></div></a>`}
+function renderAnnouncements(){const items=getAnnouncements().filter(a=>a.enabled);const dash=document.getElementById('dashboardAnnouncements');if(dash)dash.innerHTML=items.map(a=>`<div class="list-item"><div><strong>${a.title}</strong><span>${a.description}</span><span>${a.date||''}</span></div><span class="tag blue">Active</span></div>`).join('');const panel=document.getElementById('notificationItems');if(panel)panel.innerHTML=items.slice(0,4).map(a=>`<div class="list-item"><div><strong>${a.title}</strong><span>${a.date||''}</span></div></div>`).join('');}
+function initBell(){const b=document.getElementById('bellButton'),p=document.getElementById('notificationPanel');if(!b||!p)return;b.onclick=e=>{e.stopPropagation();p.classList.toggle('show')};document.addEventListener('click',e=>{if(!p.contains(e.target)&&e.target!==b)p.classList.remove('show')});}
+function initSearch(){const input=document.getElementById('globalSearch'),results=document.getElementById('globalSearchResults');if(!input||!results)return;const base=[{title:'Dashboard',desc:'Workspace home',url:'index.html'},{title:'Products',desc:'Product portfolio',url:'products.html'},{title:'Marketing Hub',desc:'Campaign and brand assets',url:'marketing.html'},{title:'Sales Hub',desc:'Price list and proposal',url:'sales.html'},{title:'Support Hub',desc:'License and FAQ',url:'support.html'},{title:'Knowledge Base',desc:'How-to and training',url:'knowledge.html'},{title:'AI Assistant',desc:'Workspace AI',url:'ai-assistant.html'}];input.addEventListener('input',()=>{const q=input.value.trim().toLowerCase();if(!q){results.classList.remove('show');return}const products=activeProducts().map(p=>({title:p.name,desc:`${p.category} · ${p.description}`,url:p.url||'products.html'}));const all=[...base,...products];const found=all.filter(x=>`${x.title} ${x.desc}`.toLowerCase().includes(q)).slice(0,8);results.innerHTML=found.length?found.map(x=>`<a class="search-result" href="${x.url}"><div class="icon-badge"><span data-icon="search"></span></div><div><strong>${x.title}</strong><br><small>${x.desc}</small></div></a>`).join(''):'<div class="search-result"><div>No results</div></div>';results.classList.add('show');applyIcons();});document.addEventListener('click',e=>{if(!results.contains(e.target)&&e.target!==input)results.classList.remove('show')});}
+function initLogin(){const form=document.getElementById('managementLoginForm');if(!form)return;form.onsubmit=e=>{e.preventDefault();const val=document.getElementById('managementPassword').value;const err=document.getElementById('managementError');if(val===MANAGEMENT_PASSWORD){localStorage.setItem('gstar_management_auth','1');location.href='Gstar-Management.html'}else err.classList.add('show')};}
+function logoutManagement(){localStorage.removeItem('gstar_management_auth');location.href='management-login.html'}
+function initAdmin(){if(!document.getElementById('adminProducts'))return;if(localStorage.getItem('gstar_management_auth')!=='1'){location.href='management-login.html';return}renderAdminProducts();renderAdminAnnouncements();bindAdminModals();}
+function renderAdminProducts(){const box=document.getElementById('adminProducts');if(!box)return;box.innerHTML=getProducts().map(p=>`<div class="admin-row"><div><strong>${p.name}</strong><span>${p.category} · ${p.image} · ${p.enabled?'Enabled':'Disabled'}</span></div><div class="admin-row-actions"><button class="mini-btn" onclick="editProduct('${p.id}')">Edit</button><button class="mini-btn" onclick="toggleProduct('${p.id}')">${p.enabled?'Disable':'Enable'}</button><button class="mini-btn danger" onclick="deleteProduct('${p.id}')">Delete</button></div></div>`).join('')}
+function renderAdminAnnouncements(){const box=document.getElementById('adminAnnouncements');if(!box)return;box.innerHTML=getAnnouncements().map(a=>`<div class="admin-row"><div><strong>${a.title}</strong><span>${a.date||''} · ${a.enabled?'Enabled':'Disabled'}</span></div><div class="admin-row-actions"><button class="mini-btn" onclick="editAnnouncement('${a.id}')">Edit</button><button class="mini-btn" onclick="toggleAnnouncement('${a.id}')">${a.enabled?'Disable':'Enable'}</button><button class="mini-btn danger" onclick="deleteAnnouncement('${a.id}')">Delete</button></div></div>`).join('')}
+function bindAdminModals(){document.getElementById('addProductBtn')?.addEventListener('click',()=>openProductModal());document.getElementById('addAnnouncementBtn')?.addEventListener('click',()=>openAnnouncementModal());document.querySelectorAll('[data-close-modal]').forEach(b=>b.onclick=()=>document.querySelectorAll('.modal').forEach(m=>m.classList.remove('show')));document.getElementById('productForm')?.addEventListener('submit',saveProduct);document.getElementById('announcementForm')?.addEventListener('submit',saveAnnouncement);}
+function openProductModal(p=null){document.getElementById('productForm').reset();document.getElementById('productId').value=p?.id||'';document.getElementById('productName').value=p?.name||'';document.getElementById('productCategory').value=p?.category||'';document.getElementById('productImage').value=p?.image||'';document.getElementById('productUrl').value=p?.url||'';document.getElementById('productDescription').value=p?.description||'';document.getElementById('productExternal').checked=!!p?.external;document.getElementById('productEnabled').checked=p?.enabled!==false;document.getElementById('productModal').classList.add('show')}
+function editProduct(id){openProductModal(getProducts().find(p=>p.id===id))}
+function saveProduct(e){e.preventDefault();let arr=getProducts();let id=document.getElementById('productId').value||document.getElementById('productName').value.toLowerCase().replace(/[^a-z0-9]+/g,'-');const p={id,name:productName.value,category:productCategory.value,image:productImage.value,url:productUrl.value||'#',description:productDescription.value,external:productExternal.checked,enabled:productEnabled.checked,status:productExternal.checked?'External':'Active'};arr=arr.filter(x=>x.id!==id);arr.push(p);setProducts(arr);document.getElementById('productModal').classList.remove('show');renderAdminProducts();}
+function toggleProduct(id){let arr=getProducts().map(p=>p.id===id?{...p,enabled:!p.enabled}:p);setProducts(arr);renderAdminProducts()}
+function deleteProduct(id){if(confirm('Delete this product?')){setProducts(getProducts().filter(p=>p.id!==id));renderAdminProducts()}}
+function openAnnouncementModal(a=null){document.getElementById('announcementForm').reset();announcementId.value=a?.id||'';announcementTitle.value=a?.title||'';announcementDescription.value=a?.description||'';announcementDate.value=a?.date||'';announcementEnabled.checked=a?.enabled!==false;announcementModal.classList.add('show')}
+function editAnnouncement(id){openAnnouncementModal(getAnnouncements().find(a=>a.id===id))}
+function saveAnnouncement(e){e.preventDefault();let arr=getAnnouncements();let id=announcementId.value||Date.now().toString();const a={id,title:announcementTitle.value,description:announcementDescription.value,date:announcementDate.value,enabled:announcementEnabled.checked};arr=arr.filter(x=>x.id!==id);arr.push(a);setAnnouncements(arr);announcementModal.classList.remove('show');renderAdminAnnouncements();renderAnnouncements()}
+function toggleAnnouncement(id){setAnnouncements(getAnnouncements().map(a=>a.id===id?{...a,enabled:!a.enabled}:a));renderAdminAnnouncements();renderAnnouncements()}
+function deleteAnnouncement(id){if(confirm('Delete this announcement?')){setAnnouncements(getAnnouncements().filter(a=>a.id!==id));renderAdminAnnouncements();renderAnnouncements()}}
+document.addEventListener('DOMContentLoaded',()=>{applyIcons();renderAnnouncements();initBell();initSearch();initLogin();initAdmin();renderProducts();document.getElementById('productSearch')?.addEventListener('input',renderProducts);});

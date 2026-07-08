@@ -1,174 +1,57 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gstar Workspace | Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
 </head>
 <body>
 <div class="wrapper">
   <aside class="sidebar">
-    <div class="logo">Gstar Workspace</div>
-    <nav class="nav">
-      <a class="active" href="index.html">Dashboard</a>
-      <a href="products.html">Products</a>
-      <a href="marketing.html">Marketing</a>
-      <a href="sales.html">Sales</a>
-      <a href="support.html">Support</a>
-      <a href="knowledge.html">Knowledge Base</a>
-      <a href="ai-assistant.html">AI Assistant</a>
-      <div class="divider"></div>
-      <a href="management-login.html">Management</a>
-    </nav>
+    <a class="brand" href="index.html"><span class="brand-mark">G</span><span>Gstar Workspace</span></a>
+    <nav class="nav"><a class="active" href="index.html">Dashboard</a>
+<a class="" href="products.html">Products</a>
+<a class="" href="marketing.html">Marketing</a>
+<a class="" href="sales.html">Sales</a>
+<a class="" href="support.html">Support</a>
+<a class="" href="knowledge.html">Knowledge Base</a>
+<a class="" href="ai-assistant.html">AI Assistant</a><div class="divider"></div><a class="" href="management-login.html">Management</a></nav>
   </aside>
-
   <main class="main">
-    <div class="top">
-      <div>
-        <div class="crumb">Internal Workspace / Dashboard</div>
-        <h1>Dashboard</h1>
-      </div>
-
-      <div class="top-actions">
-        <div class="search-wrap">
-          <svg class="top-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
-          <input id="workspaceSearch" class="search-input" type="search" placeholder="Search anything..." autocomplete="off">
-          <div id="searchResults" class="search-results"></div>
-        </div>
-
-        <button class="notification-btn" id="notificationBtn" type="button" aria-label="Notifications">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.27 21a2 2 0 0 0 3.46 0"></path><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path></svg>
-          <span class="notification-dot"></span>
-        </button>
-
-        <div class="notification-panel" id="notificationPanel">
-          <div class="notification-head">
-            <strong>Latest Updates</strong>
-            <span>3 new</span>
-          </div>
-          <a class="notification-item" href="#latest-updates">
-            <span class="notification-mark"></span>
-            <div><strong>GstarCAD 2027 resources added</strong><small>Sales และ Marketing materials พร้อมใช้งาน</small></div>
-          </a>
-          <a class="notification-item" href="#latest-updates">
-            <span class="notification-mark"></span>
-            <div><strong>GstarBIM launch kit updated</strong><small>อัปเดต Deck, Messaging และ Launch resources</small></div>
-          </a>
-          <a class="notification-item" href="management-login.html">
-            <span class="notification-mark"></span>
-            <div><strong>Management console ready</strong><small>เปิดใช้งานระบบจัดการภายใน Workspace</small></div>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <section class="hero">
-      <div class="kicker">Product Operations</div>
-      <h2>Everything. One Workspace.</h2>
-      <p>A centralized platform for product information, marketing assets, sales enablement and technical resources across the Gstar ecosystem.</p>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <div class="section-title">Quick Access</div>
-          <div class="section-desc">เมนูหลักสำหรับเข้าถึงข้อมูลและทรัพยากรของทีม</div>
-        </div>
-      </div>
-
-      <div class="grid-3 dashboard-grid">
-        <a class="card quick-card" href="products.html">
-          <div class="quick-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>
-          </div>
-          <h3>Products</h3>
-          <p>รวมข้อมูลผลิตภัณฑ์ Sales Kit, Marketing Assets และเอกสาร Support ของแต่ละสินค้า</p>
-        </a>
-
-        <a class="card quick-card" href="marketing.html">
-          <div class="quick-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14v-3Z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>
-          </div>
-          <h3>Marketing Hub</h3>
-          <p>รวม Campaign, Brand Assets, Social Content และ Landing Page สำหรับงานการตลาด</p>
-        </a>
-
-        <a class="card quick-card" href="sales.html">
-          <div class="quick-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M10 6V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v1"></path><path d="M3 7h18v11a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V7Z"></path><path d="M3 13h18"></path></svg>
-          </div>
-          <h3>Sales Hub</h3>
-          <p>รวม Price List, Proposal, Comparison และข้อมูลช่วยขายสำหรับทีม Sales</p>
-        </a>
-
-        <a class="card quick-card" href="support.html">
-          <div class="quick-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M3 13a9 9 0 1 1 18 0"></path><path d="M5 13h3v6H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2Z"></path><path d="M19 13h-3v6h3a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2Z"></path><path d="M16 19a4 4 0 0 1-4 3"></path></svg>
-          </div>
-          <h3>Support</h3>
-          <p>รวม Installation, Activation, License, FAQ และแนวทางแก้ปัญหาทางเทคนิค</p>
-        </a>
-
-        <a class="card quick-card" href="knowledge.html">
-          <div class="quick-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M12 7v14"></path><path d="M3 5a2 2 0 0 1 2-2h4a3 3 0 0 1 3 3v15a3 3 0 0 0-3-3H5a2 2 0 0 0-2 2V5Z"></path><path d="M21 5a2 2 0 0 0-2-2h-4a3 3 0 0 0-3 3v15a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2V5Z"></path></svg>
-          </div>
-          <h3>Knowledge Base</h3>
-          <p>รวม How-to, Wiki, Training และบทความภายในสำหรับทีม Gstar</p>
-        </a>
-
-        <a class="card quick-card" href="ai-assistant.html">
-          <div class="quick-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M12 8V4H8"></path><rect x="4" y="8" width="16" height="12" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M9 13v2"></path><path d="M15 13v2"></path><path d="M9 18h6"></path></svg>
-          </div>
-          <h3>AI Assistant</h3>
-          <p>Prototype สำหรับ Workspace AI ที่ต่อยอดเป็น Internal Copilot ได้ในอนาคต</p>
-        </a>
-      </div>
-    </section>
-
-    <section class="section" id="latest-updates">
-      <div class="section-head">
-        <div>
-          <div class="section-title">Latest Updates</div>
-          <div class="section-desc">ประกาศและอัปเดตล่าสุดภายใน Workspace</div>
-        </div>
-        <a class="text-link" href="management-login.html">Manage</a>
-      </div>
-
-      <div class="list announcement-list" id="announcementList">
-        <div class="list-item announcement-item">
-          <div class="announcement-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10.3 21a2 2 0 0 0 3.4 0"></path></svg>
-          </div>
-          <div><strong>GstarCAD 2027 resources added</strong><span>เพิ่มไฟล์ Sales และ Marketing สำหรับเวอร์ชัน 2027 แล้ว</span></div>
-          <span class="tag blue">Active</span>
-        </div>
-
-        <div class="list-item announcement-item">
-          <div class="announcement-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10.3 21a2 2 0 0 0 3.4 0"></path></svg>
-          </div>
-          <div><strong>GstarBIM launch kit updated</strong><span>อัปเดต Deck, Messaging และข้อมูลสำหรับการสื่อสาร GstarBIM</span></div>
-          <span class="tag">Updated</span>
-        </div>
-
-        <div class="list-item announcement-item">
-          <div class="announcement-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10.3 21a2 2 0 0 0 3.4 0"></path></svg>
-          </div>
-          <div><strong>Management console ready</strong><span>เปิดหน้า Management สำหรับจัดการ Resource และ Admin Access</span></div>
-          <a class="btn primary" href="management-login.html">Open</a>
-        </div>
-      </div>
-    </section>
-
-    <div class="footer">Gstar Workspace · Dashboard</div>
+    <header class="topbar">
+      <div><div class="crumb">Internal Workspace / Dashboard</div><h1>Dashboard</h1></div>
+      <div class="top-actions"><div class="search-shell"><span data-icon="search"></span><input id="globalSearch" type="search" placeholder="Search anything..." autocomplete="off"><div id="globalSearchResults" class="search-results"></div></div><button class="icon-btn" id="bellButton" aria-label="Notifications"><span data-icon="bell"></span><span class="dot"></span></button></div>
+    </header>
+    <div class="notification-panel" id="notificationPanel"><div class="panel-title">Latest Updates</div><div id="notificationItems"></div><a class="panel-link" href="Gstar-Management.html">Manage announcements →</a></div>
+    <section class="hero dashboard-hero">
+  <div class="kicker">Product Operations</div>
+  <h2>Everything. One Workspace.</h2>
+  <p>A centralized platform for product information, marketing assets, sales enablement and technical resources across the Gstar ecosystem.</p>
+</section>
+<section class="section">
+  <div class="section-head"><div><div class="section-title">Quick Access</div><div class="section-desc">พื้นที่หลักสำหรับทีมภายใน</div></div></div>
+  <div class="grid-6 quick-grid">
+    <a class="card quick-card" href="products.html"><div class="icon-badge"><span data-icon="package"></span></div><h3>Products</h3><p>รวมข้อมูลผลิตภัณฑ์ โลโก้ คู่มือ และทรัพยากรทั้งหมด</p></a>
+    <a class="card quick-card" href="marketing.html"><div class="icon-badge"><span data-icon="megaphone"></span></div><h3>Marketing Hub</h3><p>แคมเปญ สื่อการตลาด Brand Assets และ Landing Page</p></a>
+    <a class="card quick-card" href="sales.html"><div class="icon-badge"><span data-icon="briefcase"></span></div><h3>Sales Hub</h3><p>Price List, Proposal, Comparison และเอกสารงานขาย</p></a>
+    <a class="card quick-card" href="support.html"><div class="icon-badge"><span data-icon="headset"></span></div><h3>Support Hub</h3><p>Installation, Activation, License และ FAQ</p></a>
+    <a class="card quick-card" href="knowledge.html"><div class="icon-badge"><span data-icon="book-open"></span></div><h3>Knowledge Base</h3><p>คู่มือ บทความ Training และ Wiki ภายในทีม</p></a>
+    <a class="card quick-card" href="ai-assistant.html"><div class="icon-badge"><span data-icon="bot"></span></div><h3>AI Assistant</h3><p>Workspace AI สำหรับค้นหาและช่วยงานในอนาคต</p></a>
+  </div>
+</section>
+<section class="section">
+  <div class="section-head"><div><div class="section-title">Latest Updates</div><div class="section-desc">ประกาศล่าสุดจาก Workspace</div></div><a class="btn secondary" href="Gstar-Management.html">Manage</a></div>
+  <div class="list" id="dashboardAnnouncements"></div>
+</section>
+    <footer class="footer">Gstar Workspace · Dashboard</footer>
   </main>
 </div>
 <script src="assets/js/app.js"></script>
+
 </body>
 </html>
