@@ -2,37 +2,60 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Gstar Workspace | AI Assistant</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
-<link rel="icon" type="image/png" href="assets/img/favicon.png">
 </head>
 <body>
 <div class="wrapper">
-  <aside class="sidebar">
-    <a class="brand" href="index.html"><span class="brand-mark">G</span><span>Gstar Workspace</span></a>
-    <nav class="nav"><a class="" href="index.html">Dashboard</a>
-<a class="" href="products.html">Products</a>
-<a class="" href="marketing.html">Marketing</a>
-<a class="" href="sales.html">Sales</a>
-<a class="" href="support.html">Support</a>
-<a class="" href="knowledge.html">Knowledge Base</a>
-<a class="active" href="ai-assistant.html">AI Assistant</a><div class="divider"></div><a class="" href="management-login.html">Management</a></nav>
-  </aside>
-  <main class="main">
-    <header class="topbar">
-      <div><div class="crumb">Internal Workspace / AI Assistant</div><h1>AI Assistant</h1></div>
-      <div class="top-actions"><div class="search-shell"><span data-icon="search"></span><input id="globalSearch" type="search" placeholder="Search anything..." autocomplete="off"><div id="globalSearchResults" class="search-results"></div></div><button class="icon-btn" id="bellButton" aria-label="Notifications"><span data-icon="bell"></span><span class="dot"></span></button></div>
-    </header>
-    <div class="notification-panel" id="notificationPanel"><div class="panel-title">Latest Updates</div><div id="notificationItems"></div><a class="panel-link" href="Gstar-Management.html">Manage announcements →</a></div>
-    <section class="hero"><div class="kicker">Workspace AI</div><h2>Ask product, sales and support questions.</h2><p>Prototype สำหรับต่อ AI เข้ากับ Google Drive, Internal KB และ Prompt Library</p></section><section class="section"><div class="grid-4"><div class="card"><div class="icon-badge"><span data-icon="briefcase"></span></div><h3>Sales Prompt</h3><p>Summarize selling points</p></div><div class="card"><div class="icon-badge"><span data-icon="megaphone"></span></div><h3>Marketing Prompt</h3><p>Create campaign copy</p></div><div class="card"><div class="icon-badge"><span data-icon="headset"></span></div><h3>Support Prompt</h3><p>Explain troubleshooting steps</p></div></div></section><section class="section"><div class="list"><div class="list-item"><div><strong>พร้อมเชื่อม Resource จาก Google Drive</strong><span>ตอนนี้เป็น Portal ก่อน และสามารถต่อ Apps Script ใน Phase ถัดไป</span></div><span class="tag blue">Ready</span></div></div></section>
-    <footer class="footer">Gstar Workspace · AI Assistant</footer>
-  </main>
+<aside class="sidebar"><div class="logo">Gstar Workspace</div><nav class="nav">
+<a href="index.html">Dashboard</a>
+<a href="products.html">Products</a>
+<a href="marketing.html">Marketing</a>
+<a href="sales.html">Sales</a>
+<a href="support.html">Support</a>
+<a href="knowledge.html">Knowledge Base</a>
+<a class="active" href="ai-assistant.html">AI Assistant</a>
+<div class="divider"></div>
+<a href="Gstar-Management.html">Management</a>
+</nav></aside>
+<main class="main">
+<div class="top">
+<div>
+<div class="crumb">Internal Workspace / AI Assistant</div>
+<h1>AI Assistant</h1>
+</div>
+<div class="search">Search anything...</div>
+</div>
+<section class="hero">
+<div class="kicker">Workspace AI</div>
+<h2>Ask product, sales and support questions.</h2>
+<p>Prototype interface for an internal AI assistant that can later connect to product documents, FAQs and team knowledge.</p>
+</section>
+
+<section class="section">
+<div class="chat-box">
+<div class="chat-area">
+<div class="bubble ai"><strong>Workspace AI</strong><br>Ask about product information, sales materials, support FAQ or internal resources.</div>
+<div class="bubble user">GstarBIM ต่างกับ Revit ยังไง?</div>
+<div class="bubble ai">This is a prototype for future AI search. It can later connect to internal documents, Google Drive or a knowledge base.</div>
+</div>
+<div class="prompt-row">
+<input placeholder="Ask Workspace AI...">
+<button class="btn primary">Send</button>
+</div>
+</div>
+</section>
+<section class="section"><div class="grid-3">
+<div class="card"><h3>Sales</h3><p>“Summarize key selling points for GstarCAD 2027.”</p></div>
+<div class="card"><h3>Marketing</h3><p>“Create LINE OA copy for license support campaign.”</p></div>
+<div class="card"><h3>Support</h3><p>“Explain offline activation process step by step.”</p></div>
+</div></section>
+
+<div class="footer">Gstar Workspace · AI Assistant</div>
+</main>
 </div>
 <script src="assets/js/app.js"></script>
-
 </body>
 </html>

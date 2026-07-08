@@ -2,42 +2,66 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Gstar Workspace | Management</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
-<link rel="icon" type="image/png" href="assets/img/favicon.png">
 </head>
-<body>
+<body class="locked">
 <div class="wrapper">
-  <aside class="sidebar">
-    <a class="brand" href="index.html"><span class="brand-mark">G</span><span>Gstar Workspace</span></a>
-    <nav class="nav"><a class="" href="index.html">Dashboard</a>
-<a class="" href="products.html">Products</a>
-<a class="" href="marketing.html">Marketing</a>
-<a class="" href="sales.html">Sales</a>
-<a class="" href="support.html">Support</a>
-<a class="" href="knowledge.html">Knowledge Base</a>
-<a class="" href="ai-assistant.html">AI Assistant</a><div class="divider"></div><a class="active" href="Gstar-Management.html">Management</a></nav>
-  </aside>
-  <main class="main">
-    <header class="topbar">
-      <div><div class="crumb">Internal Workspace / Management</div><h1>Management</h1></div>
-      <div class="top-actions"><div class="search-shell"><span data-icon="search"></span><input id="globalSearch" type="search" placeholder="Search anything..." autocomplete="off"><div id="globalSearchResults" class="search-results"></div></div><button class="icon-btn" id="bellButton" aria-label="Notifications"><span data-icon="bell"></span><span class="dot"></span></button></div>
-    </header>
-    <div class="notification-panel" id="notificationPanel"><div class="panel-title">Latest Updates</div><div id="notificationItems"></div><a class="panel-link" href="Gstar-Management.html">Manage announcements →</a></div>
-    <section class="hero"><div class="kicker">Workspace Control</div><h2>Manage Products & Announcements.</h2><p>หน้านี้เตรียมไว้ให้ Admin เพิ่ม/แก้/ปิดใช้งาน Product และประกาศ โดยตอนนี้บันทึกแบบ localStorage ก่อนต่อ Apps Script</p></section>
-<section class="section admin-panel"><div class="section-head"><div><div class="section-title">Product Management</div><div class="section-desc">เพิ่ม แก้ไข ปิดใช้งาน หรือใส่ลิงก์ภายนอก</div></div><button class="btn primary" id="addProductBtn">+ Add Product</button></div><div id="adminProducts" class="admin-table"></div></section>
-<section class="section admin-panel"><div class="section-head"><div><div class="section-title">Announcement Management</div><div class="section-desc">ประกาศบน Dashboard และ Bell Notification</div></div><button class="btn primary" id="addAnnouncementBtn">+ Add Announcement</button></div><div id="adminAnnouncements" class="admin-table"></div></section>
+<aside class="sidebar"><div class="logo">Gstar Workspace</div><nav class="nav">
+<a href="index.html">Dashboard</a>
+<a href="products.html">Products</a>
+<a href="marketing.html">Marketing</a>
+<a href="sales.html">Sales</a>
+<a href="support.html">Support</a>
+<a href="knowledge.html">Knowledge Base</a>
+<a href="ai-assistant.html">AI Assistant</a>
+<div class="divider"></div>
+<a class="active" href="Gstar-Management.html">Management</a>
+</nav></aside>
+<main class="main">
+<div class="top">
+<div>
+<div class="crumb">Internal Workspace / Management</div>
+<h1>Management</h1>
+</div>
+<div class="search">Search anything...</div>
+</div>
+<section class="hero">
+<div class="kicker">Workspace Control</div>
+<h2>Manage internal resources and access.</h2>
+<p>Control content, product visibility, resource ownership and workspace administration from one clean console.</p>
+</section>
+
+<div class="admin-gate">
+  <form class="admin-login" id="adminLoginForm">
+    <h2>Management Access</h2>
+    <p>Enter the workspace password to manage resources, product content and internal settings.</p>
+    <input type="password" id="adminPassword" placeholder="Enter password">
+    <button class="btn primary" type="submit">Unlock</button>
+    <div class="error" id="adminError">Incorrect password. Please try again.</div>
+    <p style="font-size:12px;margin-top:16px;color:#94a3b8">Demo password: <strong>gstar2026</strong></p>
+  </form>
+</div>
+<section class="section"><div class="grid-4">
+<div class="card"><div class="icon">128</div><h3>Total Resources</h3><p>Documents, links and internal materials currently listed.</p></div>
+<div class="card"><div class="icon">36</div><h3>Product Docs</h3><p>Product-level resources organized by workstream.</p></div>
+<div class="card"><div class="icon">18</div><h3>Campaign Assets</h3><p>Marketing and launch materials under management.</p></div>
+<div class="card"><div class="icon">09</div><h3>Admin Users</h3><p>Internal users with content management access.</p></div>
+</div></section>
+<section class="section"><div class="section-head"><div><div class="section-title">Resource Library</div><div class="section-desc">Admin view for managing workspace content</div></div><button class="btn primary">+ Add Resource</button></div>
+<div class="list">
+<div class="list-item"><div><strong>GstarCAD 2027 Sales Kit</strong><span>Product Center / GstarCAD</span></div><span class="tag blue">Published</span></div>
+<div class="list-item"><div><strong>GstarBIM Launch Messaging</strong><span>Marketing Hub / Campaign</span></div><span class="tag blue">Published</span></div>
+<div class="list-item"><div><strong>License Activation FAQ</strong><span>Support Hub / Knowledge Base</span></div><span class="tag">Published</span></div>
+<div class="list-item"><div><strong>Partner Onboarding Pack</strong><span>Partner Operations</span></div><span class="tag">Draft</span></div>
+</div></section>
 <section class="section"><button class="btn secondary" onclick="logoutManagement()">Logout Management</button></section>
-<div class="modal" id="productModal"><form class="modal-card" id="productForm"><h3 id="productModalTitle">Add Product</h3><input type="hidden" id="productId"><label>Name</label><input id="productName" required><label>Category</label><input id="productCategory" placeholder="CAD / BIM / Partner" required><label>Image file name</label><input id="productImage" placeholder="GstarCAD.png" required><label>URL</label><input id="productUrl" placeholder="products.html or https://..."><label>Description</label><textarea id="productDescription" rows="3"></textarea><label class="check"><input type="checkbox" id="productExternal"> External link</label><label class="check"><input type="checkbox" id="productEnabled" checked> Enabled</label><div class="modal-actions"><button class="btn secondary" type="button" data-close-modal>Cancel</button><button class="btn primary" type="submit">Save</button></div></form></div>
-<div class="modal" id="announcementModal"><form class="modal-card" id="announcementForm"><h3 id="announcementModalTitle">Add Announcement</h3><input type="hidden" id="announcementId"><label>Title</label><input id="announcementTitle" required><label>Description</label><textarea id="announcementDescription" rows="3"></textarea><label>Date</label><input id="announcementDate" placeholder="8 Jul 2026"><label class="check"><input type="checkbox" id="announcementEnabled" checked> Enabled</label><div class="modal-actions"><button class="btn secondary" type="button" data-close-modal>Cancel</button><button class="btn primary" type="submit">Save</button></div></form></div>
-    <footer class="footer">Gstar Workspace · Management</footer>
-  </main>
+
+<div class="footer">Gstar Workspace · Management</div>
+</main>
 </div>
 <script src="assets/js/app.js"></script>
-
 </body>
 </html>
