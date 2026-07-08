@@ -3,10 +3,10 @@ const MANAGEMENT_PASSWORD = "gstar2026";
 const workspaceSearchData = [
   {
     title: "Products",
-    description: "GstarCAD, GstarBIM, CADprofi, 3D FastView และ Product Resources",
+    description: "GstarCAD, GstarBIM, CADProfi, SolidWorks, FormLabs และ Product Resources",
     url: "products.html",
     icon: "P",
-    keywords: ["products", "product", "gstarcad", "gstarbim", "cadprofi", "3d fastview", "sales kit", "product resources", "สินค้า", "ผลิตภัณฑ์"]
+    keywords: ["products", "product", "gstarcad", "gstarbim", "cadprofi", "3d fastview", "solidworks", "formlabs", "sales kit", "product resources", "สินค้า", "ผลิตภัณฑ์"]
   },
   {
     title: "Marketing Hub",
@@ -49,6 +49,139 @@ const workspaceSearchData = [
     url: "management-login.html",
     icon: "G",
     keywords: ["management", "admin", "console", "login", "resource", "announcement", "จัดการ", "ผู้ดูแล"]
+  }
+];
+
+const productData = [
+  {
+    name: "GstarCAD",
+    category: "CAD",
+    image: "GstarCAD.png",
+    description: "2D CAD สำหรับงานเขียนแบบ DWG พร้อมเอกสารขาย การตลาด และซัพพอร์ตหลัก",
+    status: "Active",
+    enabled: true,
+    external: false,
+    url: "#",
+    secondaryUrl: "sales.html",
+    secondaryLabel: "Sales Kit",
+    keywords: ["2d cad", "dwg", "drafting", "license", "gstarcad"]
+  },
+  {
+    name: "GstarCAD Mechanical",
+    category: "CAD",
+    image: "GstarCAD-Mechanical.png",
+    description: "เครื่องมือ CAD สำหรับงาน Mechanical และเอกสารเฉพาะทางด้านงานวิศวกรรม",
+    status: "Active",
+    enabled: true,
+    external: false,
+    url: "#",
+    secondaryUrl: "#",
+    secondaryLabel: "Open Link",
+    keywords: ["mechanical", "cad", "engineering"]
+  },
+  {
+    name: "GstarCAD Architecture",
+    category: "CAD",
+    image: "GstarCAD-Architecture.png",
+    description: "ข้อมูลสำหรับงานสถาปัตย์และทรัพยากรที่เกี่ยวข้องกับ Architecture workflow",
+    status: "Active",
+    enabled: true,
+    external: false,
+    url: "#",
+    secondaryUrl: "#",
+    secondaryLabel: "Open Link",
+    keywords: ["architecture", "building", "cad"]
+  },
+  {
+    name: "SolidWorks",
+    category: "CAD",
+    image: "SolidWorks.jpg",
+    description: "ลิงก์และข้อมูลอ้างอิงสำหรับ CAD / 3D Design ที่เกี่ยวข้องกับพาร์ทเนอร์หรือระบบภายนอก",
+    status: "External",
+    enabled: true,
+    external: true,
+    url: "https://www.8baht.com/",
+    secondaryUrl: "#",
+    secondaryLabel: "Resource",
+    keywords: ["solidworks", "3d cad", "partner", "8baht"]
+  },
+  {
+    name: "GstarBIM",
+    category: "BIM",
+    image: "GstarBIM.png",
+    description: "BIM transition resources สำหรับทีมที่ต้องการเริ่มจาก CAD ไปสู่ BIM",
+    status: "Active",
+    enabled: true,
+    external: false,
+    url: "#",
+    secondaryUrl: "marketing.html",
+    secondaryLabel: "Launch Kit",
+    keywords: ["bim", "ifc", "revit", "cad to bim", "gstarbim"]
+  },
+  {
+    name: "GstarCAD 365",
+    category: "Viewer & Collaboration",
+    image: "GstarCAD-365.png",
+    description: "ทรัพยากรสำหรับบริการ Cloud / Collaboration ที่เกี่ยวข้องกับ GstarCAD ecosystem",
+    status: "Active",
+    enabled: true,
+    external: false,
+    url: "#",
+    secondaryUrl: "#",
+    secondaryLabel: "Open Link",
+    keywords: ["365", "cloud", "collaboration", "subscription"]
+  },
+  {
+    name: "3D FastView",
+    category: "Viewer & Collaboration",
+    image: "3D-Fastview.png",
+    description: "Viewer และ Collaboration workflow สำหรับการเปิดดูและสื่อสารไฟล์ 3D",
+    status: "Active",
+    enabled: true,
+    external: false,
+    url: "#",
+    secondaryUrl: "#",
+    secondaryLabel: "Open Link",
+    keywords: ["3d fastview", "viewer", "collaboration", "3d viewer"]
+  },
+  {
+    name: "CADProfi",
+    category: "Add-ons",
+    image: "CADProfi.png",
+    description: "Add-on สำหรับงาน Mechanical, Electrical, HVAC และ Architecture",
+    status: "Active",
+    enabled: true,
+    external: false,
+    url: "#",
+    secondaryUrl: "#",
+    secondaryLabel: "Open Link",
+    keywords: ["cadprofi", "add-on", "hvac", "electrical", "mechanical"]
+  },
+  {
+    name: "ExtraXION",
+    category: "Manufacturing",
+    image: "ExtrAXION.png",
+    description: "ทรัพยากรสำหรับงาน Manufacturing และ workflow ที่เกี่ยวข้องกับการผลิต",
+    status: "Active",
+    enabled: true,
+    external: false,
+    url: "#",
+    secondaryUrl: "#",
+    secondaryLabel: "Open Link",
+    keywords: ["extraxion", "manufacturing", "production"]
+  },
+  {
+    name: "FormLabs",
+    category: "3D Printing",
+    image: "FormLabs.png",
+    description: "ข้อมูลและลิงก์สำหรับ 3D Printing, printer workflow และอุปกรณ์ที่เกี่ยวข้อง",
+    status: "Active",
+    enabled: true,
+    external: false,
+    url: "#",
+    secondaryUrl: "#",
+    secondaryLabel: "Open Link",
+    keywords: ["formlabs", "3d printing", "printer", "resin"]
   }
 ];
 
@@ -98,7 +231,17 @@ function initWorkspaceSearch() {
       return;
     }
 
-    const matches = workspaceSearchData.filter(item => {
+    const productSearchItems = productData
+      .filter(product => product.enabled)
+      .map(product => ({
+        title: product.name,
+        description: `${product.category} · ${product.description}`,
+        url: "products.html",
+        icon: "P",
+        keywords: [product.name, product.category, product.description, ...(product.keywords || [])]
+      }));
+
+    const matches = [...workspaceSearchData, ...productSearchItems].filter(item => {
       const haystack = [item.title, item.description, ...item.keywords].join(" ").toLowerCase();
       return haystack.includes(q);
     });
@@ -166,8 +309,78 @@ function initNotifications() {
   });
 }
 
+function initProductsPage() {
+  const grid = document.getElementById("productGrid");
+  const searchInput = document.getElementById("productSearch");
+  const tabs = document.getElementById("productTabs");
+  const empty = document.getElementById("productEmpty");
+  if (!grid) return;
+
+  let activeCategory = "all";
+  let searchQuery = "";
+
+  function renderProducts() {
+    const q = searchQuery.trim().toLowerCase();
+    const visibleProducts = productData.filter(product => {
+      if (!product.enabled) return false;
+      const categoryMatch = activeCategory === "all" || product.category === activeCategory;
+      const haystack = [product.name, product.category, product.description, ...(product.keywords || [])].join(" ").toLowerCase();
+      const searchMatch = !q || haystack.includes(q);
+      return categoryMatch && searchMatch;
+    });
+
+    grid.innerHTML = visibleProducts.map(product => createProductCard(product)).join("");
+    if (empty) empty.classList.toggle("show", visibleProducts.length === 0);
+  }
+
+  if (tabs) {
+    tabs.addEventListener("click", function (event) {
+      const button = event.target.closest(".product-tab");
+      if (!button) return;
+      activeCategory = button.dataset.filter;
+      tabs.querySelectorAll(".product-tab").forEach(tab => tab.classList.remove("active"));
+      button.classList.add("active");
+      renderProducts();
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener("input", function () {
+      searchQuery = searchInput.value;
+      renderProducts();
+    });
+  }
+
+  renderProducts();
+}
+
+function createProductCard(product) {
+  const imagePath = `assets/img/products/${product.image}`;
+  const statusClass = product.external ? "external" : product.status.toLowerCase().includes("soon") ? "soon" : "";
+  const target = product.external ? `target="_blank" rel="noopener"` : "";
+  const fallback = product.name.split(" ").map(word => word[0]).join("").slice(0, 3).toUpperCase();
+
+  return `
+    <article class="product-card">
+      <div class="product-logo" data-fallback="${escapeHtml(fallback)}">
+        <img src="${imagePath}" alt="${escapeHtml(product.name)} logo" onerror="this.closest('.product-logo').classList.add('logo-missing');this.remove();">
+      </div>
+      <div class="product-meta">
+        <span class="tag ${product.category === "CAD" || product.category === "BIM" ? "blue" : ""}">${escapeHtml(product.category)}</span>
+        <span class="product-status ${statusClass}">${escapeHtml(product.status)}</span>
+      </div>
+      <h3>${escapeHtml(product.name)}</h3>
+      <p>${escapeHtml(product.description)}</p>
+      <div class="product-actions">
+        <a href="${product.url}" class="btn primary" ${target}>${product.external ? "Open External" : "Open Product"}</a>
+        <a href="${product.secondaryUrl}" class="btn secondary">${escapeHtml(product.secondaryLabel)}</a>
+      </div>
+    </article>
+  `;
+}
+
 function escapeHtml(value) {
-  return value
+  return String(value)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
@@ -180,48 +393,5 @@ document.addEventListener("DOMContentLoaded", function () {
   protectManagementPage();
   initWorkspaceSearch();
   initNotifications();
-});
-
-function initProductFilters() {
-  const grid = document.getElementById("productGrid");
-  const tabs = document.querySelectorAll(".product-tab");
-  const search = document.getElementById("productSearch");
-  const empty = document.getElementById("productEmpty");
-  if (!grid || !tabs.length) return;
-
-  let activeCategory = "all";
-
-  function applyFilters() {
-    const query = search ? search.value.trim().toLowerCase() : "";
-    const cards = Array.from(grid.querySelectorAll(".product-card"));
-    let visibleCount = 0;
-
-    cards.forEach(card => {
-      const category = card.dataset.category || "";
-      const haystack = [card.innerText, card.dataset.keywords || ""].join(" ").toLowerCase();
-      const categoryMatch = activeCategory === "all" || category === activeCategory;
-      const searchMatch = !query || haystack.includes(query);
-      const visible = categoryMatch && searchMatch;
-
-      card.style.display = visible ? "flex" : "none";
-      if (visible) visibleCount += 1;
-    });
-
-    if (empty) empty.classList.toggle("show", visibleCount === 0);
-  }
-
-  tabs.forEach(tab => {
-    tab.addEventListener("click", function () {
-      tabs.forEach(item => item.classList.remove("active"));
-      tab.classList.add("active");
-      activeCategory = tab.dataset.filter || "all";
-      applyFilters();
-    });
-  });
-
-  if (search) search.addEventListener("input", applyFilters);
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  initProductFilters();
+  initProductsPage();
 });

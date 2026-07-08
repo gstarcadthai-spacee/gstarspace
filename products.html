@@ -54,9 +54,9 @@
   </div>
 
   <section class="hero product-hero">
-    <div class="kicker">Product Center</div>
+    <div class="kicker">Product Portfolio</div>
     <h2>Product resources by category.</h2>
-    <p>ศูนย์กลางสินค้าและลิงก์ทรัพยากร แยกตามหมวดหมู่เพื่อให้ทีมเข้าถึงข้อมูลของแต่ละโปรแกรมได้เร็วขึ้น</p>
+    <p>ศูนย์กลางสินค้าและโซลูชัน แยกตามหมวดหมู่ เพื่อให้ทีมเข้าถึงข้อมูล โลโก้ ลิงก์ และทรัพยากรของแต่ละโปรแกรมได้เร็วขึ้น</p>
   </section>
 
   <section class="section product-control-panel">
@@ -73,112 +73,25 @@
 
     <div class="product-tabs" id="productTabs">
       <button class="product-tab active" type="button" data-filter="all">All</button>
-      <button class="product-tab" type="button" data-filter="cad">CAD</button>
-      <button class="product-tab" type="button" data-filter="bim">BIM</button>
-      <button class="product-tab" type="button" data-filter="addon">Add-ons</button>
-      <button class="product-tab" type="button" data-filter="viewer">Viewer</button>
-      <button class="product-tab" type="button" data-filter="other">Others</button>
+      <button class="product-tab" type="button" data-filter="CAD">CAD</button>
+      <button class="product-tab" type="button" data-filter="BIM">BIM</button>
+      <button class="product-tab" type="button" data-filter="Viewer & Collaboration">Viewer & Collaboration</button>
+      <button class="product-tab" type="button" data-filter="Add-ons">Add-ons</button>
+      <button class="product-tab" type="button" data-filter="Manufacturing">Manufacturing</button>
+      <button class="product-tab" type="button" data-filter="3D Printing">3D Printing</button>
+      <button class="product-tab" type="button" data-filter="Partners">Partners</button>
     </div>
   </section>
 
   <section class="section">
-    <div class="product-grid" id="productGrid">
-      <article class="product-card" data-category="cad" data-status="active" data-keywords="gstarcad 2d cad dwg drafting license sales kit">
-        <div class="product-logo" data-fallback="G"><img src="assets/img/products/gstarcad.png" alt="GstarCAD logo" onerror="this.closest('.product-logo').classList.add('logo-missing');this.remove();"></div>
-        <div class="product-meta"><span class="tag blue">CAD</span><span class="product-status">Active</span></div>
-        <h3>GstarCAD</h3>
-        <p>2D CAD สำหรับงานเขียนแบบ DWG พร้อมเอกสารขาย การตลาด และซัพพอร์ตหลัก</p>
-        <div class="product-actions">
-          <a href="#" class="btn primary">Open Product</a>
-          <a href="sales.html" class="btn secondary">Sales Kit</a>
-        </div>
-      </article>
-
-      <article class="product-card" data-category="cad" data-status="active" data-keywords="gstarcad 365 subscription cloud cad">
-        <div class="product-logo" data-fallback="365"><img src="assets/img/products/gstarcad365.png" alt="GstarCAD365 logo" onerror="this.closest('.product-logo').classList.add('logo-missing');this.remove();"></div>
-        <div class="product-meta"><span class="tag blue">CAD</span><span class="product-status">Active</span></div>
-        <h3>GstarCAD365</h3>
-        <p>ทรัพยากรสำหรับแพ็กเกจและบริการที่เกี่ยวข้องกับ GstarCAD365</p>
-        <div class="product-actions">
-          <a href="#" class="btn primary">Open Product</a>
-          <a href="#" class="btn secondary">Open Link</a>
-        </div>
-      </article>
-
-      <article class="product-card" data-category="cad" data-status="active" data-keywords="gstarcad mechanical mechanical cad add-on">
-        <div class="product-logo" data-fallback="GM"><img src="assets/img/products/gstarcad-mechanical.png" alt="GstarCAD Mechanical logo" onerror="this.closest('.product-logo').classList.add('logo-missing');this.remove();"></div>
-        <div class="product-meta"><span class="tag blue">CAD</span><span class="product-status">Active</span></div>
-        <h3>GstarCAD Mechanical</h3>
-        <p>เอกสารและลิงก์สำหรับงาน Mechanical CAD และเครื่องมือเสริมเฉพาะทาง</p>
-        <div class="product-actions">
-          <a href="#" class="btn primary">Open Product</a>
-          <a href="#" class="btn secondary">Open Link</a>
-        </div>
-      </article>
-
-      <article class="product-card" data-category="cad" data-status="active" data-keywords="gstarcad architecture architecture cad building">
-        <div class="product-logo" data-fallback="GA"><img src="assets/img/products/gstarcad-architecture.png" alt="GstarCAD Architecture logo" onerror="this.closest('.product-logo').classList.add('logo-missing');this.remove();"></div>
-        <div class="product-meta"><span class="tag blue">CAD</span><span class="product-status">Active</span></div>
-        <h3>GstarCAD Architecture</h3>
-        <p>ข้อมูลสำหรับงานสถาปัตย์และทรัพยากรที่เกี่ยวข้องกับ Architecture workflow</p>
-        <div class="product-actions">
-          <a href="#" class="btn primary">Open Product</a>
-          <a href="#" class="btn secondary">Open Link</a>
-        </div>
-      </article>
-
-      <article class="product-card" data-category="bim" data-status="active" data-keywords="gstarbim bim revit ifc cad to bim">
-        <div class="product-logo" data-fallback="B"><img src="assets/img/products/gstarbim.png" alt="GstarBIM logo" onerror="this.closest('.product-logo').classList.add('logo-missing');this.remove();"></div>
-        <div class="product-meta"><span class="tag blue">BIM</span><span class="product-status">Active</span></div>
-        <h3>GstarBIM</h3>
-        <p>BIM transition resources สำหรับทีมที่ต้องการเริ่มจาก CAD ไปสู่ BIM</p>
-        <div class="product-actions">
-          <a href="#" class="btn primary">Open Product</a>
-          <a href="marketing.html" class="btn secondary">Launch Kit</a>
-        </div>
-      </article>
-
-      <article class="product-card" data-category="addon" data-status="active" data-keywords="cadprofi mechanical electrical hvac architecture add-on">
-        <div class="product-logo" data-fallback="CP"><img src="assets/img/products/cadprofi.png" alt="CADprofi logo" onerror="this.closest('.product-logo').classList.add('logo-missing');this.remove();"></div>
-        <div class="product-meta"><span class="tag">Add-on</span><span class="product-status">Active</span></div>
-        <h3>CADprofi</h3>
-        <p>Add-on สำหรับงาน Mechanical, Electrical, HVAC และ Architecture</p>
-        <div class="product-actions">
-          <a href="#" class="btn primary">Open Product</a>
-          <a href="#" class="btn secondary">Open Link</a>
-        </div>
-      </article>
-
-      <article class="product-card" data-category="viewer" data-status="active" data-keywords="3d fastview viewer collaboration cloud 3d viewer">
-        <div class="product-logo" data-fallback="3D"><img src="assets/img/products/3d-fastview.png" alt="3D FastView logo" onerror="this.closest('.product-logo').classList.add('logo-missing');this.remove();"></div>
-        <div class="product-meta"><span class="tag">Viewer</span><span class="product-status">Active</span></div>
-        <h3>3D FastView</h3>
-        <p>Viewer และ Collaboration workflow สำหรับการเปิดดูและสื่อสารไฟล์ 3D</p>
-        <div class="product-actions">
-          <a href="#" class="btn primary">Open Product</a>
-          <a href="#" class="btn secondary">Open Link</a>
-        </div>
-      </article>
-
-      <article class="product-card" data-category="other" data-status="external" data-keywords="8baht external website ecommerce store products">
-        <div class="product-logo" data-fallback="8"><img src="assets/img/products/8baht.png" alt="8Baht logo" onerror="this.closest('.product-logo').classList.add('logo-missing');this.remove();"></div>
-        <div class="product-meta"><span class="tag">Others</span><span class="product-status external">External</span></div>
-        <h3>8Baht</h3>
-        <p>ลิงก์ออกไปยังระบบหรือเว็บไซต์ภายนอกที่เกี่ยวข้องกับการขายและสินค้า</p>
-        <div class="product-actions">
-          <a href="#" class="btn primary">Open Link</a>
-          <a href="management-login.html" class="btn secondary">Manage</a>
-        </div>
-      </article>
-    </div>
-
+    <div class="product-grid" id="productGrid"></div>
     <div id="productEmpty" class="product-empty">ไม่พบสินค้าที่ตรงกับคำค้นหา</div>
   </section>
 
   <section class="section admin-note">
     <div>
       <strong>Admin-ready structure</strong>
-      <p>หน้านี้วางโครงไว้ให้อนาคต Admin เพิ่ม ลบ ปิดใช้งาน หรือเปลี่ยนลิงก์สินค้าได้ผ่าน Management Console / Apps Script</p>
+      <p>หน้านี้วางโครงไว้ให้อนาคต Admin เพิ่ม ลบ ปิดใช้งาน เปลี่ยนหมวด หรือเปลี่ยนลิงก์สินค้าได้ผ่าน Management Console / Apps Script</p>
     </div>
     <a class="btn secondary" href="management-login.html">Open Management</a>
   </section>
