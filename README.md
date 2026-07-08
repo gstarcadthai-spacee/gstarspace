@@ -1,12 +1,8 @@
-# Gstar Workspace Full Replace
+# Gstar Workspace Restore Pack
 
-Upload these files at repository root and replace existing HTML/CSS/JS.
+ใช้ชุดนี้เพื่อกู้ Mock UI / Sidebar / Topbar / Hero / Cards กลับมาเป็นฐาน Stable ก่อนทำ Products V5 ใหม่
 
-## Keep existing assets
-- assets/img/favicon.png
-- assets/img/products/*.png / *.jpg
-
-## Files included
+## Upload / Replace
 - index.html
 - products.html
 - marketing.html
@@ -19,9 +15,15 @@ Upload these files at repository root and replace existing HTML/CSS/JS.
 - assets/css/style.css
 - assets/js/app.js
 
-## Apps Script ready
-In `assets/js/app.js`, set:
-```js
-const USE_APPS_SCRIPT = true;
-const APPS_SCRIPT_URL = "YOUR_WEB_APP_URL";
-```
+## Keep existing assets
+- assets/img/favicon.png
+- assets/img/products/*
+- product/* (ถ้ามีโลโก้เดิมอยู่ในโฟลเดอร์นี้ ระบบมี fallback ให้)
+
+## Notes
+- USE_APPS_SCRIPT = false
+- ExtraXION moved to BOQ & Estimation
+- SolidWorks image changed to SolidWorks.png
+- Sidebar / Topbar locked as current mock master
+
+หลังอัปชุดนี้แล้ว อย่าแก้ assets/css/style.css เพื่อทดลอง Products V5 อีก ให้สร้าง CSS แยกสำหรับ Products เท่านั้น
