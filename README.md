@@ -1,0 +1,2 @@
+# gstarspace
+gstarportal for partner
