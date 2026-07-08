@@ -1,165 +1,57 @@
+
 const MANAGEMENT_PASSWORD = "gstar2026";
-const PRODUCT_STORAGE_KEY = "gstarWorkspaceProducts";
-
-/* Apps Script Ready
-   1) Deploy Apps Script as Web App
-   2) Paste URL below
-   3) Change USE_APPS_SCRIPT to true
-   Expected actions:
-   - ?action=products
-   - ?action=saveProduct&payload={...}
-   - ?action=deleteProduct&id=...
-   - ?action=toggleProduct&id=...
-   - ?action=resetProducts
-*/
-const APPS_SCRIPT_URL = "";
 const USE_APPS_SCRIPT = false;
-let productsCache = null;
-
-const iconMap = {
-  search:'<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>',
-  bell:'<svg viewBox="0 0 24 24"><path d="M10.3 21a2 2 0 0 0 3.4 0"></path><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path></svg>',
-  package:'<svg viewBox="0 0 24 24"><path d="m7.5 4.3 9 5.2"></path><path d="m21 8-9 5-9-5"></path><path d="M3 8v8l9 5 9-5V8"></path><path d="M12 13v8"></path></svg>',
-  megaphone:'<svg viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>',
-  briefcase:'<svg viewBox="0 0 24 24"><path d="M10 6V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v1"></path><rect x="3" y="6" width="18" height="14" rx="2"></rect><path d="M3 12h18"></path></svg>',
-  headset:'<svg viewBox="0 0 24 24"><path d="M3 14v-2a9 9 0 0 1 18 0v2"></path><path d="M21 19a2 2 0 0 1-2 2h-3"></path><path d="M7 14v5H5a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2h2z"></path><path d="M17 14v5h2a2 2 0 0 0 2-2v-1a2 2 0 0 0-2-2h-2z"></path></svg>',
-  book:'<svg viewBox="0 0 24 24"><path d="M12 7v14"></path><path d="M3 5a2 2 0 0 1 2-2h5a2 2 0 0 1 2 2v16a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2V5z"></path><path d="M21 5a2 2 0 0 0-2-2h-5a2 2 0 0 0-2 2v16a2 2 0 0 1 2-2h5a2 2 0 0 1 2 2V5z"></path></svg>',
-  bot:'<svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="10" rx="2"></rect><path d="M12 8V4"></path><path d="M8 13h.01"></path><path d="M16 13h.01"></path><path d="M9 18v2"></path><path d="M15 18v2"></path></svg>',
-  box:'<svg viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.7Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>',
-  arrow:'<svg viewBox="0 0 24 24"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>',
-  external:'<svg viewBox="0 0 24 24"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>',
-  factory:'<svg viewBox="0 0 24 24"><path d="M3 21h18"></path><path d="M5 21V8l5 3V8l5 3V5h4v16"></path><path d="M9 17h1"></path><path d="M14 17h1"></path></svg>',
-  printer:'<svg viewBox="0 0 24 24"><path d="M6 9V3h12v6"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 14h12v7H6z"></path></svg>',
-  plug:'<svg viewBox="0 0 24 24"><path d="M12 22v-5"></path><path d="M9 8V2"></path><path d="M15 8V2"></path><path d="M6 8h12v4a6 6 0 0 1-12 0V8z"></path></svg>',
-  eye:'<svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>'
-};
-
-const productCategories = [
-  { id:"all", label:"All", icon:"box" },
-  { id:"CAD", label:"CAD", icon:"package" },
-  { id:"BIM", label:"BIM", icon:"box" },
-  { id:"Add-ons", label:"Add-ons", icon:"plug" },
-  { id:"Viewer", label:"Viewer", icon:"eye" },
-  { id:"Manufacturing", label:"Manufacturing", icon:"factory" },
-  { id:"3D Printing", label:"3D Printing", icon:"printer" },
-  { id:"Partners", label:"Partners", icon:"external" }
-];
+const APPS_SCRIPT_URL = "";
 
 const defaultProducts = [
-  {id:"gstarcad", name:"GstarCAD", category:"CAD", image:"GstarCAD.png", description:"2D CAD Software สำหรับงาน DWG และงานเขียนแบบประจำวันของทีม", status:"Active", enabled:true, external:false, url:"#", keywords:"2d cad,dwg,drafting,gstarcad"},
-  {id:"gstarcad-365", name:"GstarCAD 365", category:"CAD", image:"GstarCAD-365.png", description:"Cloud และ Subscription workflow ใน ecosystem ของ GstarCAD", status:"Active", enabled:true, external:false, url:"#", keywords:"365,cloud,subscription"},
-  {id:"gstarcad-mechanical", name:"GstarCAD Mechanical", category:"CAD", image:"GstarCAD-Mechanical.png", description:"CAD สำหรับงาน Mechanical พร้อมเครื่องมือเฉพาะทางวิศวกรรม", status:"Active", enabled:true, external:false, url:"#", keywords:"mechanical,engineering,cad"},
-  {id:"gstarcad-architecture", name:"GstarCAD Architecture", category:"CAD", image:"GstarCAD-Architecture.png", description:"ชุดเครื่องมือสำหรับงานสถาปัตย์และ Building workflow", status:"Active", enabled:true, external:false, url:"#", keywords:"architecture,building,cad"},
-  {id:"solidworks", name:"SolidWorks", category:"CAD", image:"SolidWorks.jpg", description:"3D CAD / Design solution ที่เกี่ยวข้องกับ Partner และทีมอื่น", status:"External", enabled:true, external:true, url:"https://www.8baht.com/", keywords:"solidworks,3d cad,partner,8baht"},
-  {id:"gstarbim", name:"GstarBIM", category:"BIM", image:"GstarBIM.png", description:"BIM transition resources สำหรับทีมที่เริ่มจาก CAD ไปสู่ BIM", status:"Active", enabled:true, external:false, url:"#", keywords:"bim,ifc,revit,cad to bim"},
-  {id:"3d-fastview", name:"3D FastView", category:"Viewer", image:"3D-Fastview.png", description:"Viewer สำหรับเปิดดูและสื่อสารไฟล์ 3D ได้ง่ายขึ้น", status:"Active", enabled:true, external:false, url:"#", keywords:"3d fastview,viewer,3d viewer"},
-  {id:"cadprofi", name:"CADProfi", category:"Add-ons", image:"CADProfi.png", description:"Add-on สำหรับ Mechanical, Electrical, HVAC และ Architecture", status:"Active", enabled:true, external:false, url:"#", keywords:"cadprofi,add-on,hvac,electrical"},
-  {id:"extraxion", name:"ExtraXION", category:"Manufacturing", image:"ExtraXION.png", description:"Manufacturing workflow และทรัพยากรสำหรับงานผลิต", status:"Active", enabled:true, external:false, url:"#", keywords:"extraxion,manufacturing,production"},
-  {id:"formlabs", name:"FormLabs", category:"3D Printing", image:"FormLabs.png", description:"3D Printing solution สำหรับ Printer workflow และงานต้นแบบ", status:"External", enabled:true, external:true, url:"https://www.8baht.com/", keywords:"formlabs,3d printing,printer"}
+  {id:"gstarcad", name:"GstarCAD", category:"CAD", image:"GstarCAD.png", url:"#", description:"2D CAD Software", enabled:true, external:false, status:"Core"},
+  {id:"gstarcad-365", name:"GstarCAD 365", category:"Viewer & Collaboration", image:"GstarCAD-365.png", url:"#", description:"Cloud & collaboration workflow", enabled:true, external:false, status:"Active"},
+  {id:"gstarcad-architecture", name:"GstarCAD Architecture", category:"CAD", image:"GstarCAD-Architecture.png", url:"#", description:"Architecture CAD solution", enabled:true, external:false, status:"CAD"},
+  {id:"gstarcad-mechanical", name:"GstarCAD Mechanical", category:"CAD", image:"GstarCAD-Mechanical.png", url:"#", description:"Mechanical CAD solution", enabled:true, external:false, status:"CAD"},
+  {id:"gstarbim", name:"GstarBIM", category:"BIM", image:"GstarBIM.png", url:"#", description:"BIM transition platform", enabled:true, external:false, status:"Growth"},
+  {id:"cadprofi", name:"CADProfi", category:"Add-ons", image:"CADProfi.png", url:"#", description:"Industry add-on tools", enabled:true, external:false, status:"Add-on"},
+  {id:"3d-fastview", name:"3D FastView", category:"Viewer & Collaboration", image:"3D-Fastview.png", url:"#", description:"3D viewer & collaboration", enabled:true, external:false, status:"Viewer"},
+  {id:"extraxion", name:"ExtraXION", category:"Manufacturing", image:"ExtraXION.png", url:"#", description:"Manufacturing solution", enabled:true, external:false, status:"Active"},
+  {id:"formlabs", name:"FormLabs", category:"3D Printing", image:"FormLabs.png", url:"#", description:"3D printing solution", enabled:true, external:true, status:"Partner"},
+  {id:"solidworks", name:"SolidWorks", category:"CAD", image:"SolidWorks.jpg", url:"https://www.8baht.com/", description:"CAD partner solution", enabled:true, external:true, status:"External"}
 ];
-
-const workspaceSearchData = [
-  {title:"Dashboard", description:"หน้าแรกของ Workspace", url:"index.html", icon:"D", keywords:["home","dashboard"]},
-  {title:"Products", description:"Product Portfolio และ Product Resources", url:"products.html", icon:"P", keywords:["product","gstarcad","gstarbim"]},
-  {title:"Marketing Hub", description:"Campaign, Brand Assets, Social Content", url:"marketing.html", icon:"M", keywords:["marketing","campaign","brand"]},
-  {title:"Sales Hub", description:"Price List, Proposal, Comparison", url:"sales.html", icon:"S", keywords:["sales","price","proposal"]},
-  {title:"Support Hub", description:"Installation, Activation, License, FAQ", url:"support.html", icon:"T", keywords:["support","license","faq"]},
-  {title:"Knowledge Base", description:"How-to, Wiki, Training", url:"knowledge.html", icon:"K", keywords:["knowledge","training","wiki"]},
-  {title:"AI Assistant", description:"Workspace AI Prototype", url:"ai-assistant.html", icon:"AI", keywords:["ai","assistant","bot"]}
+const defaultAnnouncements = [
+  {id:"a1", title:"GstarCAD 2027 Sales Kit Updated", description:"Sales Kit และ Marketing Materials ได้รับการอัปเดตล่าสุด", date:"8 Jul 2026", enabled:true},
+  {id:"a2", title:"GstarBIM Launch Resources", description:"เพิ่มไฟล์ Webinar, Sales Deck และ Landing Page", date:"7 Jul 2026", enabled:true},
+  {id:"a3", title:"Workspace Management", description:"เปิดใช้งานระบบ Management Console สำหรับผู้ดูแลระบบ", date:"6 Jul 2026", enabled:true}
 ];
-
-function escapeHtml(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");}
-function makeId(name){return String(name||"product").toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"") || `product-${Date.now()}`;}
-function getLocalProducts(){try{const saved=localStorage.getItem(PRODUCT_STORAGE_KEY);return saved?JSON.parse(saved):defaultProducts;}catch(e){return defaultProducts;}}
-function saveLocalProducts(products){localStorage.setItem(PRODUCT_STORAGE_KEY,JSON.stringify(products));}
-function shouldUseAPI(){return USE_APPS_SCRIPT && APPS_SCRIPT_URL.trim().length>0;}
-function apiUrl(action, params={}){const url=new URL(APPS_SCRIPT_URL);url.searchParams.set("action", action);Object.entries(params).forEach(([k,v])=>url.searchParams.set(k, typeof v==="string"?v:JSON.stringify(v)));url.searchParams.set("_t", Date.now());return url.toString();}
-async function fetchProducts(){
-  if(!shouldUseAPI()){productsCache=getLocalProducts();return productsCache;}
-  try{
-    const res=await fetch(apiUrl("products"));
-    const data=await res.json();
-    productsCache=Array.isArray(data)?data:(data.products||defaultProducts);
-    return productsCache;
-  }catch(err){console.warn("Apps Script products fetch failed. Using local fallback.", err);productsCache=getLocalProducts();return productsCache;}
-}
-async function mutateProducts(action, params={}, localMutator=null){
-  if(shouldUseAPI()){
-    try{await fetch(apiUrl(action, params));productsCache=null;return await fetchProducts();}
-    catch(err){console.warn("Apps Script mutate failed. Using local fallback.", err);}
-  }
-  const products=getLocalProducts();
-  const next=localMutator?localMutator(products):products;
-  saveLocalProducts(next);
-  productsCache=next;
-  return next;
-}
-function getProductsSync(){return productsCache || getLocalProducts();}
-function injectIcons(){document.querySelectorAll("[data-icon]").forEach(el=>{const key=el.getAttribute("data-icon");if(iconMap[key])el.innerHTML=iconMap[key];});}
-{document.querySelectorAll("[data-icon]").forEach(el=>{const key=el.getAttribute("data-icon");if(iconMap[key])el.innerHTML=iconMap[key];});}
-
-function initManagementLogin(){const form=document.getElementById("managementLoginForm");if(!form)return;form.addEventListener("submit",e=>{e.preventDefault();const input=document.getElementById("managementPassword");const error=document.getElementById("managementError");if((input?.value||"").trim()===MANAGEMENT_PASSWORD){sessionStorage.setItem("gstarManagementAuth","true");window.location.href="Gstar-Management.html";}else error?.classList.add("show");});}
-function protectManagementPage(){if(!location.pathname.toLowerCase().endsWith("gstar-management.html"))return;if(sessionStorage.getItem("gstarManagementAuth")!=="true")location.href="management-login.html";}
-function logoutManagement(){sessionStorage.removeItem("gstarManagementAuth");location.href="management-login.html";} window.logoutManagement=logoutManagement;
-
-function initNotifications(){const toggle=document.getElementById("notificationToggle"),panel=document.getElementById("notificationPanel");if(!toggle||!panel)return;toggle.addEventListener("click",e=>{e.stopPropagation();panel.classList.toggle("show");});document.addEventListener("click",e=>{if(!e.target.closest(".notification-wrap"))panel.classList.remove("show");});}
-
-function initWorkspaceSearch(){const input=document.getElementById("workspaceSearch"),results=document.getElementById("searchResults");if(!input||!results)return;function render(qRaw){const q=qRaw.trim().toLowerCase();if(!q){results.classList.remove("show");results.innerHTML="";return;}const productItems=getProductsSync().filter(p=>p.enabled).map(p=>({title:p.name,description:`${p.category} · ${p.description}`,url:"products.html",icon:"P",keywords:[p.name,p.category,p.description,p.keywords]}));const matches=[...workspaceSearchData,...productItems].filter(i=>[i.title,i.description,...(i.keywords||[])].join(" ").toLowerCase().includes(q)).slice(0,8);results.classList.add("show");results.innerHTML=matches.length?matches.map(i=>`<a class="search-result-item" href="${escapeHtml(i.url)}"><div class="search-result-icon">${escapeHtml(i.icon)}</div><div><strong>${escapeHtml(i.title)}</strong><span>${escapeHtml(i.description)}</span></div></a>`).join(""):`<div class="search-empty">No results found for “${escapeHtml(qRaw)}”</div>`;}input.addEventListener("input",()=>render(input.value));document.addEventListener("click",e=>{if(!e.target.closest(".search-wrap"))results.classList.remove("show");});}
-
-function productCard(p){const img=`assets/img/products/${p.image}`;const fallback=p.name.split(" ").map(w=>w[0]).join("").slice(0,3).toUpperCase();const target=p.external?' target="_blank" rel="noopener"':"";const statusClass=p.external?"external":String(p.status).toLowerCase().includes("soon")?"soon":"";const cta=p.external?"Open External":"Open Product";return `<article class="product-card premium-product-card"><div class="product-logo" data-fallback="${escapeHtml(fallback)}"><img src="${escapeHtml(img)}" alt="${escapeHtml(p.name)} logo" loading="lazy" onerror="this.remove();this.parentElement.classList.add('logo-missing')"></div><div class="product-meta"><span class="tag blue">${escapeHtml(p.category)}</span><span class="product-status ${statusClass}">${escapeHtml(p.status)}</span></div><h3>${escapeHtml(p.name)}</h3><p>${escapeHtml(p.description)}</p><a class="product-action" href="${escapeHtml(p.url||'#')}"${target}><span>${cta}</span><span class="product-action-icon">${p.external?iconMap.external:iconMap.arrow}</span></a></article>`;}
-
-async function initProductsPage(){
-  const directory=document.getElementById("productDirectory"),tabs=document.getElementById("productTabs"),input=document.getElementById("productSearch"),empty=document.getElementById("productEmpty");
-  if(!directory||!tabs)return;
-  let active="all", search="";
-  await fetchProducts();
-  function counts(products){return productCategories.reduce((acc,c)=>{acc[c.id]=c.id==="all"?products.length:products.filter(p=>p.category===c.id).length;return acc;},{});}
-  function renderTabs(products){const c=counts(products);tabs.innerHTML=productCategories.filter(cat=>cat.id==="all"||c[cat.id]>0).map(cat=>`<button type="button" class="product-tab ${cat.id===active?'active':''}" data-category="${escapeHtml(cat.id)}"><span class="product-tab-icon">${iconMap[cat.icon]||""}</span><span>${escapeHtml(cat.label)}</span><small>${c[cat.id]||0}</small></button>`).join("");}
-  function render(){
-    const enabled=getProductsSync().filter(p=>p.enabled);
-    renderTabs(enabled);
-    const filtered=enabled.filter(p=>{const okCat=active==="all"||p.category===active;const hay=[p.name,p.category,p.description,p.keywords].join(" ").toLowerCase();return okCat&&(!search||hay.includes(search));});
-    if(!filtered.length){directory.innerHTML="";empty?.classList.add("show");return;}
-    empty?.classList.remove("show");
-    const groups=productCategories.filter(c=>c.id!=="all").map(c=>({...c,products:filtered.filter(p=>p.category===c.id)})).filter(g=>g.products.length);
-    directory.innerHTML=groups.map(g=>`<div class="product-category-section"><div class="product-category-head"><div class="product-category-icon">${iconMap[g.icon]||iconMap.box}</div><div><h2>${escapeHtml(g.label)}</h2><span>${g.products.length} product${g.products.length>1?'s':''}</span></div></div><div class="product-grid">${g.products.map(productCard).join("")}</div></div>`).join("");
-  }
-  tabs.addEventListener("click",e=>{const b=e.target.closest(".product-tab");if(!b)return;active=b.dataset.category;render();});
-  input?.addEventListener("input",()=>{search=input.value.trim().toLowerCase();render();});
-  render();
-}
-
-async function initAdminProducts(){
-  const form=document.getElementById("adminProductForm"),table=document.getElementById("adminProductTable"),categorySelect=document.getElementById("adminProductCategory");
-  if(!form||!table)return;
-  await fetchProducts();
-  categorySelect.innerHTML=productCategories.filter(c=>c.id!=="all").map(c=>`<option value="${escapeHtml(c.id)}">${escapeHtml(c.label)}</option>`).join("");
-  const fields={id:document.getElementById("adminProductId"),name:document.getElementById("adminProductName"),category:categorySelect,image:document.getElementById("adminProductImage"),status:document.getElementById("adminProductStatus"),url:document.getElementById("adminProductUrl"),keywords:document.getElementById("adminProductKeywords"),description:document.getElementById("adminProductDescription"),enabled:document.getElementById("adminProductEnabled"),external:document.getElementById("adminProductExternal")};
-  function clear(){form.reset();fields.id.value="";fields.enabled.checked=true;fields.external.checked=false;fields.url.value="#";}
-  function render(){
-    const products=getProductsSync();
-    table.innerHTML=products.map(p=>`<tr><td><div class="admin-product-cell"><img src="assets/img/products/${escapeHtml(p.image)}" onerror="this.style.display='none'"><div><strong>${escapeHtml(p.name)}</strong><small>${escapeHtml(p.image)}</small></div></div></td><td>${escapeHtml(p.category)}</td><td>${escapeHtml(p.status)}</td><td><button class="admin-toggle ${p.enabled?'on':''}" data-action="toggle" data-id="${escapeHtml(p.id)}">${p.enabled?'On':'Off'}</button></td><td>${p.external?'External':'Internal'}</td><td class="admin-row-actions"><button class="btn secondary" data-action="edit" data-id="${escapeHtml(p.id)}">Edit</button><button class="btn secondary danger" data-action="delete" data-id="${escapeHtml(p.id)}">Delete</button></td></tr>`).join("");
-  }
-  form.addEventListener("submit",async e=>{
-    e.preventDefault();
-    const id=fields.id.value||makeId(fields.name.value);
-    const next={id,name:fields.name.value.trim(),category:fields.category.value,image:fields.image.value.trim(),status:fields.status.value,url:fields.url.value.trim()||"#",keywords:fields.keywords.value.trim(),description:fields.description.value.trim(),enabled:fields.enabled.checked,external:fields.external.checked};
-    await mutateProducts("saveProduct", {payload:next}, products=>{const idx=products.findIndex(p=>p.id===id);if(idx>=0)products[idx]=next;else products.push(next);return products;});
-    clear();render();
-  });
-  table.addEventListener("click",async e=>{
-    const btn=e.target.closest("button[data-action]");if(!btn)return;
-    const action=btn.dataset.action,id=btn.dataset.id;
-    let products=getProductsSync();
-    const p=products.find(x=>x.id===id);
-    if(action==="toggle"&&p){await mutateProducts("toggleProduct", {id}, products=>products.map(x=>x.id===id?{...x,enabled:!x.enabled}:x));render();}
-    if(action==="edit"&&p){fields.id.value=p.id;fields.name.value=p.name;fields.category.value=p.category;fields.image.value=p.image;fields.status.value=p.status;fields.url.value=p.url;fields.keywords.value=p.keywords||"";fields.description.value=p.description||"";fields.enabled.checked=!!p.enabled;fields.external.checked=!!p.external;window.scrollTo({top:0,behavior:"smooth"});}
-    if(action==="delete"&&confirm(`Delete ${p?.name||'this product'}?`)){await mutateProducts("deleteProduct", {id}, products=>products.filter(x=>x.id!==id));render();}
-  });
-  document.getElementById("adminAddProductBtn")?.addEventListener("click",clear);
-  document.getElementById("adminCancelEditBtn")?.addEventListener("click",clear);
-  document.getElementById("adminResetProductsBtn")?.addEventListener("click",async()=>{if(confirm("Reset product data to default?")){await mutateProducts("resetProducts", {}, ()=>defaultProducts);clear();render();}});
-  render();
-}
-
-document.addEventListener("DOMContentLoaded",()=>{protectManagementPage();injectIcons();initManagementLogin();initNotifications();initWorkspaceSearch();initProductsPage();initAdminProducts();});
+const icons={
+search:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>',bell:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path></svg>',package:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="m7.5 4.3 9 5.2"></path><path d="M21 8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.7Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>',megaphone:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="m3 11 18-5v12L3 14v-3Z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>',briefcase:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect x="2" y="7" width="20" height="14" rx="2"></rect></svg>',headset:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 11a9 9 0 0 1 18 0"></path><path d="M21 17v1a2 2 0 0 1-2 2h-3"></path><path d="M3 13h3v6H5a2 2 0 0 1-2-2v-4Z"></path><path d="M18 13h3v4a2 2 0 0 1-2 2h-1v-6Z"></path></svg>','book-open':'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3Z"></path></svg>',bot:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M15 13v2"></path><path d="M9 13v2"></path></svg>','file-text':'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>',presentation:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M2 3h20"></path><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"></path><path d="m7 21 5-5 5 5"></path></svg>',scale:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg>',receipt:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"></path><path d="M16 8h-6"></path><path d="M16 12h-6"></path><path d="M16 16h-6"></path></svg>',download:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M7 10l5 5 5-5"></path><path d="M12 15V3"></path></svg>',key:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="7.5" cy="15.5" r="5.5"></circle><path d="m21 2-9.6 9.6"></path><path d="m15.5 7.5 3 3L22 7l-3-3"></path></svg>','shield-check':'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>','circle-help':'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4"></path><path d="M12 17h.01"></path></svg>','list-checks':'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="m3 17 2 2 4-4"></path><path d="m3 7 2 2 4-4"></path><path d="M13 6h8"></path><path d="M13 12h8"></path><path d="M13 18h8"></path></svg>','graduation-cap':'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>',logo:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 21a4 4 0 0 1 0-8h10a4 4 0 0 1 0 8Z"></path><path d="M7 13V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v8"></path></svg>',layout:'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>','share-2':'<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 13.5 6.8 4"></path><path d="m15.4 6.5-6.8 4"></path></svg>'
+};
+function applyIcons(){document.querySelectorAll('[data-icon]').forEach(el=>{const n=el.dataset.icon;if(icons[n])el.innerHTML=icons[n];});}
+function getProducts(){try{return JSON.parse(localStorage.getItem('gstar_products'))||defaultProducts}catch{return defaultProducts}}
+function setProducts(v){localStorage.setItem('gstar_products',JSON.stringify(v))}
+function getAnnouncements(){try{return JSON.parse(localStorage.getItem('gstar_announcements'))||defaultAnnouncements}catch{return defaultAnnouncements}}
+function setAnnouncements(v){localStorage.setItem('gstar_announcements',JSON.stringify(v))}
+function imgPath(file){return `assets/img/products/${file}`}
+async function fetchAppsScript(action){if(!USE_APPS_SCRIPT||!APPS_SCRIPT_URL)return null;const r=await fetch(`${APPS_SCRIPT_URL}?action=${action}`);return r.json()}
+function activeProducts(){return getProducts().filter(p=>p.enabled)}
+function renderProducts(){const box=document.getElementById('productGroups');if(!box)return;const q=(document.getElementById('productSearch')?.value||'').toLowerCase();const current=document.querySelector('.tab.active')?.dataset.category||'All';let items=activeProducts().filter(p=>(current==='All'||p.category===current)&&`${p.name} ${p.category} ${p.description}`.toLowerCase().includes(q));const cats=['All',...new Set(activeProducts().map(p=>p.category))];const tabs=document.getElementById('categoryTabs');if(tabs&&!tabs.dataset.ready){tabs.innerHTML=cats.map(c=>`<button class="tab ${c==='All'?'active':''}" data-category="${c}">${c} <span>${c==='All'?activeProducts().length:activeProducts().filter(p=>p.category===c).length}</span></button>`).join('');tabs.dataset.ready='1';tabs.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{tabs.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderProducts();});}
+if(!items.length){box.innerHTML='<div class="empty-state">No products found.</div>';return}
+const groups={};items.forEach(p=>(groups[p.category] ||= []).push(p));box.innerHTML=Object.entries(groups).map(([cat,arr])=>`<div><h3 class="product-group-title">${cat}<span class="product-count">${arr.length} products</span></h3><div class="product-grid">${arr.map(productCard).join('')}</div></div>`).join('');applyIcons();}
+function productCard(p){const target=p.external?'target="_blank" rel="noopener"':'';return `<a class="product-card" href="${p.url||'#'}" ${target}>${p.external?'<span class="external-mark">↗</span>':''}<div class="product-logo-wrap"><img class="product-logo" src="${imgPath(p.image)}" alt="${p.name}" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=&quot;icon-badge&quot;><span data-icon=&quot;package&quot;></span></div>'"></div><h3>${p.name}</h3><p>${p.description||''}</p><div class="product-meta"><span class="tag blue">${p.category}</span><span class="tag">${p.status||'Active'}</span></div></a>`}
+function renderAnnouncements(){const items=getAnnouncements().filter(a=>a.enabled);const dash=document.getElementById('dashboardAnnouncements');if(dash)dash.innerHTML=items.map(a=>`<div class="list-item"><div><strong>${a.title}</strong><span>${a.description}</span><span>${a.date||''}</span></div><span class="tag blue">Active</span></div>`).join('');const panel=document.getElementById('notificationItems');if(panel)panel.innerHTML=items.slice(0,4).map(a=>`<div class="list-item"><div><strong>${a.title}</strong><span>${a.date||''}</span></div></div>`).join('');}
+function initBell(){const b=document.getElementById('bellButton'),p=document.getElementById('notificationPanel');if(!b||!p)return;b.onclick=e=>{e.stopPropagation();p.classList.toggle('show')};document.addEventListener('click',e=>{if(!p.contains(e.target)&&e.target!==b)p.classList.remove('show')});}
+function initSearch(){const input=document.getElementById('globalSearch'),results=document.getElementById('globalSearchResults');if(!input||!results)return;const base=[{title:'Dashboard',desc:'Workspace home',url:'index.html'},{title:'Products',desc:'Product portfolio',url:'products.html'},{title:'Marketing Hub',desc:'Campaign and brand assets',url:'marketing.html'},{title:'Sales Hub',desc:'Price list and proposal',url:'sales.html'},{title:'Support Hub',desc:'License and FAQ',url:'support.html'},{title:'Knowledge Base',desc:'How-to and training',url:'knowledge.html'},{title:'AI Assistant',desc:'Workspace AI',url:'ai-assistant.html'}];input.addEventListener('input',()=>{const q=input.value.trim().toLowerCase();if(!q){results.classList.remove('show');return}const products=activeProducts().map(p=>({title:p.name,desc:`${p.category} · ${p.description}`,url:p.url||'products.html'}));const all=[...base,...products];const found=all.filter(x=>`${x.title} ${x.desc}`.toLowerCase().includes(q)).slice(0,8);results.innerHTML=found.length?found.map(x=>`<a class="search-result" href="${x.url}"><div class="icon-badge"><span data-icon="search"></span></div><div><strong>${x.title}</strong><br><small>${x.desc}</small></div></a>`).join(''):'<div class="search-result"><div>No results</div></div>';results.classList.add('show');applyIcons();});document.addEventListener('click',e=>{if(!results.contains(e.target)&&e.target!==input)results.classList.remove('show')});}
+function initLogin(){const form=document.getElementById('managementLoginForm');if(!form)return;form.onsubmit=e=>{e.preventDefault();const val=document.getElementById('managementPassword').value;const err=document.getElementById('managementError');if(val===MANAGEMENT_PASSWORD){localStorage.setItem('gstar_management_auth','1');location.href='Gstar-Management.html'}else err.classList.add('show')};}
+function logoutManagement(){localStorage.removeItem('gstar_management_auth');location.href='management-login.html'}
+function initAdmin(){if(!document.getElementById('adminProducts'))return;if(localStorage.getItem('gstar_management_auth')!=='1'){location.href='management-login.html';return}renderAdminProducts();renderAdminAnnouncements();bindAdminModals();}
+function renderAdminProducts(){const box=document.getElementById('adminProducts');if(!box)return;box.innerHTML=getProducts().map(p=>`<div class="admin-row"><div><strong>${p.name}</strong><span>${p.category} · ${p.image} · ${p.enabled?'Enabled':'Disabled'}</span></div><div class="admin-row-actions"><button class="mini-btn" onclick="editProduct('${p.id}')">Edit</button><button class="mini-btn" onclick="toggleProduct('${p.id}')">${p.enabled?'Disable':'Enable'}</button><button class="mini-btn danger" onclick="deleteProduct('${p.id}')">Delete</button></div></div>`).join('')}
+function renderAdminAnnouncements(){const box=document.getElementById('adminAnnouncements');if(!box)return;box.innerHTML=getAnnouncements().map(a=>`<div class="admin-row"><div><strong>${a.title}</strong><span>${a.date||''} · ${a.enabled?'Enabled':'Disabled'}</span></div><div class="admin-row-actions"><button class="mini-btn" onclick="editAnnouncement('${a.id}')">Edit</button><button class="mini-btn" onclick="toggleAnnouncement('${a.id}')">${a.enabled?'Disable':'Enable'}</button><button class="mini-btn danger" onclick="deleteAnnouncement('${a.id}')">Delete</button></div></div>`).join('')}
+function bindAdminModals(){document.getElementById('addProductBtn')?.addEventListener('click',()=>openProductModal());document.getElementById('addAnnouncementBtn')?.addEventListener('click',()=>openAnnouncementModal());document.querySelectorAll('[data-close-modal]').forEach(b=>b.onclick=()=>document.querySelectorAll('.modal').forEach(m=>m.classList.remove('show')));document.getElementById('productForm')?.addEventListener('submit',saveProduct);document.getElementById('announcementForm')?.addEventListener('submit',saveAnnouncement);}
+function openProductModal(p=null){document.getElementById('productForm').reset();document.getElementById('productId').value=p?.id||'';document.getElementById('productName').value=p?.name||'';document.getElementById('productCategory').value=p?.category||'';document.getElementById('productImage').value=p?.image||'';document.getElementById('productUrl').value=p?.url||'';document.getElementById('productDescription').value=p?.description||'';document.getElementById('productExternal').checked=!!p?.external;document.getElementById('productEnabled').checked=p?.enabled!==false;document.getElementById('productModal').classList.add('show')}
+function editProduct(id){openProductModal(getProducts().find(p=>p.id===id))}
+function saveProduct(e){e.preventDefault();let arr=getProducts();let id=document.getElementById('productId').value||document.getElementById('productName').value.toLowerCase().replace(/[^a-z0-9]+/g,'-');const p={id,name:productName.value,category:productCategory.value,image:productImage.value,url:productUrl.value||'#',description:productDescription.value,external:productExternal.checked,enabled:productEnabled.checked,status:productExternal.checked?'External':'Active'};arr=arr.filter(x=>x.id!==id);arr.push(p);setProducts(arr);document.getElementById('productModal').classList.remove('show');renderAdminProducts();}
+function toggleProduct(id){let arr=getProducts().map(p=>p.id===id?{...p,enabled:!p.enabled}:p);setProducts(arr);renderAdminProducts()}
+function deleteProduct(id){if(confirm('Delete this product?')){setProducts(getProducts().filter(p=>p.id!==id));renderAdminProducts()}}
+function openAnnouncementModal(a=null){document.getElementById('announcementForm').reset();announcementId.value=a?.id||'';announcementTitle.value=a?.title||'';announcementDescription.value=a?.description||'';announcementDate.value=a?.date||'';announcementEnabled.checked=a?.enabled!==false;announcementModal.classList.add('show')}
+function editAnnouncement(id){openAnnouncementModal(getAnnouncements().find(a=>a.id===id))}
+function saveAnnouncement(e){e.preventDefault();let arr=getAnnouncements();let id=announcementId.value||Date.now().toString();const a={id,title:announcementTitle.value,description:announcementDescription.value,date:announcementDate.value,enabled:announcementEnabled.checked};arr=arr.filter(x=>x.id!==id);arr.push(a);setAnnouncements(arr);announcementModal.classList.remove('show');renderAdminAnnouncements();renderAnnouncements()}
+function toggleAnnouncement(id){setAnnouncements(getAnnouncements().map(a=>a.id===id?{...a,enabled:!a.enabled}:a));renderAdminAnnouncements();renderAnnouncements()}
+function deleteAnnouncement(id){if(confirm('Delete this announcement?')){setAnnouncements(getAnnouncements().filter(a=>a.id!==id));renderAdminAnnouncements();renderAnnouncements()}}
+document.addEventListener('DOMContentLoaded',()=>{applyIcons();renderAnnouncements();initBell();initSearch();initLogin();initAdmin();renderProducts();document.getElementById('productSearch')?.addEventListener('input',renderProducts);});

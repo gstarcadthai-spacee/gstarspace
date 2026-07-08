@@ -2,53 +2,37 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gstar Workspace | Knowledge Base</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
 </head>
 <body>
 <div class="wrapper">
-<aside class="sidebar"><div class="logo">Gstar Workspace</div><nav class="nav">
-<a href="index.html">Dashboard</a>
-<a href="products.html">Products</a>
-<a href="marketing.html">Marketing</a>
-<a href="sales.html">Sales</a>
-<a href="support.html">Support</a>
+  <aside class="sidebar">
+    <a class="brand" href="index.html"><span class="brand-mark">G</span><span>Gstar Workspace</span></a>
+    <nav class="nav"><a class="" href="index.html">Dashboard</a>
+<a class="" href="products.html">Products</a>
+<a class="" href="marketing.html">Marketing</a>
+<a class="" href="sales.html">Sales</a>
+<a class="" href="support.html">Support</a>
 <a class="active" href="knowledge.html">Knowledge Base</a>
-<a href="ai-assistant.html">AI Assistant</a>
-<div class="divider"></div>
-<a href="management-login.html">Management</a>
-</nav></aside>
-<main class="main">
-<div class="top">
-<div>
-<div class="crumb">Internal Workspace / Knowledge Base</div>
-<h1>Knowledge Base</h1>
-</div>
-<div class="search">Search anything...</div>
-</div>
-<section class="hero">
-<div class="kicker">Internal Wiki</div>
-<h2>Searchable knowledge for every team.</h2>
-<p>A structured library for how-to guides, training materials, internal notes and product education content.</p>
-</section>
-
-<section class="section"><div class="grid-3">
-<div class="card"><div class="icon">?</div><h3>How-to Guides</h3><p>Step-by-step internal documentation for product workflows and recurring tasks.</p></div>
-<div class="card"><div class="icon">W</div><h3>Internal Wiki</h3><p>Team knowledge, product positioning, campaign notes and standards.</p></div>
-<div class="card"><div class="icon">T</div><h3>Training Library</h3><p>Webinar recordings, presentation files and product training.</p></div>
-</div></section>
-<section class="section"><div class="list">
-<div class="list-item"><div><strong>GstarCAD positioning in Thailand</strong><span>Core message, audience, value proposition and competitor notes.</span></div><a class="btn secondary" href="#">Open</a></div>
-<div class="list-item"><div><strong>GstarBIM transition narrative</strong><span>How to explain BIM adoption for CAD-first teams.</span></div><a class="btn secondary" href="#">Open</a></div>
-<div class="list-item"><div><strong>License activation troubleshooting</strong><span>Common issues and recommended support response.</span></div><a class="btn secondary" href="#">Open</a></div>
-</div></section>
-
-<div class="footer">Gstar Workspace · Knowledge Base</div>
-</main>
+<a class="" href="ai-assistant.html">AI Assistant</a><div class="divider"></div><a class="" href="management-login.html">Management</a></nav>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div><div class="crumb">Internal Workspace / Knowledge Base</div><h1>Knowledge Base</h1></div>
+      <div class="top-actions"><div class="search-shell"><span data-icon="search"></span><input id="globalSearch" type="search" placeholder="Search anything..." autocomplete="off"><div id="globalSearchResults" class="search-results"></div></div><button class="icon-btn" id="bellButton" aria-label="Notifications"><span data-icon="bell"></span><span class="dot"></span></button></div>
+    </header>
+    <div class="notification-panel" id="notificationPanel"><div class="panel-title">Latest Updates</div><div id="notificationItems"></div><a class="panel-link" href="Gstar-Management.html">Manage announcements →</a></div>
+    <section class="hero"><div class="kicker">Internal Wiki</div><h2>Searchable knowledge for every team.</h2><p>คู่มือ บทความ Training และ Wiki สำหรับทีมภายใน</p></section><section class="section"><div class="grid-4"><div class="card"><div class="icon-badge"><span data-icon="list-checks"></span></div><h3>How-to Guides</h3><p>คู่มือขั้นตอนการทำงาน</p></div><div class="card"><div class="icon-badge"><span data-icon="book-open"></span></div><h3>Internal Wiki</h3><p>Product Positioning และ Notes</p></div><div class="card"><div class="icon-badge"><span data-icon="graduation-cap"></span></div><h3>Training Library</h3><p>Webinar และ Training Materials</p></div></div></section><section class="section"><div class="list"><div class="list-item"><div><strong>พร้อมเชื่อม Resource จาก Google Drive</strong><span>ตอนนี้เป็น Portal ก่อน และสามารถต่อ Apps Script ใน Phase ถัดไป</span></div><span class="tag blue">Ready</span></div></div></section>
+    <footer class="footer">Gstar Workspace · Knowledge Base</footer>
+  </main>
 </div>
 <script src="assets/js/app.js"></script>
+
 </body>
 </html>

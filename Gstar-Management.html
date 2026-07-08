@@ -2,47 +2,42 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gstar Workspace | Management</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
 </head>
 <body>
 <div class="wrapper">
-<aside class="sidebar"><div class="logo">Gstar Workspace</div><nav class="nav">
-<a href="index.html">Dashboard</a><a href="products.html">Products</a><a href="marketing.html">Marketing</a><a href="sales.html">Sales</a><a href="support.html">Support</a><a href="knowledge.html">Knowledge Base</a><a href="ai-assistant.html">AI Assistant</a><div class="divider"></div><a class="active" href="Gstar-Management.html">Management</a>
-</nav></aside>
-<main class="main">
-  <div class="top"><div><div class="crumb">Internal Workspace / Management</div><h1>Management</h1></div><div class="top-actions"><a class="btn secondary" href="products.html">View Products</a><button class="btn secondary" onclick="logoutManagement()">Logout</button></div></div>
-
-  <section class="hero"><div class="kicker">Workspace Control</div><h2>Manage product visibility and links.</h2><p>เพิ่ม แก้ ลบ หรือปิดใช้งาน Product Card บนหน้า Products ได้จากหน้านี้ โครงนี้เตรียมไว้ต่อ Apps Script / Google Sheet ใน Phase ถัดไป</p></section>
-
-  <section class="section admin-product-section">
-    <div class="section-head"><div><div class="section-title">Product Management</div><div class="section-desc">ข้อมูลตอนนี้บันทึกใน browser localStorage สำหรับทดสอบ workflow ก่อนต่อ backend จริง</div></div><button class="btn primary" id="adminAddProductBtn">+ Add Product</button></div>
-
-    <form class="admin-product-form" id="adminProductForm">
-      <input type="hidden" id="adminProductId">
-      <div class="admin-form-grid">
-        <label>Name<input id="adminProductName" required placeholder="GstarCAD"></label>
-        <label>Category<select id="adminProductCategory" required></select></label>
-        <label>Logo filename<input id="adminProductImage" required placeholder="GstarCAD.png"></label>
-        <label>Status<select id="adminProductStatus"><option>Active</option><option>Coming Soon</option><option>External</option><option>Draft</option></select></label>
-        <label>URL<input id="adminProductUrl" required placeholder="# or https://..."></label>
-        <label>Keywords<input id="adminProductKeywords" placeholder="cad, dwg, drafting"></label>
-        <label class="admin-span-2">Description<textarea id="adminProductDescription" rows="3" placeholder="คำอธิบายสั้น ๆ"></textarea></label>
-        <label class="admin-check"><input id="adminProductEnabled" type="checkbox" checked> Show on Products page</label>
-        <label class="admin-check"><input id="adminProductExternal" type="checkbox"> Open as external link</label>
-      </div>
-      <div class="admin-actions"><button class="btn primary" type="submit">Save Product</button><button class="btn secondary" type="button" id="adminCancelEditBtn">Cancel</button><button class="btn secondary danger" type="button" id="adminResetProductsBtn">Reset Demo Data</button></div>
-    </form>
-
-    <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Product</th><th>Category</th><th>Status</th><th>Enabled</th><th>Link</th><th></th></tr></thead><tbody id="adminProductTable"></tbody></table></div>
-  </section>
-
-  <div class="footer">Gstar Workspace · Management</div>
-</main>
+  <aside class="sidebar">
+    <a class="brand" href="index.html"><span class="brand-mark">G</span><span>Gstar Workspace</span></a>
+    <nav class="nav"><a class="" href="index.html">Dashboard</a>
+<a class="" href="products.html">Products</a>
+<a class="" href="marketing.html">Marketing</a>
+<a class="" href="sales.html">Sales</a>
+<a class="" href="support.html">Support</a>
+<a class="" href="knowledge.html">Knowledge Base</a>
+<a class="" href="ai-assistant.html">AI Assistant</a><div class="divider"></div><a class="active" href="Gstar-Management.html">Management</a></nav>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div><div class="crumb">Internal Workspace / Management</div><h1>Management</h1></div>
+      <div class="top-actions"><div class="search-shell"><span data-icon="search"></span><input id="globalSearch" type="search" placeholder="Search anything..." autocomplete="off"><div id="globalSearchResults" class="search-results"></div></div><button class="icon-btn" id="bellButton" aria-label="Notifications"><span data-icon="bell"></span><span class="dot"></span></button></div>
+    </header>
+    <div class="notification-panel" id="notificationPanel"><div class="panel-title">Latest Updates</div><div id="notificationItems"></div><a class="panel-link" href="Gstar-Management.html">Manage announcements →</a></div>
+    <section class="hero"><div class="kicker">Workspace Control</div><h2>Manage Products & Announcements.</h2><p>หน้านี้เตรียมไว้ให้ Admin เพิ่ม/แก้/ปิดใช้งาน Product และประกาศ โดยตอนนี้บันทึกแบบ localStorage ก่อนต่อ Apps Script</p></section>
+<section class="section admin-panel"><div class="section-head"><div><div class="section-title">Product Management</div><div class="section-desc">เพิ่ม แก้ไข ปิดใช้งาน หรือใส่ลิงก์ภายนอก</div></div><button class="btn primary" id="addProductBtn">+ Add Product</button></div><div id="adminProducts" class="admin-table"></div></section>
+<section class="section admin-panel"><div class="section-head"><div><div class="section-title">Announcement Management</div><div class="section-desc">ประกาศบน Dashboard และ Bell Notification</div></div><button class="btn primary" id="addAnnouncementBtn">+ Add Announcement</button></div><div id="adminAnnouncements" class="admin-table"></div></section>
+<section class="section"><button class="btn secondary" onclick="logoutManagement()">Logout Management</button></section>
+<div class="modal" id="productModal"><form class="modal-card" id="productForm"><h3 id="productModalTitle">Add Product</h3><input type="hidden" id="productId"><label>Name</label><input id="productName" required><label>Category</label><input id="productCategory" placeholder="CAD / BIM / Partner" required><label>Image file name</label><input id="productImage" placeholder="GstarCAD.png" required><label>URL</label><input id="productUrl" placeholder="products.html or https://..."><label>Description</label><textarea id="productDescription" rows="3"></textarea><label class="check"><input type="checkbox" id="productExternal"> External link</label><label class="check"><input type="checkbox" id="productEnabled" checked> Enabled</label><div class="modal-actions"><button class="btn secondary" type="button" data-close-modal>Cancel</button><button class="btn primary" type="submit">Save</button></div></form></div>
+<div class="modal" id="announcementModal"><form class="modal-card" id="announcementForm"><h3 id="announcementModalTitle">Add Announcement</h3><input type="hidden" id="announcementId"><label>Title</label><input id="announcementTitle" required><label>Description</label><textarea id="announcementDescription" rows="3"></textarea><label>Date</label><input id="announcementDate" placeholder="8 Jul 2026"><label class="check"><input type="checkbox" id="announcementEnabled" checked> Enabled</label><div class="modal-actions"><button class="btn secondary" type="button" data-close-modal>Cancel</button><button class="btn primary" type="submit">Save</button></div></form></div>
+    <footer class="footer">Gstar Workspace · Management</footer>
+  </main>
 </div>
 <script src="assets/js/app.js"></script>
+
 </body>
 </html>

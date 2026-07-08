@@ -2,83 +2,46 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gstar Workspace | Products</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
 </head>
 <body>
 <div class="wrapper">
-<aside class="sidebar">
-  <div class="logo">Gstar Workspace</div>
-  <nav class="nav">
-    <a href="index.html">Dashboard</a>
-    <a class="active" href="products.html">Products</a>
-    <a href="marketing.html">Marketing</a>
-    <a href="sales.html">Sales</a>
-    <a href="support.html">Support</a>
-    <a href="knowledge.html">Knowledge Base</a>
-    <a href="ai-assistant.html">AI Assistant</a>
-    <div class="divider"></div>
-    <a href="management-login.html">Management</a>
-  </nav>
-</aside>
-
-<main class="main">
-  <div class="top">
-    <div>
-      <div class="crumb">Internal Workspace / Products</div>
-      <h1>Products</h1>
-    </div>
-    <div class="top-actions">
-      <div class="search-wrap">
-        <span class="search-icon" data-icon="search"></span>
-        <input id="workspaceSearch" class="search-input" type="search" placeholder="Search anything..." autocomplete="off">
-        <div id="searchResults" class="search-results"></div>
-      </div>
-      <div class="notification-wrap">
-        <button class="notification-btn" id="notificationToggle" type="button" aria-label="Notifications">
-          <span data-icon="bell"></span><span class="notification-dot"></span>
-        </button>
-        <div class="notification-panel" id="notificationPanel">
-          <div class="notification-head"><strong>Latest Updates</strong><span>3 new</span></div>
-          <a class="notification-item" href="#"><span class="notification-mark"></span><div><strong>GstarCAD 2027 Sales Kit Updated</strong><small>Sales Kit และ Marketing Materials ได้รับการอัปเดตล่าสุด</small></div></a>
-          <a class="notification-item" href="#"><span class="notification-mark"></span><div><strong>GstarBIM Launch Resources</strong><small>เพิ่มไฟล์ Webinar, Sales Deck และ Landing Page</small></div></a>
-          <a class="notification-item" href="#"><span class="notification-mark"></span><div><strong>Workspace Management Ready</strong><small>เปิดใช้งานระบบ Management Console สำหรับผู้ดูแลระบบ</small></div></a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <section class="hero product-hero final-product-hero">
-    <div class="kicker">Product Portfolio</div>
-    <h2>Solutions organized by category.</h2>
-    <p>รวมสินค้าและโซลูชันทั้งหมด แยกตามหมวดงาน เช่น CAD, BIM, Add-ons, Viewer, Manufacturing และ Partner Solutions โดยหน้านี้รองรับการเพิ่ม ลบ หรือปิดใช้งานจาก Management Console</p>
-  </section>
-
-  <section class="section product-control-panel">
-    <div class="section-head product-head">
-      <div>
-        <div class="section-title">Product Directory</div>
-        <div class="section-desc">ค้นหาสินค้า หรือเลือก Category เพื่อดูเฉพาะหมวดที่ต้องการ</div>
-      </div>
-      <div class="product-search-box">
-        <span data-icon="search"></span>
-        <input id="productSearch" type="search" placeholder="Search products..." autocomplete="off">
-      </div>
-    </div>
-    <div class="product-tabs" id="productTabs"></div>
-  </section>
-
-  <section class="section">
-    <div id="productDirectory" class="product-directory"></div>
-    <div id="productEmpty" class="product-empty">No products found.</div>
-  </section>
-
-  <div class="footer">Gstar Workspace · Products</div>
-</main>
+  <aside class="sidebar">
+    <a class="brand" href="index.html"><span class="brand-mark">G</span><span>Gstar Workspace</span></a>
+    <nav class="nav"><a class="" href="index.html">Dashboard</a>
+<a class="active" href="products.html">Products</a>
+<a class="" href="marketing.html">Marketing</a>
+<a class="" href="sales.html">Sales</a>
+<a class="" href="support.html">Support</a>
+<a class="" href="knowledge.html">Knowledge Base</a>
+<a class="" href="ai-assistant.html">AI Assistant</a><div class="divider"></div><a class="" href="management-login.html">Management</a></nav>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div><div class="crumb">Internal Workspace / Products</div><h1>Products</h1></div>
+      <div class="top-actions"><div class="search-shell"><span data-icon="search"></span><input id="globalSearch" type="search" placeholder="Search anything..." autocomplete="off"><div id="globalSearchResults" class="search-results"></div></div><button class="icon-btn" id="bellButton" aria-label="Notifications"><span data-icon="bell"></span><span class="dot"></span></button></div>
+    </header>
+    <div class="notification-panel" id="notificationPanel"><div class="panel-title">Latest Updates</div><div id="notificationItems"></div><a class="panel-link" href="Gstar-Management.html">Manage announcements →</a></div>
+    <section class="hero product-hero">
+  <div class="kicker">Product Portfolio</div>
+  <h2>Explore products by category.</h2>
+  <p>ค้นหาผลิตภัณฑ์ แยกตามหมวดหมู่ พร้อมรองรับการเปิด/ปิด และแก้ไขผ่านหน้า Management</p>
+</section>
+<section class="section products-toolbar">
+  <div class="product-search"><span data-icon="search"></span><input id="productSearch" type="search" placeholder="Search products..."></div>
+  <div class="category-tabs" id="categoryTabs"></div>
+</section>
+<section class="section"><div id="productGroups" class="product-groups"></div></section>
+    <footer class="footer">Gstar Workspace · Products</footer>
+  </main>
 </div>
 <script src="assets/js/app.js"></script>
+
 </body>
 </html>
