@@ -132,3 +132,145 @@ function renderProductCardV5(p){
     </div>
   </article>`
 }
+
+/* Mobile drawer + Products V5.1 copy-first override */
+function initMobileDrawer(){
+  const topbar=document.querySelector('.topbar');
+  const sidebar=document.querySelector('.sidebar');
+  if(!topbar||!sidebar||document.querySelector('.mobile-menu-btn'))return;
+  const btn=document.createElement('button');
+  btn.className='mobile-menu-btn';
+  btn.type='button';
+  btn.setAttribute('aria-label','Open navigation');
+  btn.innerHTML='<span></span>';
+  topbar.prepend(btn);
+  const backdrop=document.createElement('div');
+  backdrop.className='mobile-drawer-backdrop';
+  document.body.appendChild(backdrop);
+  const close=()=>{document.body.classList.remove('mobile-nav-open');btn.setAttribute('aria-label','Open navigation')};
+  const open=()=>{document.body.classList.add('mobile-nav-open');btn.setAttribute('aria-label','Close navigation')};
+  btn.addEventListener('click',()=>document.body.classList.contains('mobile-nav-open')?close():open());
+  backdrop.addEventListener('click',close);
+  sidebar.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+}
+
+const productOverviewV51={
+  gstarcad:{version:'2027 SP0',platform:'Windows / macOS',license:'Perpetual / Subscription',website:'https://www.gstarcad.net/'},
+  'gstarcad-architecture':{version:'2027',platform:'Windows',license:'Perpetual / Subscription',website:'https://www.gstarcad.net/'},
+  'gstarcad-mechanical':{version:'2027',platform:'Windows',license:'Perpetual / Subscription',website:'https://www.gstarcad.net/'},
+  solidworks:{version:'Current',platform:'Windows',license:'Subscription',website:'https://www.solidworks.com/'},
+  gstarbim:{version:'Current',platform:'Windows',license:'Subscription / Perpetual',website:'#'},
+  extraxion:{version:'Current',platform:'Windows',license:'Commercial',website:'#'},
+  gstarcad365:{version:'Current',platform:'Web / Cloud',license:'Subscription',website:'#'},
+  '3d-fastview':{version:'Current',platform:'Windows / Web / Mobile',license:'Subscription',website:'#'},
+  cadprofi:{version:'Current',platform:'Windows',license:'Perpetual / Subscription',website:'#'},
+  formlabs:{version:'Current',platform:'Hardware / Cloud',license:'Partner',website:'#'}
+};
+function productOverview(p){return p.overview||productOverviewV51[p.id]||{version:p.version||'Current',platform:p.platform||'Windows',license:p.license||p.status||'Active',website:p.url||'#'}}
+function productLinkFor(p,kind,version){
+  const safe=(p.id||'product').replace(/[^a-z0-9-]/gi,'').toLowerCase();
+  const v=(version||'current').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  if(kind==='trial'&&p.id==='gstarcad'&&version==='2027 SP0')return 'https://www.gstarcad.net/download/';
+  if(kind==='website')return normalizeProductUrl(productOverview(p).website||p.url||'#');
+  if(kind==='support')return 'https://line.me/R/ti/p/@gstarcadth';
+  return `https://resources.gstarworkspace.local/${safe}/${kind}/${v}`;
+}
+function versionedAction(p,title,kind){
+  const ov=productOverview(p);
+  const current=ov.version||'Current';
+  const defaults=current==='Current'?['Current','Previous Version','Archive']: [current,'2026 SP4','2026 SP3','2025'];
+  const versions=(p.versions&&p.versions[kind])||defaults.map(label=>({label,url:productLinkFor(p,kind,label)}));
+  return {type:'versioned',title,current:versions[0],versions:versions.slice(1)};
+}
+function simpleAction(title,url){return {type:'simple',title,url}}
+function productActions(p){
+  return [
+    versionedAction(p,'Download Free Trial','trial'),
+    versionedAction(p,'Download Trial + Script','script'),
+    simpleAction('Support Portal',productLinkFor(p,'support')),
+    simpleAction('Official Website',productLinkFor(p,'website'))
+  ];
+}
+function setCopiedState(btn){
+  if(!btn)return;
+  const icon=btn.querySelector('.copy-icon');
+  const text=btn.querySelector('.copy-text');
+  const originalIcon=btn.dataset.originalIcon||'📋';
+  const originalText=btn.dataset.originalText||'Copy';
+  btn.dataset.originalIcon=originalIcon;
+  btn.dataset.originalText=originalText;
+  btn.classList.add('copied');
+  if(icon)icon.textContent='✓';
+  if(text)text.textContent='Copied';
+  clearTimeout(btn.__copyTimer);
+  btn.__copyTimer=setTimeout(()=>{
+    btn.classList.remove('copied');
+    if(icon)icon.textContent=originalIcon;
+    if(text)text.textContent=originalText;
+  },1200);
+}
+async function copyProductUrl(url,btn){
+  const value=url&&url!=='#'?url:'Link not added yet';
+  try{await navigator.clipboard.writeText(value);setCopiedState(btn)}catch(e){setCopiedState(btn)}
+}
+function copyButton(url,label='Copy'){
+  return `<button class="copy-btn" type="button" data-copy-url="${url||'#'}"><span class="copy-icon">📋</span><span class="copy-text">${label}</span></button>`;
+}
+function renderActionV51(action){
+  if(action.type==='versioned'){
+    const other=action.versions||[];
+    return `<div class="quick-action-card versioned"><div class="quick-action-main"><div class="quick-action-title">${action.title}</div><div class="version-label">Current Version</div><div class="version-current">${action.current.label}</div></div>${copyButton(action.current.url)}${other.length?`<details class="version-archive"><summary>View other versions</summary><div class="version-list">${other.map(v=>`<div class="version-row"><span>${v.label}</span>${copyButton(v.url)}</div>`).join('')}</div></details>`:''}</div>`;
+  }
+  return `<div class="quick-action-card simple-copy"><div class="quick-action-main"><div class="quick-action-title">${action.title}</div><div class="version-label">Resource Link</div></div>${copyButton(action.url)}</div>`;
+}
+function renderProducts(){
+  const tabs=document.getElementById('categoryTabs'),groups=document.getElementById('productGroups'),search=document.getElementById('productSearch');
+  if(!tabs||!groups)return;
+  groups.classList.add('v5');
+  const allProducts=getProducts().filter(p=>p.enabled!==false);
+  const categories=['All','CAD','BIM','BOQ & Estimation','Viewer & Collaboration','Add-ons','3D Printing','Partners'];
+  if(!tabs.dataset.v51Ready){
+    tabs.innerHTML=categories.map(c=>`<button class="tab ${c==='All'?'active':''}" data-cat="${c}">${c}</button>`).join('');
+    tabs.dataset.v51Ready='1';
+    tabs.querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>{tabs.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');window.__productsV5Expanded=null;renderProducts()}));
+    if(search)search.addEventListener('input',()=>{window.__productsV5Expanded=null;renderProducts()});
+  }
+  const activeCat=tabs.querySelector('.tab.active')?.dataset.cat||'All';
+  const q=(search?.value||'').trim().toLowerCase();
+  const filtered=allProducts.filter(p=>{
+    const catMatch=activeCat==='All'||p.category===activeCat||(activeCat==='Partners'&&(p.category==='Partners'||p.external));
+    const text=`${p.name} ${p.category} ${p.description} ${p.keywords||''}`.toLowerCase();
+    return catMatch && (!q||text.includes(q));
+  });
+  if(!filtered.length){groups.innerHTML=`<div class="empty-products-v5"><strong>No products found</strong><br><span>Try another keyword or category.</span></div>`;return;}
+  groups.innerHTML=`<div class="section-head"><div><div class="section-title">${activeCat==='All'?'All Products':activeCat}</div><div class="section-desc">${filtered.length} products · click a card to open workspace actions</div></div></div><div class="product-grid-v5">${filtered.map(renderProductCardV5).join('')}</div>`;
+  groups.querySelectorAll('.product-card-v5').forEach(card=>{
+    card.addEventListener('click',e=>{
+      if(e.target.closest('button,details,summary'))return;
+      const id=card.dataset.id;
+      window.__productsV5Expanded=window.__productsV5Expanded===id?null:id;
+      renderProducts();
+    });
+  });
+  groups.querySelectorAll('[data-copy-url]').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();copyProductUrl(btn.dataset.copyUrl,btn)}));
+}
+function renderProductCardV5(p){
+  const expanded=window.__productsV5Expanded===p.id;
+  const overview=productOverview(p);
+  const actions=productActions(p);
+  const overviewRows=[['Current Version',overview.version],['Platform',overview.platform],['License',overview.license],['Official Website',overview.website]];
+  return `<article class="product-card-v5 ${expanded?'expanded':''}" data-id="${p.id}" tabindex="0" role="button" aria-expanded="${expanded}">
+    <div class="product-logo-shell">${productLogoHtml(p)}</div>
+    <h3>${p.name}</h3>
+    <p>${p.description||''}</p>
+    <div class="product-open-hint">View Details →</div>
+    <div class="product-expanded-body">
+      <div class="v5-block-title">Quick Actions</div>
+      <div class="quick-action-list">${actions.map(renderActionV51).join('')}</div>
+      <div class="v5-block-title">Overview</div>
+      <div class="overview-grid-v5">${overviewRows.map(([k,v])=>`<div class="overview-item-v5"><span>${k}</span><strong>${v||'—'}</strong></div>`).join('')}</div>
+    </div>
+  </article>`;
+}
+document.addEventListener('DOMContentLoaded',initMobileDrawer);
