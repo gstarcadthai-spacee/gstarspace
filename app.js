@@ -313,3 +313,65 @@ function showToast() {
   window.clearTimeout(showToast.timeout);
   showToast.timeout = window.setTimeout(() => toast.classList.remove("show"), 1800);
 }
+
+
+/* === Gstar Mobile Drawer Fix v3 === */
+function initMobileDrawer(){
+  const topbar=document.querySelector('.topbar');
+  const sidebar=document.querySelector('.sidebar');
+  if(!topbar||!sidebar)return;
+
+  // Clean old duplicated drawer layers/buttons from previous builds.
+  document.querySelectorAll('.mobile-drawer-backdrop').forEach((el,i)=>{ if(i>0) el.remove(); });
+  document.querySelectorAll('.mobile-menu-btn').forEach((el,i)=>{ if(i>0) el.remove(); });
+
+  let btn=document.querySelector('.mobile-menu-btn');
+  if(!btn){
+    btn=document.createElement('button');
+    btn.className='mobile-menu-btn';
+    btn.type='button';
+    btn.setAttribute('aria-label','Open navigation');
+    btn.innerHTML='<span></span>';
+    topbar.prepend(btn);
+  }
+
+  let backdrop=document.querySelector('.mobile-drawer-backdrop');
+  if(!backdrop){
+    backdrop=document.createElement('div');
+    backdrop.className='mobile-drawer-backdrop';
+    document.body.appendChild(backdrop);
+  }
+
+  const close=()=>{
+    document.body.classList.remove('mobile-nav-open');
+    btn.setAttribute('aria-label','Open navigation');
+    backdrop.style.pointerEvents='none';
+    backdrop.style.visibility='hidden';
+    backdrop.style.display='none';
+  };
+  const open=()=>{
+    document.body.classList.add('mobile-nav-open');
+    btn.setAttribute('aria-label','Close navigation');
+    backdrop.style.display='block';
+    backdrop.style.visibility='visible';
+    backdrop.style.pointerEvents='auto';
+  };
+
+  // Always start closed so no invisible overlay can block the page.
+  close();
+
+  btn.onclick=(e)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    document.body.classList.contains('mobile-nav-open')?close():open();
+  };
+  backdrop.onclick=(e)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    close();
+  };
+  sidebar.querySelectorAll('a').forEach(a=>{ a.onclick=close; });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') close(); },{passive:true});
+  window.addEventListener('pageshow',close,{once:true});
+}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initMobileDrawer,{once:true});}else{initMobileDrawer();}

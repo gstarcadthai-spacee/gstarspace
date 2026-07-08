@@ -65,12 +65,12 @@ const productActionDefaults={
   gstarcad:[
     ['Download Free Trial','https://www.gstarcad.net/download/'],
     ['Download Trial + Script','#'],
-    ['Open Ticket','#'],
+    ['Open Ticket','https://cs.applicadthai.com/'],
     ['LINE Hotline','#']
   ],
-  gstarbim:[['Download Free Trial','#'],['Download Trial + Script','#'],['Open Ticket','#'],['LINE Hotline','#']],
-  extraxion:[['Open Product Page','#'],['Open Ticket','#'],['LINE Hotline','#']],
-  default:[['Download Free Trial','#'],['Download Trial + Script','#'],['Open Ticket','#'],['LINE Hotline','#']]
+  gstarbim:[['Download Free Trial','#'],['Download Trial + Script','#'],['Open Ticket','https://cs.applicadthai.com/'],['LINE Hotline','#']],
+  extraxion:[['Open Product Page','#'],['Open Ticket','https://cs.applicadthai.com/'],['LINE Hotline','#']],
+  default:[['Download Free Trial','#'],['Download Trial + Script','#'],['Open Ticket','https://cs.applicadthai.com/'],['LINE Hotline','#']]
 };
 function productOverview(p){return p.overview||productOverviewDefaults[p.id]||{version:p.version||'Current',developer:p.developer||'—',platform:p.platform||'Windows',license:p.license||p.status||'Active',website:'Official Website'}}
 function productActions(p){return (p.actions&&p.actions.length?p.actions:productActionDefaults[p.id]||productActionDefaults.default).map(a=>Array.isArray(a)?{title:a[0],url:a[1]}:a)}
@@ -133,15 +133,16 @@ function renderProductCardV5(p){
   </article>`
 }
 
-/* Mobile drawer + Products V5.1 copy-first override */
+
+/* === Gstar Mobile Drawer Fix v3 === */
 function initMobileDrawer(){
   const topbar=document.querySelector('.topbar');
   const sidebar=document.querySelector('.sidebar');
   if(!topbar||!sidebar)return;
 
-  // Safety reset: prevent an invisible mobile overlay from blocking every page.
-  document.body.classList.remove('mobile-nav-open');
+  // Clean old duplicated drawer layers/buttons from previous builds.
   document.querySelectorAll('.mobile-drawer-backdrop').forEach((el,i)=>{ if(i>0) el.remove(); });
+  document.querySelectorAll('.mobile-menu-btn').forEach((el,i)=>{ if(i>0) el.remove(); });
 
   let btn=document.querySelector('.mobile-menu-btn');
   if(!btn){
@@ -163,18 +164,34 @@ function initMobileDrawer(){
   const close=()=>{
     document.body.classList.remove('mobile-nav-open');
     btn.setAttribute('aria-label','Open navigation');
+    backdrop.style.pointerEvents='none';
+    backdrop.style.visibility='hidden';
+    backdrop.style.display='none';
   };
   const open=()=>{
     document.body.classList.add('mobile-nav-open');
     btn.setAttribute('aria-label','Close navigation');
+    backdrop.style.display='block';
+    backdrop.style.visibility='visible';
+    backdrop.style.pointerEvents='auto';
   };
-  const toggle=()=>document.body.classList.contains('mobile-nav-open')?close():open();
 
-  btn.onclick=(e)=>{e.preventDefault();e.stopPropagation();toggle();};
-  backdrop.onclick=close;
-  sidebar.querySelectorAll('a').forEach(a=>a.onclick=close);
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
-  window.addEventListener('resize',()=>{if(window.innerWidth>760)close()});
+  // Always start closed so no invisible overlay can block the page.
+  close();
+
+  btn.onclick=(e)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    document.body.classList.contains('mobile-nav-open')?close():open();
+  };
+  backdrop.onclick=(e)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    close();
+  };
+  sidebar.querySelectorAll('a').forEach(a=>{ a.onclick=close; });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') close(); },{passive:true});
+  window.addEventListener('pageshow',close,{once:true});
 }
 
 const productOverviewV51={
@@ -195,7 +212,7 @@ function productLinkFor(p,kind,version){
   const v=(version||'current').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
   if(kind==='trial'&&p.id==='gstarcad'&&version==='2027 SP0')return 'https://www.gstarcad.net/download/';
   if(kind==='website')return normalizeProductUrl(productOverview(p).website||p.url||'#');
-  if(kind==='support')return 'https://line.me/R/ti/p/@gstarcadth';
+  if(kind==='support')return 'https://cs.applicadthai.com/';
   return `https://resources.gstarworkspace.local/${safe}/${kind}/${v}`;
 }
 function versionedAction(p,title,kind){
@@ -295,4 +312,4 @@ function renderProductCardV5(p){
     </div>
   </article>`;
 }
-document.addEventListener('DOMContentLoaded',initMobileDrawer);
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initMobileDrawer,{once:true});}else{initMobileDrawer();}

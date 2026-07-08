@@ -877,8 +877,8 @@ body{font-weight:var(--font-regular);}
 .mobile-menu-btn span:before,.mobile-menu-btn span:after{content:"";position:absolute;left:0;width:17px;height:2px;border-radius:999px;background:currentColor;transition:transform .24s cubic-bezier(.22,1,.36,1), top .24s cubic-bezier(.22,1,.36,1), opacity .18s ease;}
 .mobile-menu-btn span:before{top:-6px}.mobile-menu-btn span:after{top:6px}
 .mobile-nav-open .mobile-menu-btn span{background:transparent}.mobile-nav-open .mobile-menu-btn span:before{top:0;transform:rotate(45deg)}.mobile-nav-open .mobile-menu-btn span:after{top:0;transform:rotate(-45deg)}
-.mobile-drawer-backdrop{display:none;position:fixed;inset:0;background:rgba(15,23,42,.26);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:180;opacity:0;pointer-events:none;visibility:hidden;transition:opacity .24s cubic-bezier(.22,1,.36,1), visibility .24s cubic-bezier(.22,1,.36,1)}
-.mobile-nav-open .mobile-drawer-backdrop{opacity:1;pointer-events:auto;visibility:visible}
+.mobile-drawer-backdrop{display:none;position:fixed;inset:0;background:rgba(15,23,42,.26);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:180;opacity:0;transition:opacity .24s cubic-bezier(.22,1,.36,1)}
+.mobile-nav-open .mobile-drawer-backdrop{opacity:1}
 @media(max-width:760px){
   .wrapper{display:block;min-height:100vh;}
   .main{width:100%;padding:20px 16px 28px;margin-left:0;}
@@ -903,9 +903,6 @@ body{font-weight:var(--font-regular);}
     box-shadow:0 32px 90px rgba(15,23,42,.18);
   }
   .mobile-nav-open .sidebar{transform:translateX(0);}
-  body.mobile-nav-open{overflow:hidden;}
-  body:not(.mobile-nav-open) .sidebar{pointer-events:none;}
-  body.mobile-nav-open .sidebar{pointer-events:auto;}
   .mobile-drawer-backdrop{display:block;}
   .brand{margin-bottom:28px;font-size:20px;}
   .brand-mark{width:38px;height:38px;}
@@ -917,4 +914,46 @@ body{font-weight:var(--font-regular);}
   .hero p{font-size:14px;}
   .grid-3,.grid-4,.grid-2{grid-template-columns:1fr!important;}
   .notification-panel{right:16px;top:64px;width:min(340px,calc(100vw - 32px));}
+}
+
+/* === Gstar Mobile Click Fix v3 ===
+   Prevent invisible drawer layers from blocking taps on mobile.
+   Keep drawer/backdrop interactive only when body has .mobile-nav-open.
+*/
+.mobile-drawer-backdrop{
+  display:none!important;
+  visibility:hidden!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
+.mobile-nav-open .mobile-drawer-backdrop{
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+}
+@media(max-width:760px){
+  body:not(.mobile-nav-open) .sidebar{
+    pointer-events:none!important;
+    transform:translateX(-112%)!important;
+  }
+  body.mobile-nav-open .sidebar{
+    pointer-events:auto!important;
+    transform:translateX(0)!important;
+  }
+  body:not(.mobile-nav-open) .mobile-drawer-backdrop{
+    display:none!important;
+    visibility:hidden!important;
+    opacity:0!important;
+    pointer-events:none!important;
+  }
+  body.mobile-nav-open .mobile-drawer-backdrop{
+    display:block!important;
+    visibility:visible!important;
+    opacity:1!important;
+    pointer-events:auto!important;
+  }
+  .main,.topbar,.hero,.section,.card,.product-card-v5,.product-search,.category-tabs,.icon-btn,.btn,button,a,input,select,textarea{
+    pointer-events:auto;
+  }
 }
