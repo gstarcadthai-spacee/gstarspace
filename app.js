@@ -22,13 +22,7 @@ const products = [
       "Platform": "Windows / macOS",
       "License": "Perpetual / Subscription",
       "Official Website": "https://www.gstarcad.net/"
-    },
-    actions: [
-      { icon: "📥", title: "Download Trial", url: "https://www.gstarcad.net/download/" },
-      { icon: "📥", title: "Download Trial + Script", url: "https://www.gstarcad.net/download/" },
-      { icon: "💬", title: "Open Ticket", url: "https://www.thaigstarcad.com/" },
-      { icon: "🟢", title: "LINE Hotline", url: "https://line.me/" }
-    ]
+    }
   },
   {
     id: "gstarcad-architecture",
@@ -42,13 +36,7 @@ const products = [
       "Platform": "Windows",
       "License": "Perpetual / Subscription",
       "Official Website": "https://www.gstarcad.net/"
-    },
-    actions: [
-      { icon: "📥", title: "Download Trial", url: "https://www.gstarcad.net/download/" },
-      { icon: "📥", title: "Download Trial + Script", url: "https://www.gstarcad.net/download/" },
-      { icon: "💬", title: "Open Ticket", url: "https://www.thaigstarcad.com/" },
-      { icon: "🟢", title: "LINE Hotline", url: "https://line.me/" }
-    ]
+    }
   },
   {
     id: "gstarcad-mechanical",
@@ -62,13 +50,7 @@ const products = [
       "Platform": "Windows",
       "License": "Perpetual / Subscription",
       "Official Website": "https://www.gstarcad.net/"
-    },
-    actions: [
-      { icon: "📥", title: "Download Trial", url: "https://www.gstarcad.net/download/" },
-      { icon: "📥", title: "Download Trial + Script", url: "https://www.gstarcad.net/download/" },
-      { icon: "💬", title: "Open Ticket", url: "https://www.thaigstarcad.com/" },
-      { icon: "🟢", title: "LINE Hotline", url: "https://line.me/" }
-    ]
+    }
   },
   {
     id: "solidworks",
@@ -82,13 +64,7 @@ const products = [
       "Platform": "Windows",
       "License": "Subscription",
       "Official Website": "https://www.solidworks.com/"
-    },
-    actions: [
-      { icon: "📥", title: "Download Trial", url: "https://www.solidworks.com/" },
-      { icon: "📥", title: "Download Trial + Script", url: "https://www.solidworks.com/" },
-      { icon: "💬", title: "Open Ticket", url: "https://www.solidworks.com/" },
-      { icon: "🟢", title: "LINE Hotline", url: "https://line.me/" }
-    ]
+    }
   },
   {
     id: "gstarbim",
@@ -102,13 +78,7 @@ const products = [
       "Platform": "Windows",
       "License": "Perpetual / Subscription",
       "Official Website": "https://www.thaigstarcad.com/gstarbim"
-    },
-    actions: [
-      { icon: "📥", title: "Download Trial", url: "https://www.thaigstarcad.com/gstarbim" },
-      { icon: "📥", title: "Download Trial + Script", url: "https://www.thaigstarcad.com/gstarbim" },
-      { icon: "💬", title: "Open Ticket", url: "https://www.thaigstarcad.com/gstarbim" },
-      { icon: "🟢", title: "LINE Hotline", url: "https://line.me/" }
-    ]
+    }
   },
   {
     id: "extraxion",
@@ -122,13 +92,7 @@ const products = [
       "Platform": "Windows",
       "License": "Subscription",
       "Official Website": "https://www.thaigstarcad.com/"
-    },
-    actions: [
-      { icon: "📥", title: "Download Trial", url: "https://www.thaigstarcad.com/" },
-      { icon: "📥", title: "Download Trial + Script", url: "https://www.thaigstarcad.com/" },
-      { icon: "💬", title: "Open Ticket", url: "https://www.thaigstarcad.com/" },
-      { icon: "🟢", title: "LINE Hotline", url: "https://line.me/" }
-    ]
+    }
   },
   {
     id: "gstarcad-365",
@@ -142,13 +106,7 @@ const products = [
       "Platform": "Web / Mobile",
       "License": "Subscription",
       "Official Website": "https://www.gstarcad.net/"
-    },
-    actions: [
-      { icon: "📥", title: "Download Trial", url: "https://www.gstarcad.net/" },
-      { icon: "📥", title: "Download Trial + Script", url: "https://www.gstarcad.net/" },
-      { icon: "💬", title: "Open Ticket", url: "https://www.thaigstarcad.com/" },
-      { icon: "🟢", title: "LINE Hotline", url: "https://line.me/" }
-    ]
+    }
   },
   {
     id: "3d-fastview",
@@ -162,13 +120,7 @@ const products = [
       "Platform": "Windows / Web / Mobile",
       "License": "Subscription",
       "Official Website": "https://www.3dfastview.com/"
-    },
-    actions: [
-      { icon: "📥", title: "Download Trial", url: "https://www.3dfastview.com/" },
-      { icon: "📥", title: "Download Trial + Script", url: "https://www.3dfastview.com/" },
-      { icon: "💬", title: "Open Ticket", url: "https://www.3dfastview.com/" },
-      { icon: "🟢", title: "LINE Hotline", url: "https://line.me/" }
-    ]
+    }
   },
   {
     id: "cadprofi",
@@ -182,17 +134,11 @@ const products = [
       "Platform": "Windows",
       "License": "Perpetual / Subscription",
       "Official Website": "https://www.cadprofi.com/"
-    },
-    actions: [
-      { icon: "📥", title: "Download Trial", url: "https://www.cadprofi.com/" },
-      { icon: "📥", title: "Download Trial + Script", url: "https://www.cadprofi.com/" },
-      { icon: "💬", title: "Open Ticket", url: "https://www.cadprofi.com/" },
-      { icon: "🟢", title: "LINE Hotline", url: "https://line.me/" }
-    ]
+    }
   },
   {
     id: "formlabs",
-    name: "Formlabs",
+    name: "FormLabs",
     category: "3d-printing",
     logo: "product/FormLabs.png",
     tagline: "Professional 3D Printing",
@@ -202,15 +148,17 @@ const products = [
       "Platform": "Hardware / Software",
       "License": "Hardware / Subscription",
       "Official Website": "https://formlabs.com/"
-    },
-    actions: [
-      { icon: "📥", title: "Download Trial", url: "https://formlabs.com/" },
-      { icon: "📥", title: "Download Trial + Script", url: "https://formlabs.com/" },
-      { icon: "💬", title: "Open Ticket", url: "https://formlabs.com/" },
-      { icon: "🟢", title: "LINE Hotline", url: "https://line.me/" }
-    ]
+    }
   }
-];
+].map(product => ({
+  ...product,
+  actions: [
+    { icon: "📥", title: "Download Trial", url: product.overview["Official Website"] },
+    { icon: "📥", title: "Download Trial + Script", url: product.overview["Official Website"] },
+    { icon: "💬", title: "Open Ticket", url: "https://www.thaigstarcad.com/" },
+    { icon: "🟢", title: "LINE Hotline", url: "https://line.me/" }
+  ]
+}));
 
 let activeCategory = "all";
 let searchTerm = "";
@@ -221,13 +169,17 @@ const grid = document.getElementById("productGrid");
 const searchInput = document.getElementById("productSearch");
 const emptyState = document.getElementById("emptyState");
 const toast = document.getElementById("toast");
+const directoryTitle = document.getElementById("directoryTitle");
+const productCount = document.getElementById("productCount");
 
-function init() {
+if (filterRoot && grid && searchInput) initProducts();
+
+function initProducts() {
   renderFilters();
   renderProducts();
-
-  searchInput.addEventListener("input", (event) => {
+  searchInput.addEventListener("input", event => {
     searchTerm = event.target.value.trim().toLowerCase();
+    expandedProductId = null;
     renderProducts();
   });
 }
@@ -260,45 +212,47 @@ function getFilteredProducts() {
       product.overview.Platform,
       product.overview.License
     ].join(" ").toLowerCase();
-
-    const searchMatch = !searchTerm || searchableText.includes(searchTerm);
-    return categoryMatch && searchMatch;
+    return categoryMatch && searchableText.includes(searchTerm);
   });
 }
 
 function renderProducts() {
-  const filtered = getFilteredProducts();
-  emptyState.hidden = filtered.length > 0;
+  const visibleProducts = getFilteredProducts();
+  const activeLabel = categories.find(category => category.id === activeCategory)?.label || "All";
 
-  grid.innerHTML = filtered.map(product => createProductCard(product)).join("");
+  directoryTitle.textContent = activeCategory === "all" ? "All Products" : activeLabel;
+  productCount.textContent = `${visibleProducts.length} product${visibleProducts.length === 1 ? "" : "s"}`;
+  emptyState.hidden = visibleProducts.length > 0;
 
-  grid.querySelectorAll(".card-trigger").forEach(trigger => {
-    trigger.addEventListener("click", () => {
-      const productId = trigger.dataset.productId;
-      expandedProductId = expandedProductId === productId ? null : productId;
+  grid.innerHTML = visibleProducts.map(product => productCard(product)).join("");
+
+  grid.querySelectorAll(".card-trigger").forEach(button => {
+    button.addEventListener("click", () => {
+      const id = button.closest(".product-card").dataset.id;
+      expandedProductId = expandedProductId === id ? null : id;
       renderProducts();
     });
   });
 
-  grid.querySelectorAll("img").forEach(img => {
-    img.addEventListener("error", () => {
-      img.closest(".logo-wrap").classList.add("logo-missing");
+  grid.querySelectorAll(".copy-btn").forEach(button => {
+    button.addEventListener("click", event => {
+      event.stopPropagation();
+      copyToClipboard(button.dataset.url);
     });
   });
 
-  grid.querySelectorAll(".copy-button").forEach(button => {
-    button.addEventListener("click", () => copyUrl(button.dataset.url));
+  grid.querySelectorAll(".logo-wrap img").forEach(img => {
+    img.addEventListener("error", () => img.parentElement.classList.add("logo-missing"));
   });
 }
 
-function createProductCard(product) {
-  const isExpanded = product.id === expandedProductId;
-  const initials = product.name.split(" ").map(word => word[0]).join("").slice(0, 3).toUpperCase();
-
+function productCard(product) {
+  const isExpanded = expandedProductId === product.id;
+  const initials = product.name.split(" ").map(word => word[0]).join("").slice(0, 2).toUpperCase();
   return `
-    <article class="product-card ${isExpanded ? "expanded" : ""}">
+    <article class="product-card ${isExpanded ? "expanded" : ""}" data-id="${product.id}">
       <div class="product-card-inner">
-        <button class="card-trigger" data-product-id="${product.id}" aria-expanded="${isExpanded}">
+        <button class="card-trigger" type="button" aria-expanded="${isExpanded}">
           <div>
             <div class="logo-wrap">
               <img src="${product.logo}" alt="${product.name} logo" loading="lazy" />
@@ -309,41 +263,29 @@ function createProductCard(product) {
             <span class="open-hint">Open Workspace →</span>
           </div>
         </button>
-
         <div class="expand-content">
           <div>
             <div class="expand-divider"></div>
-            <p class="section-title">Quick Actions</p>
+            <h4 class="mini-title">Quick Actions</h4>
             <div class="action-list">
               ${product.actions.map(action => `
                 <div class="action-card">
-                  <div class="action-title"><span>${action.icon}</span>${action.title}</div>
+                  <div class="action-title"><span>${action.icon}</span><strong>${action.title}</strong></div>
                   <div class="action-buttons">
                     <a href="${action.url}" target="_blank" rel="noopener">Open</a>
-                    <button class="copy-button" type="button" data-url="${action.url}">Copy</button>
+                    <button class="copy-btn" type="button" data-url="${action.url}">Copy</button>
                   </div>
                 </div>
               `).join("")}
             </div>
-
-            <p class="section-title">Overview</p>
+            <h4 class="mini-title">Overview</h4>
             <div class="overview-list">
-              ${Object.entries(product.overview).map(([label, value]) => {
-                if (label === "Official Website") {
-                  return `
-                    <div class="overview-item">
-                      <span>${label}</span>
-                      <span><a class="website-link" href="${value}" target="_blank" rel="noopener">Open →</a></span>
-                    </div>
-                  `;
-                }
-                return `
-                  <div class="overview-item">
-                    <span>${label}</span>
-                    <span>${value}</span>
-                  </div>
-                `;
-              }).join("")}
+              ${Object.entries(product.overview).map(([label, value]) => `
+                <div class="overview-item">
+                  <span>${label}</span>
+                  <span>${label === "Official Website" ? `<a class="website-link" href="${value}" target="_blank" rel="noopener">Open →</a>` : value}</span>
+                </div>
+              `).join("")}
             </div>
           </div>
         </div>
@@ -352,26 +294,22 @@ function createProductCard(product) {
   `;
 }
 
-async function copyUrl(url) {
+async function copyToClipboard(text) {
   try {
-    await navigator.clipboard.writeText(url);
-    showToast("✓ Copied");
+    await navigator.clipboard.writeText(text);
   } catch (error) {
-    const tempInput = document.createElement("input");
-    tempInput.value = url;
-    document.body.appendChild(tempInput);
-    tempInput.select();
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
     document.execCommand("copy");
-    tempInput.remove();
-    showToast("✓ Copied");
+    textarea.remove();
   }
+  showToast();
 }
 
-function showToast(message) {
-  toast.textContent = message;
+function showToast() {
   toast.classList.add("show");
-  window.clearTimeout(showToast.timer);
-  showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 1800);
+  window.clearTimeout(showToast.timeout);
+  showToast.timeout = window.setTimeout(() => toast.classList.remove("show"), 1800);
 }
-
-init();

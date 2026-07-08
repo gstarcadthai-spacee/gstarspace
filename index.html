@@ -1,57 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gstar Workspace | Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
-<link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gstar Workspace | Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="dashboard.css" />
 </head>
 <body>
-<div class="wrapper">
-  <aside class="sidebar">
-    <a class="brand" href="index.html"><span class="brand-mark">G</span><span>Gstar Workspace</span></a>
-    <nav class="nav"><a class="active" href="index.html">Dashboard</a>
-<a class="" href="products.html">Products</a>
-<a class="" href="marketing.html">Marketing</a>
-<a class="" href="sales.html">Sales</a>
-<a class="" href="support.html">Support</a>
-<a class="" href="knowledge.html">Knowledge Base</a>
-<a class="" href="ai-assistant.html">AI Assistant</a><div class="divider"></div><a class="" href="management-login.html">Management</a></nav>
-  </aside>
-  <main class="main">
-    <header class="topbar">
-      <div><div class="crumb">Internal Workspace / Dashboard</div><h1>Dashboard</h1></div>
-      <div class="top-actions"><div class="search-shell"><span data-icon="search"></span><input id="globalSearch" type="search" placeholder="Search anything..." autocomplete="off"><div id="globalSearchResults" class="search-results"></div></div><button class="icon-btn" id="bellButton" aria-label="Notifications"><span data-icon="bell"></span><span class="dot"></span></button></div>
-    </header>
-    <div class="notification-panel" id="notificationPanel"><div class="panel-title">Latest Updates</div><div id="notificationItems"></div><a class="panel-link" href="Gstar-Management.html">Manage announcements →</a></div>
-    <section class="hero dashboard-hero">
-  <div class="kicker">Product Operations</div>
-  <h2>Everything. One Workspace.</h2>
-  <p>A centralized platform for product information, marketing assets, sales enablement and technical resources across the Gstar ecosystem.</p>
-</section>
-<section class="section">
-  <div class="section-head"><div><div class="section-title">Quick Access</div><div class="section-desc">พื้นที่หลักสำหรับทีมภายใน</div></div></div>
-  <div class="grid-6 quick-grid">
-    <a class="card quick-card" href="products.html"><div class="icon-badge"><span data-icon="package"></span></div><h3>Products</h3><p>รวมข้อมูลผลิตภัณฑ์ โลโก้ คู่มือ และทรัพยากรทั้งหมด</p></a>
-    <a class="card quick-card" href="marketing.html"><div class="icon-badge"><span data-icon="megaphone"></span></div><h3>Marketing Hub</h3><p>แคมเปญ สื่อการตลาด Brand Assets และ Landing Page</p></a>
-    <a class="card quick-card" href="sales.html"><div class="icon-badge"><span data-icon="briefcase"></span></div><h3>Sales Hub</h3><p>Price List, Proposal, Comparison และเอกสารงานขาย</p></a>
-    <a class="card quick-card" href="support.html"><div class="icon-badge"><span data-icon="headset"></span></div><h3>Support Hub</h3><p>Installation, Activation, License และ FAQ</p></a>
-    <a class="card quick-card" href="knowledge.html"><div class="icon-badge"><span data-icon="book-open"></span></div><h3>Knowledge Base</h3><p>คู่มือ บทความ Training และ Wiki ภายในทีม</p></a>
-    <a class="card quick-card" href="ai-assistant.html"><div class="icon-badge"><span data-icon="bot"></span></div><h3>AI Assistant</h3><p>Workspace AI สำหรับค้นหาและช่วยงานในอนาคต</p></a>
-  </div>
-</section>
-<section class="section">
-  <div class="section-head"><div><div class="section-title">Latest Updates</div><div class="section-desc">ประกาศล่าสุดจาก Workspace</div></div><a class="btn secondary" href="Gstar-Management.html">Manage</a></div>
-  <div class="list" id="dashboardAnnouncements"></div>
-</section>
-    <footer class="footer">Gstar Workspace · Dashboard</footer>
-  </main>
-</div>
-<script src="assets/js/app.js"></script>
+  <div class="workspace-shell">
+    <aside class="sidebar">
+      <div class="brand-block">
+        <div class="brand-mark">G</div>
+        <div class="brand-name"><span>Gstar</span><span>Workspace</span></div>
+      </div>
 
+      <nav class="side-nav" aria-label="Main navigation">
+        <a href="index.html" class="active">Dashboard</a>
+        <a href="products.html">Products</a>
+        <a href="marketing.html">Marketing</a>
+        <a href="sales.html">Sales</a>
+        <a href="support.html">Support</a>
+        <a href="knowledge.html">Knowledge Base</a>
+        <a href="ai.html">AI Assistant</a>
+        <div class="nav-separator"></div>
+        <a href="management.html">Management</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div></div>
+        <div class="global-search"><span class="search-icon">⌕</span><input type="search" placeholder="Search anything..." /></div>
+        <button class="notify-button" aria-label="Notifications">◔</button>
+      </header>
+
+      <section class="page-title-row">
+        <p>Internal Workspace / Dashboard</p>
+        <h1>Dashboard</h1>
+      </section>
+
+      <section class="hero-panel glass-panel dashboard-hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Product Operations</p>
+          <h2>Everything. One Workspace.</h2>
+          <p>A centralized platform for product information, marketing assets, sales enablement and technical resources across the Gstar ecosystem.</p>
+        </div>
+      </section>
+
+      <section class="quick-section">
+        <div class="section-head">
+          <h2 class="section-title">Quick Access</h2>
+          <p class="section-subtitle">พื้นที่หลักสำหรับทีมภายใน</p>
+        </div>
+
+        <div class="compact-grid">
+          <article class="workspace-card">
+            <div class="card-icon">▧</div>
+            <h3>Products</h3>
+            <p>รวมข้อมูลผลิตภัณฑ์ โลโก้ คู่มือ และทรัพยากรทั้งหมด</p>
+          </article>
+          <article class="workspace-card">
+            <div class="card-icon">⌁</div>
+            <h3>Marketing Hub</h3>
+            <p>แคมเปญ สื่อการตลาด Brand Assets และ Landing Page</p>
+          </article>
+          <article class="workspace-card">
+            <div class="card-icon">▣</div>
+            <h3>Sales Hub</h3>
+            <p>Price List, Proposal, Comparison และเอกสารงานขาย</p>
+          </article>
+          <article class="workspace-card">
+            <div class="card-icon">☏</div>
+            <h3>Support</h3>
+            <p>Installation, Activation, License, FAQ และแนวทางแก้ปัญหา</p>
+          </article>
+          <article class="workspace-card">
+            <div class="card-icon">▤</div>
+            <h3>Knowledge Base</h3>
+            <p>How-to, Wiki, Training และบทความภายในสำหรับทีม Gstar</p>
+          </article>
+          <article class="workspace-card">
+            <div class="card-icon">✦</div>
+            <h3>AI Assistant</h3>
+            <p>Prototype สำหรับ Workspace AI ที่ต่อยอดเป็น Internal Copilot ได้ในอนาคต</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="latest-panel">
+        <h2 class="section-title">Latest Updates</h2>
+        <p class="section-subtitle">ประกาศและอัปเดตล่าสุดภายใน Workspace</p>
+        <div class="latest-row"><strong>Products V5</strong><span>Frontend locked before Apps Script</span></div>
+        <div class="latest-row"><strong>Sales Hub</strong><span>Next design phase</span></div>
+      </section>
+    </main>
+  </div>
 </body>
 </html>

@@ -8,12 +8,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="products.css" />
 </head>
-<body>
+<body class="products-page">
   <div class="workspace-shell">
     <aside class="sidebar">
-      <div class="brand-block brand-text-only">
-        <strong>Gstar Workspace</strong>
+      <div class="brand-block">
+        <div class="brand-mark">G</div>
+        <div class="brand-name"><span>Gstar</span><span>Workspace</span></div>
       </div>
 
       <nav class="side-nav" aria-label="Main navigation">
@@ -24,6 +26,7 @@
         <a href="support.html">Support</a>
         <a href="knowledge.html">Knowledge Base</a>
         <a href="ai.html">AI Assistant</a>
+        <div class="nav-separator"></div>
         <a href="management.html">Management</a>
       </nav>
     </aside>
@@ -31,8 +34,8 @@
     <main class="main-content">
       <header class="topbar">
         <div></div>
-        <div class="global-search"><span>⌕</span><input type="search" placeholder="Search anything..." /></div>
-        <button class="notify-button" aria-label="Notifications">⌕</button>
+        <div class="global-search"><span class="search-icon">⌕</span><input type="search" placeholder="Search anything..." /></div>
+        <button class="notify-button" aria-label="Notifications">◔</button>
       </header>
 
       <section class="page-title-row">
@@ -47,7 +50,7 @@
           <p>Explore the complete Gstar ecosystem.</p>
         </div>
         <div class="hero-search">
-          <div class="search-box product-search-box">
+          <div class="search-box">
             <span>⌕</span>
             <input id="productSearch" type="search" placeholder="Search products..." autocomplete="off" />
           </div>
@@ -58,8 +61,9 @@
         <div class="directory-header">
           <div>
             <p class="eyebrow">Product Directory</p>
-            <h2>All Products</h2>
+            <h2 id="directoryTitle">All Products</h2>
           </div>
+          <span class="product-count" id="productCount"></span>
         </div>
 
         <div class="filter-row" id="categoryFilters" aria-label="Product categories"></div>
