@@ -6,60 +6,41 @@
 <title>Gstar Workspace | Management</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
 </head>
-<body class="locked">
+<body>
 <div class="wrapper">
 <aside class="sidebar"><div class="logo">Gstar Workspace</div><nav class="nav">
-<a href="index.html">Dashboard</a>
-<a href="products.html">Products</a>
-<a href="marketing.html">Marketing</a>
-<a href="sales.html">Sales</a>
-<a href="support.html">Support</a>
-<a href="knowledge.html">Knowledge Base</a>
-<a href="ai-assistant.html">AI Assistant</a>
-<div class="divider"></div>
-<a class="active" href="Gstar-Management.html">Management</a>
+<a href="index.html">Dashboard</a><a href="products.html">Products</a><a href="marketing.html">Marketing</a><a href="sales.html">Sales</a><a href="support.html">Support</a><a href="knowledge.html">Knowledge Base</a><a href="ai-assistant.html">AI Assistant</a><div class="divider"></div><a class="active" href="Gstar-Management.html">Management</a>
 </nav></aside>
 <main class="main">
-<div class="top">
-<div>
-<div class="crumb">Internal Workspace / Management</div>
-<h1>Management</h1>
-</div>
-<div class="search">Search anything...</div>
-</div>
-<section class="hero">
-<div class="kicker">Workspace Control</div>
-<h2>Manage internal resources and access.</h2>
-<p>Control content, product visibility, resource ownership and workspace administration from one clean console.</p>
-</section>
+  <div class="top"><div><div class="crumb">Internal Workspace / Management</div><h1>Management</h1></div><div class="top-actions"><a class="btn secondary" href="products.html">View Products</a><button class="btn secondary" onclick="logoutManagement()">Logout</button></div></div>
 
-<div class="admin-gate">
-  <form class="admin-login" id="adminLoginForm">
-    <h2>Management Access</h2>
-    <p>Enter the workspace password to manage resources, product content and internal settings.</p>
-    <input type="password" id="adminPassword" placeholder="Enter password">
-    <button class="btn primary" type="submit">Unlock</button>
-    <div class="error" id="adminError">Incorrect password. Please try again.</div>
-    <p style="font-size:12px;margin-top:16px;color:#94a3b8">Demo password: <strong>gstar2026</strong></p>
-  </form>
-</div>
-<section class="section"><div class="grid-4">
-<div class="card"><div class="icon">128</div><h3>Total Resources</h3><p>Documents, links and internal materials currently listed.</p></div>
-<div class="card"><div class="icon">36</div><h3>Product Docs</h3><p>Product-level resources organized by workstream.</p></div>
-<div class="card"><div class="icon">18</div><h3>Campaign Assets</h3><p>Marketing and launch materials under management.</p></div>
-<div class="card"><div class="icon">09</div><h3>Admin Users</h3><p>Internal users with content management access.</p></div>
-</div></section>
-<section class="section"><div class="section-head"><div><div class="section-title">Resource Library</div><div class="section-desc">Admin view for managing workspace content</div></div><button class="btn primary">+ Add Resource</button></div>
-<div class="list">
-<div class="list-item"><div><strong>GstarCAD 2027 Sales Kit</strong><span>Product Center / GstarCAD</span></div><span class="tag blue">Published</span></div>
-<div class="list-item"><div><strong>GstarBIM Launch Messaging</strong><span>Marketing Hub / Campaign</span></div><span class="tag blue">Published</span></div>
-<div class="list-item"><div><strong>License Activation FAQ</strong><span>Support Hub / Knowledge Base</span></div><span class="tag">Published</span></div>
-<div class="list-item"><div><strong>Partner Onboarding Pack</strong><span>Partner Operations</span></div><span class="tag">Draft</span></div>
-</div></section>
-<section class="section"><button class="btn secondary" onclick="logoutManagement()">Logout Management</button></section>
+  <section class="hero"><div class="kicker">Workspace Control</div><h2>Manage product visibility and links.</h2><p>เพิ่ม แก้ ลบ หรือปิดใช้งาน Product Card บนหน้า Products ได้จากหน้านี้ โครงนี้เตรียมไว้ต่อ Apps Script / Google Sheet ใน Phase ถัดไป</p></section>
 
-<div class="footer">Gstar Workspace · Management</div>
+  <section class="section admin-product-section">
+    <div class="section-head"><div><div class="section-title">Product Management</div><div class="section-desc">ข้อมูลตอนนี้บันทึกใน browser localStorage สำหรับทดสอบ workflow ก่อนต่อ backend จริง</div></div><button class="btn primary" id="adminAddProductBtn">+ Add Product</button></div>
+
+    <form class="admin-product-form" id="adminProductForm">
+      <input type="hidden" id="adminProductId">
+      <div class="admin-form-grid">
+        <label>Name<input id="adminProductName" required placeholder="GstarCAD"></label>
+        <label>Category<select id="adminProductCategory" required></select></label>
+        <label>Logo filename<input id="adminProductImage" required placeholder="GstarCAD.png"></label>
+        <label>Status<select id="adminProductStatus"><option>Active</option><option>Coming Soon</option><option>External</option><option>Draft</option></select></label>
+        <label>URL<input id="adminProductUrl" required placeholder="# or https://..."></label>
+        <label>Keywords<input id="adminProductKeywords" placeholder="cad, dwg, drafting"></label>
+        <label class="admin-span-2">Description<textarea id="adminProductDescription" rows="3" placeholder="คำอธิบายสั้น ๆ"></textarea></label>
+        <label class="admin-check"><input id="adminProductEnabled" type="checkbox" checked> Show on Products page</label>
+        <label class="admin-check"><input id="adminProductExternal" type="checkbox"> Open as external link</label>
+      </div>
+      <div class="admin-actions"><button class="btn primary" type="submit">Save Product</button><button class="btn secondary" type="button" id="adminCancelEditBtn">Cancel</button><button class="btn secondary danger" type="button" id="adminResetProductsBtn">Reset Demo Data</button></div>
+    </form>
+
+    <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Product</th><th>Category</th><th>Status</th><th>Enabled</th><th>Link</th><th></th></tr></thead><tbody id="adminProductTable"></tbody></table></div>
+  </section>
+
+  <div class="footer">Gstar Workspace · Management</div>
 </main>
 </div>
 <script src="assets/js/app.js"></script>
