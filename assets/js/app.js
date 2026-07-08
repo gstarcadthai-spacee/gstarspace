@@ -1,6 +1,21 @@
 const MANAGEMENT_PASSWORD = "gstar2026";
 const PRODUCT_STORAGE_KEY = "gstarWorkspaceProducts";
 
+/* Apps Script Ready
+   1) Deploy Apps Script as Web App
+   2) Paste URL below
+   3) Change USE_APPS_SCRIPT to true
+   Expected actions:
+   - ?action=products
+   - ?action=saveProduct&payload={...}
+   - ?action=deleteProduct&id=...
+   - ?action=toggleProduct&id=...
+   - ?action=resetProducts
+*/
+const APPS_SCRIPT_URL = "";
+const USE_APPS_SCRIPT = false;
+let productsCache = null;
+
 const iconMap = {
   search:'<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>',
   bell:'<svg viewBox="0 0 24 24"><path d="M10.3 21a2 2 0 0 0 3.4 0"></path><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path></svg>',
@@ -55,9 +70,33 @@ const workspaceSearchData = [
 
 function escapeHtml(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");}
 function makeId(name){return String(name||"product").toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"") || `product-${Date.now()}`;}
-function getProducts(){try{const saved=localStorage.getItem(PRODUCT_STORAGE_KEY);return saved?JSON.parse(saved):defaultProducts;}catch(e){return defaultProducts;}}
-function saveProducts(products){localStorage.setItem(PRODUCT_STORAGE_KEY,JSON.stringify(products));}
+function getLocalProducts(){try{const saved=localStorage.getItem(PRODUCT_STORAGE_KEY);return saved?JSON.parse(saved):defaultProducts;}catch(e){return defaultProducts;}}
+function saveLocalProducts(products){localStorage.setItem(PRODUCT_STORAGE_KEY,JSON.stringify(products));}
+function shouldUseAPI(){return USE_APPS_SCRIPT && APPS_SCRIPT_URL.trim().length>0;}
+function apiUrl(action, params={}){const url=new URL(APPS_SCRIPT_URL);url.searchParams.set("action", action);Object.entries(params).forEach(([k,v])=>url.searchParams.set(k, typeof v==="string"?v:JSON.stringify(v)));url.searchParams.set("_t", Date.now());return url.toString();}
+async function fetchProducts(){
+  if(!shouldUseAPI()){productsCache=getLocalProducts();return productsCache;}
+  try{
+    const res=await fetch(apiUrl("products"));
+    const data=await res.json();
+    productsCache=Array.isArray(data)?data:(data.products||defaultProducts);
+    return productsCache;
+  }catch(err){console.warn("Apps Script products fetch failed. Using local fallback.", err);productsCache=getLocalProducts();return productsCache;}
+}
+async function mutateProducts(action, params={}, localMutator=null){
+  if(shouldUseAPI()){
+    try{await fetch(apiUrl(action, params));productsCache=null;return await fetchProducts();}
+    catch(err){console.warn("Apps Script mutate failed. Using local fallback.", err);}
+  }
+  const products=getLocalProducts();
+  const next=localMutator?localMutator(products):products;
+  saveLocalProducts(next);
+  productsCache=next;
+  return next;
+}
+function getProductsSync(){return productsCache || getLocalProducts();}
 function injectIcons(){document.querySelectorAll("[data-icon]").forEach(el=>{const key=el.getAttribute("data-icon");if(iconMap[key])el.innerHTML=iconMap[key];});}
+{document.querySelectorAll("[data-icon]").forEach(el=>{const key=el.getAttribute("data-icon");if(iconMap[key])el.innerHTML=iconMap[key];});}
 
 function initManagementLogin(){const form=document.getElementById("managementLoginForm");if(!form)return;form.addEventListener("submit",e=>{e.preventDefault();const input=document.getElementById("managementPassword");const error=document.getElementById("managementError");if((input?.value||"").trim()===MANAGEMENT_PASSWORD){sessionStorage.setItem("gstarManagementAuth","true");window.location.href="Gstar-Management.html";}else error?.classList.add("show");});}
 function protectManagementPage(){if(!location.pathname.toLowerCase().endsWith("gstar-management.html"))return;if(sessionStorage.getItem("gstarManagementAuth")!=="true")location.href="management-login.html";}
@@ -65,12 +104,62 @@ function logoutManagement(){sessionStorage.removeItem("gstarManagementAuth");loc
 
 function initNotifications(){const toggle=document.getElementById("notificationToggle"),panel=document.getElementById("notificationPanel");if(!toggle||!panel)return;toggle.addEventListener("click",e=>{e.stopPropagation();panel.classList.toggle("show");});document.addEventListener("click",e=>{if(!e.target.closest(".notification-wrap"))panel.classList.remove("show");});}
 
-function initWorkspaceSearch(){const input=document.getElementById("workspaceSearch"),results=document.getElementById("searchResults");if(!input||!results)return;function render(qRaw){const q=qRaw.trim().toLowerCase();if(!q){results.classList.remove("show");results.innerHTML="";return;}const productItems=getProducts().filter(p=>p.enabled).map(p=>({title:p.name,description:`${p.category} · ${p.description}`,url:"products.html",icon:"P",keywords:[p.name,p.category,p.description,p.keywords]}));const matches=[...workspaceSearchData,...productItems].filter(i=>[i.title,i.description,...(i.keywords||[])].join(" ").toLowerCase().includes(q)).slice(0,8);results.classList.add("show");results.innerHTML=matches.length?matches.map(i=>`<a class="search-result-item" href="${escapeHtml(i.url)}"><div class="search-result-icon">${escapeHtml(i.icon)}</div><div><strong>${escapeHtml(i.title)}</strong><span>${escapeHtml(i.description)}</span></div></a>`).join(""):`<div class="search-empty">No results found for “${escapeHtml(qRaw)}”</div>`;}input.addEventListener("input",()=>render(input.value));document.addEventListener("click",e=>{if(!e.target.closest(".search-wrap"))results.classList.remove("show");});}
+function initWorkspaceSearch(){const input=document.getElementById("workspaceSearch"),results=document.getElementById("searchResults");if(!input||!results)return;function render(qRaw){const q=qRaw.trim().toLowerCase();if(!q){results.classList.remove("show");results.innerHTML="";return;}const productItems=getProductsSync().filter(p=>p.enabled).map(p=>({title:p.name,description:`${p.category} · ${p.description}`,url:"products.html",icon:"P",keywords:[p.name,p.category,p.description,p.keywords]}));const matches=[...workspaceSearchData,...productItems].filter(i=>[i.title,i.description,...(i.keywords||[])].join(" ").toLowerCase().includes(q)).slice(0,8);results.classList.add("show");results.innerHTML=matches.length?matches.map(i=>`<a class="search-result-item" href="${escapeHtml(i.url)}"><div class="search-result-icon">${escapeHtml(i.icon)}</div><div><strong>${escapeHtml(i.title)}</strong><span>${escapeHtml(i.description)}</span></div></a>`).join(""):`<div class="search-empty">No results found for “${escapeHtml(qRaw)}”</div>`;}input.addEventListener("input",()=>render(input.value));document.addEventListener("click",e=>{if(!e.target.closest(".search-wrap"))results.classList.remove("show");});}
 
 function productCard(p){const img=`assets/img/products/${p.image}`;const fallback=p.name.split(" ").map(w=>w[0]).join("").slice(0,3).toUpperCase();const target=p.external?' target="_blank" rel="noopener"':"";const statusClass=p.external?"external":String(p.status).toLowerCase().includes("soon")?"soon":"";const cta=p.external?"Open External":"Open Product";return `<article class="product-card premium-product-card"><div class="product-logo" data-fallback="${escapeHtml(fallback)}"><img src="${escapeHtml(img)}" alt="${escapeHtml(p.name)} logo" loading="lazy" onerror="this.remove();this.parentElement.classList.add('logo-missing')"></div><div class="product-meta"><span class="tag blue">${escapeHtml(p.category)}</span><span class="product-status ${statusClass}">${escapeHtml(p.status)}</span></div><h3>${escapeHtml(p.name)}</h3><p>${escapeHtml(p.description)}</p><a class="product-action" href="${escapeHtml(p.url||'#')}"${target}><span>${cta}</span><span class="product-action-icon">${p.external?iconMap.external:iconMap.arrow}</span></a></article>`;}
 
-function initProductsPage(){const directory=document.getElementById("productDirectory"),tabs=document.getElementById("productTabs"),input=document.getElementById("productSearch"),empty=document.getElementById("productEmpty");if(!directory||!tabs)return;let active="all", search="";function counts(products){return productCategories.reduce((acc,c)=>{acc[c.id]=c.id==="all"?products.length:products.filter(p=>p.category===c.id).length;return acc;},{});}function renderTabs(products){const c=counts(products);tabs.innerHTML=productCategories.filter(cat=>cat.id==="all"||c[cat.id]>0).map(cat=>`<button type="button" class="product-tab ${cat.id===active?'active':''}" data-category="${escapeHtml(cat.id)}"><span class="product-tab-icon">${iconMap[cat.icon]||""}</span><span>${escapeHtml(cat.label)}</span><small>${c[cat.id]||0}</small></button>`).join("");}function render(){const enabled=getProducts().filter(p=>p.enabled);renderTabs(enabled);const filtered=enabled.filter(p=>{const okCat=active==="all"||p.category===active;const hay=[p.name,p.category,p.description,p.keywords].join(" ").toLowerCase();return okCat&&(!search||hay.includes(search));});if(!filtered.length){directory.innerHTML="";empty?.classList.add("show");return;}empty?.classList.remove("show");const groups=productCategories.filter(c=>c.id!=="all").map(c=>({...c,products:filtered.filter(p=>p.category===c.id)})).filter(g=>g.products.length);directory.innerHTML=groups.map(g=>`<div class="product-category-section"><div class="product-category-head"><div class="product-category-icon">${iconMap[g.icon]||iconMap.box}</div><div><h2>${escapeHtml(g.label)}</h2><span>${g.products.length} product${g.products.length>1?'s':''}</span></div></div><div class="product-grid">${g.products.map(productCard).join("")}</div></div>`).join("");}tabs.addEventListener("click",e=>{const b=e.target.closest(".product-tab");if(!b)return;active=b.dataset.category;render();});input?.addEventListener("input",()=>{search=input.value.trim().toLowerCase();render();});render();}
+async function initProductsPage(){
+  const directory=document.getElementById("productDirectory"),tabs=document.getElementById("productTabs"),input=document.getElementById("productSearch"),empty=document.getElementById("productEmpty");
+  if(!directory||!tabs)return;
+  let active="all", search="";
+  await fetchProducts();
+  function counts(products){return productCategories.reduce((acc,c)=>{acc[c.id]=c.id==="all"?products.length:products.filter(p=>p.category===c.id).length;return acc;},{});}
+  function renderTabs(products){const c=counts(products);tabs.innerHTML=productCategories.filter(cat=>cat.id==="all"||c[cat.id]>0).map(cat=>`<button type="button" class="product-tab ${cat.id===active?'active':''}" data-category="${escapeHtml(cat.id)}"><span class="product-tab-icon">${iconMap[cat.icon]||""}</span><span>${escapeHtml(cat.label)}</span><small>${c[cat.id]||0}</small></button>`).join("");}
+  function render(){
+    const enabled=getProductsSync().filter(p=>p.enabled);
+    renderTabs(enabled);
+    const filtered=enabled.filter(p=>{const okCat=active==="all"||p.category===active;const hay=[p.name,p.category,p.description,p.keywords].join(" ").toLowerCase();return okCat&&(!search||hay.includes(search));});
+    if(!filtered.length){directory.innerHTML="";empty?.classList.add("show");return;}
+    empty?.classList.remove("show");
+    const groups=productCategories.filter(c=>c.id!=="all").map(c=>({...c,products:filtered.filter(p=>p.category===c.id)})).filter(g=>g.products.length);
+    directory.innerHTML=groups.map(g=>`<div class="product-category-section"><div class="product-category-head"><div class="product-category-icon">${iconMap[g.icon]||iconMap.box}</div><div><h2>${escapeHtml(g.label)}</h2><span>${g.products.length} product${g.products.length>1?'s':''}</span></div></div><div class="product-grid">${g.products.map(productCard).join("")}</div></div>`).join("");
+  }
+  tabs.addEventListener("click",e=>{const b=e.target.closest(".product-tab");if(!b)return;active=b.dataset.category;render();});
+  input?.addEventListener("input",()=>{search=input.value.trim().toLowerCase();render();});
+  render();
+}
 
-function initAdminProducts(){const form=document.getElementById("adminProductForm"),table=document.getElementById("adminProductTable"),categorySelect=document.getElementById("adminProductCategory");if(!form||!table)return;categorySelect.innerHTML=productCategories.filter(c=>c.id!=="all").map(c=>`<option value="${escapeHtml(c.id)}">${escapeHtml(c.label)}</option>`).join("");const fields={id:document.getElementById("adminProductId"),name:document.getElementById("adminProductName"),category:categorySelect,image:document.getElementById("adminProductImage"),status:document.getElementById("adminProductStatus"),url:document.getElementById("adminProductUrl"),keywords:document.getElementById("adminProductKeywords"),description:document.getElementById("adminProductDescription"),enabled:document.getElementById("adminProductEnabled"),external:document.getElementById("adminProductExternal")};function clear(){form.reset();fields.id.value="";fields.enabled.checked=true;fields.external.checked=false;fields.url.value="#";}function render(){const products=getProducts();table.innerHTML=products.map(p=>`<tr><td><div class="admin-product-cell"><img src="assets/img/products/${escapeHtml(p.image)}" onerror="this.style.display='none'"><div><strong>${escapeHtml(p.name)}</strong><small>${escapeHtml(p.image)}</small></div></div></td><td>${escapeHtml(p.category)}</td><td>${escapeHtml(p.status)}</td><td><button class="admin-toggle ${p.enabled?'on':''}" data-action="toggle" data-id="${escapeHtml(p.id)}">${p.enabled?'On':'Off'}</button></td><td>${p.external?'External':'Internal'}</td><td class="admin-row-actions"><button class="btn secondary" data-action="edit" data-id="${escapeHtml(p.id)}">Edit</button><button class="btn secondary danger" data-action="delete" data-id="${escapeHtml(p.id)}">Delete</button></td></tr>`).join("");}form.addEventListener("submit",e=>{e.preventDefault();const products=getProducts();const id=fields.id.value||makeId(fields.name.value);const next={id,name:fields.name.value.trim(),category:fields.category.value,image:fields.image.value.trim(),status:fields.status.value,url:fields.url.value.trim()||"#",keywords:fields.keywords.value.trim(),description:fields.description.value.trim(),enabled:fields.enabled.checked,external:fields.external.checked};const idx=products.findIndex(p=>p.id===id);if(idx>=0)products[idx]=next;else products.push(next);saveProducts(products);clear();render();});table.addEventListener("click",e=>{const btn=e.target.closest("button[data-action]");if(!btn)return;const action=btn.dataset.action,id=btn.dataset.id;let products=getProducts();const p=products.find(x=>x.id===id);if(action==="toggle"&&p){p.enabled=!p.enabled;saveProducts(products);render();}if(action==="edit"&&p){fields.id.value=p.id;fields.name.value=p.name;fields.category.value=p.category;fields.image.value=p.image;fields.status.value=p.status;fields.url.value=p.url;fields.keywords.value=p.keywords||"";fields.description.value=p.description||"";fields.enabled.checked=!!p.enabled;fields.external.checked=!!p.external;window.scrollTo({top:0,behavior:"smooth"});}if(action==="delete"&&confirm(`Delete ${p?.name||'this product'}?`)){products=products.filter(x=>x.id!==id);saveProducts(products);render();}});document.getElementById("adminAddProductBtn")?.addEventListener("click",clear);document.getElementById("adminCancelEditBtn")?.addEventListener("click",clear);document.getElementById("adminResetProductsBtn")?.addEventListener("click",()=>{if(confirm("Reset product data to default?")){localStorage.removeItem(PRODUCT_STORAGE_KEY);clear();render();}});render();}
+async function initAdminProducts(){
+  const form=document.getElementById("adminProductForm"),table=document.getElementById("adminProductTable"),categorySelect=document.getElementById("adminProductCategory");
+  if(!form||!table)return;
+  await fetchProducts();
+  categorySelect.innerHTML=productCategories.filter(c=>c.id!=="all").map(c=>`<option value="${escapeHtml(c.id)}">${escapeHtml(c.label)}</option>`).join("");
+  const fields={id:document.getElementById("adminProductId"),name:document.getElementById("adminProductName"),category:categorySelect,image:document.getElementById("adminProductImage"),status:document.getElementById("adminProductStatus"),url:document.getElementById("adminProductUrl"),keywords:document.getElementById("adminProductKeywords"),description:document.getElementById("adminProductDescription"),enabled:document.getElementById("adminProductEnabled"),external:document.getElementById("adminProductExternal")};
+  function clear(){form.reset();fields.id.value="";fields.enabled.checked=true;fields.external.checked=false;fields.url.value="#";}
+  function render(){
+    const products=getProductsSync();
+    table.innerHTML=products.map(p=>`<tr><td><div class="admin-product-cell"><img src="assets/img/products/${escapeHtml(p.image)}" onerror="this.style.display='none'"><div><strong>${escapeHtml(p.name)}</strong><small>${escapeHtml(p.image)}</small></div></div></td><td>${escapeHtml(p.category)}</td><td>${escapeHtml(p.status)}</td><td><button class="admin-toggle ${p.enabled?'on':''}" data-action="toggle" data-id="${escapeHtml(p.id)}">${p.enabled?'On':'Off'}</button></td><td>${p.external?'External':'Internal'}</td><td class="admin-row-actions"><button class="btn secondary" data-action="edit" data-id="${escapeHtml(p.id)}">Edit</button><button class="btn secondary danger" data-action="delete" data-id="${escapeHtml(p.id)}">Delete</button></td></tr>`).join("");
+  }
+  form.addEventListener("submit",async e=>{
+    e.preventDefault();
+    const id=fields.id.value||makeId(fields.name.value);
+    const next={id,name:fields.name.value.trim(),category:fields.category.value,image:fields.image.value.trim(),status:fields.status.value,url:fields.url.value.trim()||"#",keywords:fields.keywords.value.trim(),description:fields.description.value.trim(),enabled:fields.enabled.checked,external:fields.external.checked};
+    await mutateProducts("saveProduct", {payload:next}, products=>{const idx=products.findIndex(p=>p.id===id);if(idx>=0)products[idx]=next;else products.push(next);return products;});
+    clear();render();
+  });
+  table.addEventListener("click",async e=>{
+    const btn=e.target.closest("button[data-action]");if(!btn)return;
+    const action=btn.dataset.action,id=btn.dataset.id;
+    let products=getProductsSync();
+    const p=products.find(x=>x.id===id);
+    if(action==="toggle"&&p){await mutateProducts("toggleProduct", {id}, products=>products.map(x=>x.id===id?{...x,enabled:!x.enabled}:x));render();}
+    if(action==="edit"&&p){fields.id.value=p.id;fields.name.value=p.name;fields.category.value=p.category;fields.image.value=p.image;fields.status.value=p.status;fields.url.value=p.url;fields.keywords.value=p.keywords||"";fields.description.value=p.description||"";fields.enabled.checked=!!p.enabled;fields.external.checked=!!p.external;window.scrollTo({top:0,behavior:"smooth"});}
+    if(action==="delete"&&confirm(`Delete ${p?.name||'this product'}?`)){await mutateProducts("deleteProduct", {id}, products=>products.filter(x=>x.id!==id));render();}
+  });
+  document.getElementById("adminAddProductBtn")?.addEventListener("click",clear);
+  document.getElementById("adminCancelEditBtn")?.addEventListener("click",clear);
+  document.getElementById("adminResetProductsBtn")?.addEventListener("click",async()=>{if(confirm("Reset product data to default?")){await mutateProducts("resetProducts", {}, ()=>defaultProducts);clear();render();}});
+  render();
+}
 
 document.addEventListener("DOMContentLoaded",()=>{protectManagementPage();injectIcons();initManagementLogin();initNotifications();initWorkspaceSearch();initProductsPage();initAdminProducts();});
