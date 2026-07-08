@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gstar Workspace</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(0, 128, 255, 0.16), transparent 32%),
+        radial-gradient(circle at top right, rgba(0, 71, 171, 0.14), transparent 30%),
+        linear-gradient(135deg, #f7fbff 0%, #eef5ff 48%, #ffffff 100%);
+      color: #10233f;
+      min-height: 100vh;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+
+    aside {
+      padding: 28px 22px;
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(18px);
+      border-right: 1px solid rgba(18, 68, 122, 0.08);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 34px;
+    }
+
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #0047ab, #00a3ff);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      box-shadow: 0 12px 30px rgba(0, 71, 171, 0.22);
+    }
+
+    .logo h1 {
+      font-size: 18px;
+      line-height: 1.1;
+    }
+
+    .logo span {
+      font-size: 12px;
+      color: #6b7c93;
+    }
+
+    nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #40516b;
+      padding: 13px 14px;
+      border-radius: 14px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.2s ease;
+    }
+
+    nav a.active,
+    nav a:hover {
+      background: #eaf4ff;
+      color: #0047ab;
+      font-weight: 600;
+    }
+
+    main {
+      padding: 34px;
+    }
+
+    .hero {
+      padding: 34px;
+      border-radius: 30px;
+      background:
+        linear-gradient(135deg, rgba(0, 71, 171, 0.92), rgba(0, 163, 255, 0.8)),
+        url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1600&auto=format&fit=crop");
+      background-size: cover;
+      background-position: center;
+      color: white;
+      box-shadow: 0 24px 60px rgba(0, 71, 171, 0.24);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      right: -80px;
+      top: -80px;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 50%;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+    }
+
+    .eyebrow {
+      font-size: 13px;
+      opacity: 0.86;
+      margin-bottom: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .hero h2 {
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.02;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      font-size: 17px;
+      opacity: 0.92;
+      max-width: 650px;
+    }
+
+    .search-box {
+      margin-top: 28px;
+      display: flex;
+      gap: 12px;
+      max-width: 620px;
+    }
+
+    .search-box input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 16px 18px;
+      border-radius: 18px;
+      font-size: 15px;
+    }
+
+    .search-box button {
+      border: none;
+      background: #ffffff;
+      color: #0047ab;
+      padding: 0 22px;
+      border-radius: 18px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .section {
+      margin-top: 30px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+
+    .section-head h3 {
+      font-size: 22px;
+    }
+
+    .section-head p {
+      color: #6b7c93;
+      font-size: 14px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.76);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(18, 68, 122, 0.08);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 18px 50px rgba(21, 62, 105, 0.08);
+      transition: 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 70px rgba(21, 62, 105, 0.13);
+    }
+
+    .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background: #eaf4ff;
+      color: #0047ab;
+      font-size: 20px;
+      margin-bottom: 18px;
+    }
+
+    .card h4 {
+      font-size: 17px;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: #6b7c93;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .product-card {
+      min-height: 170px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-card::after {
+      content: "";
+      position: absolute;
+      width: 110px;
+      height: 110px;
+      right: -34px;
+      bottom: -34px;
+      background: linear-gradient(135deg, rgba(0, 71, 171, 0.12), rgba(0, 163, 255, 0.18));
+      border-radius: 50%;
+    }
+
+    .tag {
+      display: inline-flex;
+      margin-top: 14px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: #f1f7ff;
+      color: #0047ab;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .updates {
+      display: grid;
+      gap: 12px;
+    }
+
+    .update-item {
+      display: flex;
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      border-radius: 18px;
+      background: #f7fbff;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #00a3ff;
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    .update-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .update-item span {
+      color: #6b7c93;
+      font-size: 13px;
+    }
+
+    @media (max-width: 1000px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        position: relative;
+        height: auto;
+      }
+
+      nav {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .grid-4,
+      .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      main {
+        padding: 20px;
+      }
+
+      .hero {
+        padding: 26px;
+      }
+
+      .grid-4,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .search-box {
+        flex-direction: column;
+      }
+
+      .search-box button {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <aside>
+      <div class="logo">
+        <div class="logo-mark">G</div>
+        <div>
+          <h1>Gstar Workspace</h1>
+          <span>Internal Team Portal</span>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#" class="active">🏠 Dashboard</a>
+        <a href="#">📦 Products</a>
+        <a href="#">📈 Marketing Hub</a>
+        <a href="#">💼 Sales Hub</a>
+        <a href="#">🛠 Support Hub</a>
+        <a href="#">🤝 Partner Hub</a>
+        <a href="#">📚 Knowledge Base</a>
+        <a href="#">🤖 AI Assistant</a>
+      </nav>
+    </aside>
+
+    <main>
+      <section class="hero">
+        <div class="hero-content">
+          <div class="eyebrow">GstarCAD Thailand Internal Workspace</div>
+          <h2>Good Afternoon, Team 💙</h2>
+          <p>
+            ศูนย์กลางสำหรับทีม GstarCAD Thailand รวม Product, Marketing Assets,
+            Sales Materials, Support Tools และ Knowledge Base ไว้ในที่เดียว
+          </p>
+
+          <div class="search-box">
+            <input type="text" placeholder="Search product, price list, license guide, campaign..." />
+            <button>Search</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h3>Quick Access</h3>
+            <p>เมนูที่ทีมใช้งานบ่อย</p>
+          </div>
+        </div>
+
+        <div class="grid-4">
+          <div class="card">
+            <div class="icon">📄</div>
+            <h4>Price List</h4>
+            <p>รวมราคา โปรโมชั่น และแพ็กเกจล่าสุดสำหรับทีมขาย</p>
+          </div>
+
+          <div class="card">
+            <div class="icon">🎨</div>
+            <h4>Brand Assets</h4>
+            <p>Logo, CI, Key Visual, Template และไฟล์ออกแบบทั้งหมด</p>
+          </div>
+
+          <div class="card">
+            <div class="icon">🛠</div>
+            <h4>License Support</h4>
+            <p>คู่มือ Activate, Transfer License และปัญหาที่พบบ่อย</p>
+          </div>
+
+          <div class="card">
+            <div class="icon">📊</div>
+            <h4>Campaign Tracker</h4>
+            <p>ติดตามแคมเปญ, Landing Page, Lead และ Performance</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h3>Product Hub</h3>
+            <p>รวมข้อมูลสินค้าและเอกสารตาม Product</p>
+          </div>
+        </div>
+
+        <div class="grid-4">
+          <div class="card product-card">
+            <div class="icon">💻</div>
+            <h4>GstarCAD</h4>
+            <p>2D CAD, Sales Kit, Compare, Trial, License Guide</p>
+            <span class="tag">Core Product</span>
+          </div>
+
+          <div class="card product-card">
+            <div class="icon">🏗</div>
+            <h4>GstarBIM</h4>
+            <p>BIM Workflow, Presentation, Datasheet, Use Case</p>
+            <span class="tag">New Focus</span>
+          </div>
+
+          <div class="card product-card">
+            <div class="icon">⚙️</div>
+            <h4>CADprofi</h4>
+            <p>Industry Toolset, Add-on Guide, Sales Materials</p>
+            <span class="tag">Add-on</span>
+          </div>
+
+          <div class="card product-card">
+            <div class="icon">🌐</div>
+            <h4>3D FastView</h4>
+            <p>Viewer, Collaboration, Mobile & Cloud Use Cases</p>
+            <span class="tag">Cloud Viewer</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h3>Team Modules</h3>
+            <p>แบ่งการใช้งานตามหน้าที่ของแต่ละทีม</p>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <div class="icon">📈</div>
+            <h4>Marketing Hub</h4>
+            <p>Campaign Plan, Content, KV, Social Post, Landing Page และ Media Kit</p>
+          </div>
+
+          <div class="card">
+            <div class="icon">💼</div>
+            <h4>Sales Hub</h4>
+            <p>Proposal, Quotation Support, Comparison, Promotion และ Sales FAQ</p>
+          </div>
+
+          <div class="card">
+            <div class="icon">🧩</div>
+            <h4>Support Hub</h4>
+            <p>Technical FAQ, Installation, Activation, Patch, Remote Support</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h3>Latest Updates</h3>
+            <p>อัปเดตล่าสุดสำหรับทีม</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="updates">
+            <div class="update-item">
+              <div class="dot"></div>
+              <div>
+                <strong>GstarCAD 2027 Materials Added</strong>
+                <span>เพิ่มไฟล์ Key Visual, Product Highlight และ Sales Talking Point</span>
+              </div>
+            </div>
+
+            <div class="update-item">
+              <div class="dot"></div>
+              <div>
+                <strong>GstarBIM Launch Kit Updated</strong>
+                <span>รวม Presentation, Landing Page Copy และ Webinar Assets</span>
+              </div>
+            </div>
+
+            <div class="update-item">
+              <div class="dot"></div>
+              <div>
+                <strong>Support FAQ Revised</strong>
+                <span>อัปเดตคำถามเรื่อง Activate, Network License และ License Transfer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
