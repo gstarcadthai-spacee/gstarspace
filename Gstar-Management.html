@@ -50,13 +50,15 @@
     .brand{display:flex;align-items:center;gap:12px;padding:8px 8px 18px;border-bottom:1px solid var(--line)}
     .logo{width:44px;height:44px;border-radius:16px;background:linear-gradient(135deg,var(--blue),var(--violet));box-shadow:0 12px 26px rgba(65,108,255,.25);display:grid;place-items:center;color:white;font-weight:700}
     .brand h1{font-size:16px;line-height:1.1;margin:0;font-weight:700}.brand p{font-size:12px;color:var(--muted);margin:2px 0 0}
-    .nav{display:flex;flex-direction:column;gap:8px}.nav button{border:0;background:transparent;color:#526078;font:500 14px inherit;text-align:left;padding:13px 14px;border-radius:999px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:.45s var(--ease)}
-    .nav button:hover{background:rgba(255,255,255,.54);transform:translateX(2px)}.nav button.active{background:linear-gradient(135deg,rgba(65,108,255,.14),rgba(141,107,255,.13));color:#1f3155;box-shadow:inset 0 0 0 1px rgba(65,108,255,.13)}
+    .nav{display:flex;flex-direction:column;gap:8px}.nav button,.home-link{border:0;background:transparent;color:#526078;font:500 14px inherit;text-align:left;padding:13px 14px;border-radius:999px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:.45s var(--ease);text-decoration:none}.home-link{background:rgba(255,255,255,.44);border:1px solid var(--line);color:#28416e}
+    .nav button:hover,.home-link:hover{background:rgba(255,255,255,.54);transform:translateX(2px)}.nav button.active{background:linear-gradient(135deg,rgba(65,108,255,.14),rgba(141,107,255,.13));color:#1f3155;box-shadow:inset 0 0 0 1px rgba(65,108,255,.13)}
     .sidebar-foot{margin-top:auto;padding:14px;border-radius:22px;background:rgba(255,255,255,.42);border:1px solid var(--line);font-size:12px;color:var(--muted)}
     .main{display:flex;flex-direction:column;gap:18px;min-width:0}.topbar{border-radius:30px;padding:14px 18px;display:flex;align-items:center;gap:14px;position:sticky;top:22px;z-index:10}
     .menu-btn{display:none}.search{flex:1;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.56);border:1px solid var(--line);border-radius:999px;padding:12px 16px;color:var(--muted)}.search input{border:0;background:transparent;outline:0;width:100%;font:500 14px inherit;color:var(--ink)}
     .bell,.pill-btn,.ghost-btn,.primary-btn{border:1px solid var(--line);background:rgba(255,255,255,.62);border-radius:999px;padding:11px 14px;font:600 13px inherit;color:var(--ink);cursor:pointer;transition:.45s var(--ease)}
-    .primary-btn{background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff;border:0;box-shadow:0 14px 30px rgba(65,108,255,.2)}button:hover{transform:translateY(-1px)}
+    .primary-btn{background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff;border:0;box-shadow:0 14px 30px rgba(65,108,255,.2)}button:hover,a.primary-btn:hover,a.pill-btn:hover,a.ghost-btn:hover{transform:translateY(-1px)}
+    a.primary-btn,a.pill-btn,a.ghost-btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;justify-content:center}
+
     .hero{padding:28px;border-radius:36px;background:linear-gradient(135deg,rgba(255,255,255,.74),rgba(255,255,255,.38));border:1px solid var(--line);box-shadow:var(--shadow);position:relative;overflow:hidden}.hero:after{content:"";position:absolute;right:-80px;top:-90px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(99,213,255,.34),transparent 68%)}
     .hero h2{font-size:34px;margin:0 0 8px;font-weight:700;letter-spacing:-.04em}.hero p{margin:0;color:var(--muted);max-width:720px;line-height:1.7}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;position:relative;z-index:1}
     .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{border-radius:var(--r);padding:20px;transition:.55s var(--ease)}.card:hover{transform:translateY(-3px);box-shadow:0 30px 80px rgba(45,75,130,.16)}.stat .num{font-size:30px;font-weight:700;letter-spacing:-.03em}.stat .label{color:var(--muted);font-size:13px}.stat .icon{width:42px;height:42px;border-radius:16px;display:grid;place-items:center;background:rgba(65,108,255,.11);margin-bottom:14px}
@@ -179,16 +181,16 @@
         <button class="bell menu-btn" onclick="toggleDrawer()" aria-label="Open menu"><span data-i="menu"></span></button>
         <div class="search"><span data-i="search"></span><input id="globalSearch" placeholder="Search product, resource, link..." oninput="renderAll()"></div>
         <button class="bell" aria-label="Notifications"><span data-i="bell"></span></button>
-        <button class="primary-btn" onclick="openProductModal()"><span data-i="plus"></span> Add Product</button>
+        <a class="primary-btn" href="index.html"><span data-i="home"></span> Workspace Home</a>
       </header>
 
       <section class="hero">
         <h2>Control Tower V3</h2>
         <p>Enterprise admin console สำหรับจัดการ Products, Version Links, Resource Library และ Hub Routing จากจุดเดียว ก่อนเชื่อม Apps Script ในอนาคต</p>
         <div class="hero-actions">
-          <button class="primary-btn" onclick="openProductModal()"><span data-i="plus"></span> Add Product</button>
-          <button class="pill-btn" onclick="openResourceModal()"><span data-i="plus"></span> Add Resource</button>
-          <button class="pill-btn" onclick="openAnnouncementModal()"><span data-i="plus"></span> New Announcement</button>
+          <button class="primary-btn" onclick="go('products')"><span data-i="package"></span> Manage Products</button>
+          <button class="pill-btn" onclick="go('resources')"><span data-i="resources"></span> Resource Library</button>
+          <button class="pill-btn" onclick="go('announcements')"><span data-i="megaphone"></span> Announcements</button>
         </div>
       </section>
 
@@ -275,7 +277,7 @@ const seed={products:[{id:crypto.randomUUID(),name:'GstarCAD',category:'CAD',des
 function db(){let d=localStorage.getItem('gstar-control-v3'); if(!d){localStorage.setItem('gstar-control-v3',JSON.stringify(seed));return structuredClone(seed)} return JSON.parse(d)}
 function save(d){localStorage.setItem('gstar-control-v3',JSON.stringify(d))}
 function logActivity(text){const d=db();d.activity.unshift(text);d.activity=d.activity.slice(0,8);save(d)}
-function sidebarHTML(){return `<div class="brand"><div class="logo">G</div><div><h1>Gstar Workspace</h1><p>Control Tower V3</p></div></div><nav class="nav">${navItems.map(n=>`<button onclick="go('${n[0]}')" data-nav="${n[0]}" class="${n[0]=='dashboard'?'active':''}">${ico(n[1])}<span>${n[2]}</span></button>`).join('')}</nav><div class="sidebar-foot">Frontend Only<br>localStorage ready for Apps Script</div>`}
+function sidebarHTML(){return `<div class="brand"><div class="logo">G</div><div><h1>Gstar Workspace</h1><p>Control Tower V3</p></div></div><nav class="nav"><a class="home-link" href="index.html">${ico('home')}<span>Back to Workspace</span></a>${navItems.map(n=>`<button onclick="go('${n[0]}')" data-nav="${n[0]}" class="${n[0]=='dashboard'?'active':''}">${ico(n[1])}<span>${n[2]}</span></button>`).join('')}</nav><div class="sidebar-foot">Frontend Only<br>localStorage ready for Apps Script</div>`}
 document.getElementById('sidebar').innerHTML=sidebarHTML();document.getElementById('drawer').innerHTML=sidebarHTML();
 function toggleDrawer(){document.getElementById('drawer').classList.toggle('show');document.getElementById('drawerBackdrop').classList.toggle('show')}document.getElementById('drawerBackdrop').onclick=toggleDrawer;
 function go(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('[data-nav]').forEach(b=>b.classList.toggle('active',b.dataset.nav===id));document.getElementById('drawer').classList.remove('show');document.getElementById('drawerBackdrop').classList.remove('show');renderAll()}
