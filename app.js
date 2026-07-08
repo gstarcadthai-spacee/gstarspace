@@ -14,7 +14,7 @@ const products = [
     id: "gstarcad",
     name: "GstarCAD",
     category: "cad",
-    logo: "assets/logos/gstarcad.png",
+    logo: "product/GstarCAD.png",
     tagline: "Professional CAD Platform",
     overview: {
       "Current Version": "2027 SP0",
@@ -34,7 +34,7 @@ const products = [
     id: "gstarcad-architecture",
     name: "GstarCAD Architecture",
     category: "cad",
-    logo: "assets/logos/gstarcad-architecture.png",
+    logo: "product/GstarCAD-Architecture.png",
     tagline: "Architecture CAD Solution",
     overview: {
       "Current Version": "2027 SP0",
@@ -54,7 +54,7 @@ const products = [
     id: "gstarcad-mechanical",
     name: "GstarCAD Mechanical",
     category: "cad",
-    logo: "assets/logos/gstarcad-mechanical.png",
+    logo: "product/GstarCAD-Mechanical.png",
     tagline: "Mechanical Design CAD",
     overview: {
       "Current Version": "2027 SP0",
@@ -74,7 +74,7 @@ const products = [
     id: "solidworks",
     name: "SolidWorks",
     category: "cad",
-    logo: "assets/logos/solidworks.png",
+    logo: "product/SolidWorks.png",
     tagline: "3D CAD Design Platform",
     overview: {
       "Current Version": "2026",
@@ -94,7 +94,7 @@ const products = [
     id: "gstarbim",
     name: "GstarBIM",
     category: "bim",
-    logo: "assets/logos/gstarbim.png",
+    logo: "product/GstarBIM.png",
     tagline: "BIM Design Workspace",
     overview: {
       "Current Version": "2026",
@@ -114,7 +114,7 @@ const products = [
     id: "extraxion",
     name: "ExtrAXION",
     category: "boq-estimation",
-    logo: "assets/logos/extraxion.png",
+    logo: "product/ExtrAXION.png",
     tagline: "BOQ & Estimation Software",
     overview: {
       "Current Version": "Latest",
@@ -134,7 +134,7 @@ const products = [
     id: "gstarcad-365",
     name: "GstarCAD 365",
     category: "viewer-collaboration",
-    logo: "assets/logos/gstarcad-365.png",
+    logo: "product/GstarCAD-365.png",
     tagline: "Cloud CAD Collaboration",
     overview: {
       "Current Version": "Latest",
@@ -154,7 +154,7 @@ const products = [
     id: "3d-fastview",
     name: "3D FastView",
     category: "viewer-collaboration",
-    logo: "assets/logos/3d-fastview.png",
+    logo: "product/3D-Fastview.png",
     tagline: "3D Viewer & Collaboration",
     overview: {
       "Current Version": "Latest",
@@ -174,7 +174,7 @@ const products = [
     id: "cadprofi",
     name: "CADProfi",
     category: "addons",
-    logo: "assets/logos/cadprofi.png",
+    logo: "product/CADProfi.png",
     tagline: "CAD Add-on Library",
     overview: {
       "Current Version": "Latest",
@@ -194,7 +194,7 @@ const products = [
     id: "formlabs",
     name: "Formlabs",
     category: "3d-printing",
-    logo: "assets/logos/formlabs.png",
+    logo: "product/FormLabs.png",
     tagline: "Professional 3D Printing",
     overview: {
       "Current Version": "Latest",
