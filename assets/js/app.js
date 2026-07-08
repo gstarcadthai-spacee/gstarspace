@@ -1,285 +1,76 @@
 const MANAGEMENT_PASSWORD = "gstar2026";
+const PRODUCT_STORAGE_KEY = "gstarWorkspaceProducts";
 
 const iconMap = {
-  search: `<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>`,
-  bell: `<svg viewBox="0 0 24 24"><path d="M10.27 21a2 2 0 0 0 3.46 0"></path><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path></svg>`,
-  package: `<svg viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"></path><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>`,
-  megaphone: `<svg viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14v-3Z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>`,
-  briefcase: `<svg viewBox="0 0 24 24"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>`,
-  headset: `<svg viewBox="0 0 24 24"><path d="M3 11a9 9 0 0 1 18 0"></path><path d="M21 12v4a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"></path><path d="M3 12v4a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"></path><path d="M21 16v2a4 4 0 0 1-4 4h-5"></path></svg>`,
-  book: `<svg viewBox="0 0 24 24"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3Z"></path></svg>`,
-  bot: `<svg viewBox="0 0 24 24"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M15 13v2"></path><path d="M9 13v2"></path></svg>`,
-  box: `<svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>`,
-  layers: `<svg viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7Z"></path><path d="m2 17 10 5 10-5"></path><path d="m2 12 10 5 10-5"></path></svg>`,
-  monitor: `<svg viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2"></rect><path d="M8 21h8"></path><path d="M12 17v4"></path></svg>`,
-  puzzle: `<svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.65.07-.98s-.02-.66-.07-.98l2.11-1.65a.5.5 0 0 0 .12-.64l-2-3.46a.5.5 0 0 0-.6-.22l-2.49 1a7.3 7.3 0 0 0-1.69-.98L14.5 2.42A.5.5 0 0 0 14 2h-4a.5.5 0 0 0-.5.42L9.12 5.07c-.61.24-1.18.56-1.69.98l-2.49-1a.5.5 0 0 0-.6.22l-2 3.46a.5.5 0 0 0 .12.64l2.11 1.65c-.04.32-.07.65-.07.98s.02.66.07.98l-2.11 1.65a.5.5 0 0 0-.12.64l2 3.46a.5.5 0 0 0 .6.22l2.49-1c.51.4 1.08.73 1.69.98l.38 2.65a.5.5 0 0 0 .5.42h4a.5.5 0 0 0 .5-.42l.38-2.65c.61-.24 1.18-.56 1.69-.98l2.49 1a.5.5 0 0 0 .6-.22l2-3.46a.5.5 0 0 0-.12-.64Z"></path><circle cx="12" cy="12" r="3"></circle></svg>`,
-  factory: `<svg viewBox="0 0 24 24"><path d="M2 20h20"></path><path d="M4 20V8l6 4V8l6 4V4h4v16"></path><path d="M8 18v-2"></path><path d="M12 18v-2"></path><path d="M16 18v-2"></path></svg>`,
-  printer: `<svg viewBox="0 0 24 24"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 14h12v8H6z"></path></svg>`,
-  link: `<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>`,
-  arrow: `<svg viewBox="0 0 24 24"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>`
+  search:'<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>',
+  bell:'<svg viewBox="0 0 24 24"><path d="M10.3 21a2 2 0 0 0 3.4 0"></path><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path></svg>',
+  package:'<svg viewBox="0 0 24 24"><path d="m7.5 4.3 9 5.2"></path><path d="m21 8-9 5-9-5"></path><path d="M3 8v8l9 5 9-5V8"></path><path d="M12 13v8"></path></svg>',
+  megaphone:'<svg viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>',
+  briefcase:'<svg viewBox="0 0 24 24"><path d="M10 6V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v1"></path><rect x="3" y="6" width="18" height="14" rx="2"></rect><path d="M3 12h18"></path></svg>',
+  headset:'<svg viewBox="0 0 24 24"><path d="M3 14v-2a9 9 0 0 1 18 0v2"></path><path d="M21 19a2 2 0 0 1-2 2h-3"></path><path d="M7 14v5H5a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2h2z"></path><path d="M17 14v5h2a2 2 0 0 0 2-2v-1a2 2 0 0 0-2-2h-2z"></path></svg>',
+  book:'<svg viewBox="0 0 24 24"><path d="M12 7v14"></path><path d="M3 5a2 2 0 0 1 2-2h5a2 2 0 0 1 2 2v16a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2V5z"></path><path d="M21 5a2 2 0 0 0-2-2h-5a2 2 0 0 0-2 2v16a2 2 0 0 1 2-2h5a2 2 0 0 1 2 2V5z"></path></svg>',
+  bot:'<svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="10" rx="2"></rect><path d="M12 8V4"></path><path d="M8 13h.01"></path><path d="M16 13h.01"></path><path d="M9 18v2"></path><path d="M15 18v2"></path></svg>',
+  box:'<svg viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.7Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>',
+  arrow:'<svg viewBox="0 0 24 24"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>',
+  external:'<svg viewBox="0 0 24 24"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>',
+  factory:'<svg viewBox="0 0 24 24"><path d="M3 21h18"></path><path d="M5 21V8l5 3V8l5 3V5h4v16"></path><path d="M9 17h1"></path><path d="M14 17h1"></path></svg>',
+  printer:'<svg viewBox="0 0 24 24"><path d="M6 9V3h12v6"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 14h12v7H6z"></path></svg>',
+  plug:'<svg viewBox="0 0 24 24"><path d="M12 22v-5"></path><path d="M9 8V2"></path><path d="M15 8V2"></path><path d="M6 8h12v4a6 6 0 0 1-12 0V8z"></path></svg>',
+  eye:'<svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>'
 };
 
-const workspaceSearchData = [
-  { title: "Products", description: "Product Portfolio, CAD, BIM, Viewer, Add-ons และ Partner Solutions", url: "products.html", icon: "P", keywords: ["products", "product", "gstarcad", "gstarbim", "cadprofi", "3d fastview", "solidworks", "formlabs", "สินค้า", "ผลิตภัณฑ์"] },
-  { title: "Marketing Hub", description: "Campaign, Brand Assets, Social Content และ Landing Page", url: "marketing.html", icon: "M", keywords: ["marketing", "campaign", "brand", "assets", "social", "line oa", "landing page", "การตลาด", "แคมเปญ"] },
-  { title: "Sales Hub", description: "Price List, Proposal, Comparison และ Quote Support", url: "sales.html", icon: "S", keywords: ["sales", "price", "proposal", "comparison", "quote", "ขาย", "ราคา"] },
-  { title: "Support Hub", description: "Installation, Activation, License, FAQ และ Troubleshooting", url: "support.html", icon: "T", keywords: ["support", "installation", "activation", "license", "faq", "ซัพพอร์ต", "ติดตั้ง"] },
-  { title: "Knowledge Base", description: "How-to, Wiki, Training และ Internal Knowledge", url: "knowledge.html", icon: "K", keywords: ["knowledge", "wiki", "training", "guide", "คู่มือ", "บทความ"] },
-  { title: "AI Assistant", description: "Workspace AI Prototype และ Internal Copilot", url: "ai-assistant.html", icon: "AI", keywords: ["ai", "assistant", "bot", "copilot", "prompt"] },
-  { title: "Management", description: "Management Login, Resource Library และ Admin Console", url: "management-login.html", icon: "G", keywords: ["management", "admin", "console", "login", "จัดการ"] }
-];
-
 const productCategories = [
-  { id: "all", label: "All", icon: "box" },
-  { id: "CAD", label: "CAD", icon: "package" },
-  { id: "BIM", label: "BIM", icon: "layers" },
-  { id: "Viewer & Collaboration", label: "Viewer", icon: "monitor" },
-  { id: "Add-ons", label: "Add-ons", icon: "puzzle" },
-  { id: "Manufacturing", label: "Manufacturing", icon: "factory" },
-  { id: "3D Printing", label: "3D Printing", icon: "printer" },
-  { id: "Partner Solutions", label: "Partners", icon: "link" }
+  { id:"all", label:"All", icon:"box" },
+  { id:"CAD", label:"CAD", icon:"package" },
+  { id:"BIM", label:"BIM", icon:"box" },
+  { id:"Add-ons", label:"Add-ons", icon:"plug" },
+  { id:"Viewer", label:"Viewer", icon:"eye" },
+  { id:"Manufacturing", label:"Manufacturing", icon:"factory" },
+  { id:"3D Printing", label:"3D Printing", icon:"printer" },
+  { id:"Partners", label:"Partners", icon:"external" }
 ];
 
-const productData = [
-  { name: "GstarCAD", category: "CAD", image: "GstarCAD.png", description: "2D CAD สำหรับงานเขียนแบบ DWG และงาน Drafting หลักของทีม", status: "Active", enabled: true, external: false, url: "#", keywords: ["2d cad", "dwg", "drafting", "gstarcad"] },
-  { name: "GstarCAD Mechanical", category: "CAD", image: "GstarCAD-Mechanical.png", description: "CAD สำหรับงาน Mechanical พร้อมเครื่องมือเฉพาะทางวิศวกรรม", status: "Active", enabled: true, external: false, url: "#", keywords: ["mechanical", "engineering", "cad"] },
-  { name: "GstarCAD Architecture", category: "CAD", image: "GstarCAD-Architecture.png", description: "ชุดเครื่องมือสำหรับงานสถาปัตย์และ Building workflow", status: "Active", enabled: true, external: false, url: "#", keywords: ["architecture", "building", "cad"] },
-  { name: "SolidWorks", category: "CAD", image: "SolidWorks.jpg", description: "3D CAD / Design solution ที่เกี่ยวข้องกับ Partner และทีมอื่น", status: "External", enabled: true, external: true, url: "https://www.8baht.com/", keywords: ["solidworks", "3d cad", "partner", "8baht"] },
-  { name: "GstarBIM", category: "BIM", image: "GstarBIM.png", description: "BIM transition resources สำหรับทีมที่เริ่มจาก CAD ไปสู่ BIM", status: "Active", enabled: true, external: false, url: "#", keywords: ["bim", "ifc", "revit", "cad to bim"] },
-  { name: "GstarCAD 365", category: "Viewer & Collaboration", image: "GstarCAD-365.png", description: "Cloud และ Collaboration workflow ใน ecosystem ของ GstarCAD", status: "Active", enabled: true, external: false, url: "#", keywords: ["365", "cloud", "collaboration"] },
-  { name: "3D FastView", category: "Viewer & Collaboration", image: "3D-Fastview.png", description: "Viewer สำหรับเปิดดูและสื่อสารไฟล์ 3D ได้ง่ายขึ้น", status: "Active", enabled: true, external: false, url: "#", keywords: ["3d fastview", "viewer", "3d viewer"] },
-  { name: "CADProfi", category: "Add-ons", image: "CADProfi.png", description: "Add-on สำหรับ Mechanical, Electrical, HVAC และ Architecture", status: "Active", enabled: true, external: false, url: "#", keywords: ["cadprofi", "add-on", "hvac", "electrical"] },
-  { name: "ExtraXION", category: "Manufacturing", image: "ExtraXION.png", description: "Manufacturing workflow และทรัพยากรสำหรับงานผลิต", status: "Active", enabled: true, external: false, url: "#", keywords: ["extraxion", "manufacturing", "production"] },
-  { name: "FormLabs", category: "3D Printing", image: "FormLabs.png", description: "3D Printing solution สำหรับ Printer workflow และงานต้นแบบ", status: "External", enabled: true, external: true, url: "https://www.8baht.com/", keywords: ["formlabs", "3d printing", "printer"] }
+const defaultProducts = [
+  {id:"gstarcad", name:"GstarCAD", category:"CAD", image:"GstarCAD.png", description:"2D CAD Software สำหรับงาน DWG และงานเขียนแบบประจำวันของทีม", status:"Active", enabled:true, external:false, url:"#", keywords:"2d cad,dwg,drafting,gstarcad"},
+  {id:"gstarcad-365", name:"GstarCAD 365", category:"CAD", image:"GstarCAD-365.png", description:"Cloud และ Subscription workflow ใน ecosystem ของ GstarCAD", status:"Active", enabled:true, external:false, url:"#", keywords:"365,cloud,subscription"},
+  {id:"gstarcad-mechanical", name:"GstarCAD Mechanical", category:"CAD", image:"GstarCAD-Mechanical.png", description:"CAD สำหรับงาน Mechanical พร้อมเครื่องมือเฉพาะทางวิศวกรรม", status:"Active", enabled:true, external:false, url:"#", keywords:"mechanical,engineering,cad"},
+  {id:"gstarcad-architecture", name:"GstarCAD Architecture", category:"CAD", image:"GstarCAD-Architecture.png", description:"ชุดเครื่องมือสำหรับงานสถาปัตย์และ Building workflow", status:"Active", enabled:true, external:false, url:"#", keywords:"architecture,building,cad"},
+  {id:"solidworks", name:"SolidWorks", category:"CAD", image:"SolidWorks.jpg", description:"3D CAD / Design solution ที่เกี่ยวข้องกับ Partner และทีมอื่น", status:"External", enabled:true, external:true, url:"https://www.8baht.com/", keywords:"solidworks,3d cad,partner,8baht"},
+  {id:"gstarbim", name:"GstarBIM", category:"BIM", image:"GstarBIM.png", description:"BIM transition resources สำหรับทีมที่เริ่มจาก CAD ไปสู่ BIM", status:"Active", enabled:true, external:false, url:"#", keywords:"bim,ifc,revit,cad to bim"},
+  {id:"3d-fastview", name:"3D FastView", category:"Viewer", image:"3D-Fastview.png", description:"Viewer สำหรับเปิดดูและสื่อสารไฟล์ 3D ได้ง่ายขึ้น", status:"Active", enabled:true, external:false, url:"#", keywords:"3d fastview,viewer,3d viewer"},
+  {id:"cadprofi", name:"CADProfi", category:"Add-ons", image:"CADProfi.png", description:"Add-on สำหรับ Mechanical, Electrical, HVAC และ Architecture", status:"Active", enabled:true, external:false, url:"#", keywords:"cadprofi,add-on,hvac,electrical"},
+  {id:"extraxion", name:"ExtraXION", category:"Manufacturing", image:"ExtraXION.png", description:"Manufacturing workflow และทรัพยากรสำหรับงานผลิต", status:"Active", enabled:true, external:false, url:"#", keywords:"extraxion,manufacturing,production"},
+  {id:"formlabs", name:"FormLabs", category:"3D Printing", image:"FormLabs.png", description:"3D Printing solution สำหรับ Printer workflow และงานต้นแบบ", status:"External", enabled:true, external:true, url:"https://www.8baht.com/", keywords:"formlabs,3d printing,printer"}
 ];
 
-function injectIcons() {
-  document.querySelectorAll("[data-icon]").forEach(el => {
-    const key = el.getAttribute("data-icon");
-    if (iconMap[key]) el.innerHTML = iconMap[key];
-  });
-}
+const workspaceSearchData = [
+  {title:"Dashboard", description:"หน้าแรกของ Workspace", url:"index.html", icon:"D", keywords:["home","dashboard"]},
+  {title:"Products", description:"Product Portfolio และ Product Resources", url:"products.html", icon:"P", keywords:["product","gstarcad","gstarbim"]},
+  {title:"Marketing Hub", description:"Campaign, Brand Assets, Social Content", url:"marketing.html", icon:"M", keywords:["marketing","campaign","brand"]},
+  {title:"Sales Hub", description:"Price List, Proposal, Comparison", url:"sales.html", icon:"S", keywords:["sales","price","proposal"]},
+  {title:"Support Hub", description:"Installation, Activation, License, FAQ", url:"support.html", icon:"T", keywords:["support","license","faq"]},
+  {title:"Knowledge Base", description:"How-to, Wiki, Training", url:"knowledge.html", icon:"K", keywords:["knowledge","training","wiki"]},
+  {title:"AI Assistant", description:"Workspace AI Prototype", url:"ai-assistant.html", icon:"AI", keywords:["ai","assistant","bot"]}
+];
 
-function escapeHtml(value) {
-  return String(value || "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
+function escapeHtml(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");}
+function makeId(name){return String(name||"product").toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"") || `product-${Date.now()}`;}
+function getProducts(){try{const saved=localStorage.getItem(PRODUCT_STORAGE_KEY);return saved?JSON.parse(saved):defaultProducts;}catch(e){return defaultProducts;}}
+function saveProducts(products){localStorage.setItem(PRODUCT_STORAGE_KEY,JSON.stringify(products));}
+function injectIcons(){document.querySelectorAll("[data-icon]").forEach(el=>{const key=el.getAttribute("data-icon");if(iconMap[key])el.innerHTML=iconMap[key];});}
 
-function initManagementLogin() {
-  const form = document.getElementById("managementLoginForm");
-  if (!form) return;
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    const input = document.getElementById("managementPassword");
-    const error = document.getElementById("managementError");
-    const value = input ? input.value.trim() : "";
-    if (value === MANAGEMENT_PASSWORD) {
-      sessionStorage.setItem("gstarManagementAuth", "true");
-      window.location.href = "Gstar-Management.html";
-      return;
-    }
-    if (error) error.classList.add("show");
-  });
-}
+function initManagementLogin(){const form=document.getElementById("managementLoginForm");if(!form)return;form.addEventListener("submit",e=>{e.preventDefault();const input=document.getElementById("managementPassword");const error=document.getElementById("managementError");if((input?.value||"").trim()===MANAGEMENT_PASSWORD){sessionStorage.setItem("gstarManagementAuth","true");window.location.href="Gstar-Management.html";}else error?.classList.add("show");});}
+function protectManagementPage(){if(!location.pathname.toLowerCase().endsWith("gstar-management.html"))return;if(sessionStorage.getItem("gstarManagementAuth")!=="true")location.href="management-login.html";}
+function logoutManagement(){sessionStorage.removeItem("gstarManagementAuth");location.href="management-login.html";} window.logoutManagement=logoutManagement;
 
-function protectManagementPage() {
-  const path = window.location.pathname.toLowerCase();
-  if (!path.endsWith("gstar-management.html")) return;
-  const isAuth = sessionStorage.getItem("gstarManagementAuth") === "true";
-  if (!isAuth) window.location.href = "management-login.html";
-}
+function initNotifications(){const toggle=document.getElementById("notificationToggle"),panel=document.getElementById("notificationPanel");if(!toggle||!panel)return;toggle.addEventListener("click",e=>{e.stopPropagation();panel.classList.toggle("show");});document.addEventListener("click",e=>{if(!e.target.closest(".notification-wrap"))panel.classList.remove("show");});}
 
-function logoutManagement() {
-  sessionStorage.removeItem("gstarManagementAuth");
-  window.location.href = "management-login.html";
-}
-window.logoutManagement = logoutManagement;
+function initWorkspaceSearch(){const input=document.getElementById("workspaceSearch"),results=document.getElementById("searchResults");if(!input||!results)return;function render(qRaw){const q=qRaw.trim().toLowerCase();if(!q){results.classList.remove("show");results.innerHTML="";return;}const productItems=getProducts().filter(p=>p.enabled).map(p=>({title:p.name,description:`${p.category} · ${p.description}`,url:"products.html",icon:"P",keywords:[p.name,p.category,p.description,p.keywords]}));const matches=[...workspaceSearchData,...productItems].filter(i=>[i.title,i.description,...(i.keywords||[])].join(" ").toLowerCase().includes(q)).slice(0,8);results.classList.add("show");results.innerHTML=matches.length?matches.map(i=>`<a class="search-result-item" href="${escapeHtml(i.url)}"><div class="search-result-icon">${escapeHtml(i.icon)}</div><div><strong>${escapeHtml(i.title)}</strong><span>${escapeHtml(i.description)}</span></div></a>`).join(""):`<div class="search-empty">No results found for “${escapeHtml(qRaw)}”</div>`;}input.addEventListener("input",()=>render(input.value));document.addEventListener("click",e=>{if(!e.target.closest(".search-wrap"))results.classList.remove("show");});}
 
-function initWorkspaceSearch() {
-  const input = document.getElementById("workspaceSearch");
-  const results = document.getElementById("searchResults");
-  if (!input || !results) return;
+function productCard(p){const img=`assets/img/products/${p.image}`;const fallback=p.name.split(" ").map(w=>w[0]).join("").slice(0,3).toUpperCase();const target=p.external?' target="_blank" rel="noopener"':"";const statusClass=p.external?"external":String(p.status).toLowerCase().includes("soon")?"soon":"";const cta=p.external?"Open External":"Open Product";return `<article class="product-card premium-product-card"><div class="product-logo" data-fallback="${escapeHtml(fallback)}"><img src="${escapeHtml(img)}" alt="${escapeHtml(p.name)} logo" loading="lazy" onerror="this.remove();this.parentElement.classList.add('logo-missing')"></div><div class="product-meta"><span class="tag blue">${escapeHtml(p.category)}</span><span class="product-status ${statusClass}">${escapeHtml(p.status)}</span></div><h3>${escapeHtml(p.name)}</h3><p>${escapeHtml(p.description)}</p><a class="product-action" href="${escapeHtml(p.url||'#')}"${target}><span>${cta}</span><span class="product-action-icon">${p.external?iconMap.external:iconMap.arrow}</span></a></article>`;}
 
-  function renderResults(query) {
-    const q = query.trim().toLowerCase();
-    if (!q) {
-      results.classList.remove("show");
-      results.innerHTML = "";
-      return;
-    }
+function initProductsPage(){const directory=document.getElementById("productDirectory"),tabs=document.getElementById("productTabs"),input=document.getElementById("productSearch"),empty=document.getElementById("productEmpty");if(!directory||!tabs)return;let active="all", search="";function counts(products){return productCategories.reduce((acc,c)=>{acc[c.id]=c.id==="all"?products.length:products.filter(p=>p.category===c.id).length;return acc;},{});}function renderTabs(products){const c=counts(products);tabs.innerHTML=productCategories.filter(cat=>cat.id==="all"||c[cat.id]>0).map(cat=>`<button type="button" class="product-tab ${cat.id===active?'active':''}" data-category="${escapeHtml(cat.id)}"><span class="product-tab-icon">${iconMap[cat.icon]||""}</span><span>${escapeHtml(cat.label)}</span><small>${c[cat.id]||0}</small></button>`).join("");}function render(){const enabled=getProducts().filter(p=>p.enabled);renderTabs(enabled);const filtered=enabled.filter(p=>{const okCat=active==="all"||p.category===active;const hay=[p.name,p.category,p.description,p.keywords].join(" ").toLowerCase();return okCat&&(!search||hay.includes(search));});if(!filtered.length){directory.innerHTML="";empty?.classList.add("show");return;}empty?.classList.remove("show");const groups=productCategories.filter(c=>c.id!=="all").map(c=>({...c,products:filtered.filter(p=>p.category===c.id)})).filter(g=>g.products.length);directory.innerHTML=groups.map(g=>`<div class="product-category-section"><div class="product-category-head"><div class="product-category-icon">${iconMap[g.icon]||iconMap.box}</div><div><h2>${escapeHtml(g.label)}</h2><span>${g.products.length} product${g.products.length>1?'s':''}</span></div></div><div class="product-grid">${g.products.map(productCard).join("")}</div></div>`).join("");}tabs.addEventListener("click",e=>{const b=e.target.closest(".product-tab");if(!b)return;active=b.dataset.category;render();});input?.addEventListener("input",()=>{search=input.value.trim().toLowerCase();render();});render();}
 
-    const productSearchItems = productData.filter(p => p.enabled).map(p => ({
-      title: p.name,
-      description: `${p.category} · ${p.description}`,
-      url: "products.html",
-      icon: "P",
-      keywords: [p.name, p.category, p.description, ...(p.keywords || [])]
-    }));
+function initAdminProducts(){const form=document.getElementById("adminProductForm"),table=document.getElementById("adminProductTable"),categorySelect=document.getElementById("adminProductCategory");if(!form||!table)return;categorySelect.innerHTML=productCategories.filter(c=>c.id!=="all").map(c=>`<option value="${escapeHtml(c.id)}">${escapeHtml(c.label)}</option>`).join("");const fields={id:document.getElementById("adminProductId"),name:document.getElementById("adminProductName"),category:categorySelect,image:document.getElementById("adminProductImage"),status:document.getElementById("adminProductStatus"),url:document.getElementById("adminProductUrl"),keywords:document.getElementById("adminProductKeywords"),description:document.getElementById("adminProductDescription"),enabled:document.getElementById("adminProductEnabled"),external:document.getElementById("adminProductExternal")};function clear(){form.reset();fields.id.value="";fields.enabled.checked=true;fields.external.checked=false;fields.url.value="#";}function render(){const products=getProducts();table.innerHTML=products.map(p=>`<tr><td><div class="admin-product-cell"><img src="assets/img/products/${escapeHtml(p.image)}" onerror="this.style.display='none'"><div><strong>${escapeHtml(p.name)}</strong><small>${escapeHtml(p.image)}</small></div></div></td><td>${escapeHtml(p.category)}</td><td>${escapeHtml(p.status)}</td><td><button class="admin-toggle ${p.enabled?'on':''}" data-action="toggle" data-id="${escapeHtml(p.id)}">${p.enabled?'On':'Off'}</button></td><td>${p.external?'External':'Internal'}</td><td class="admin-row-actions"><button class="btn secondary" data-action="edit" data-id="${escapeHtml(p.id)}">Edit</button><button class="btn secondary danger" data-action="delete" data-id="${escapeHtml(p.id)}">Delete</button></td></tr>`).join("");}form.addEventListener("submit",e=>{e.preventDefault();const products=getProducts();const id=fields.id.value||makeId(fields.name.value);const next={id,name:fields.name.value.trim(),category:fields.category.value,image:fields.image.value.trim(),status:fields.status.value,url:fields.url.value.trim()||"#",keywords:fields.keywords.value.trim(),description:fields.description.value.trim(),enabled:fields.enabled.checked,external:fields.external.checked};const idx=products.findIndex(p=>p.id===id);if(idx>=0)products[idx]=next;else products.push(next);saveProducts(products);clear();render();});table.addEventListener("click",e=>{const btn=e.target.closest("button[data-action]");if(!btn)return;const action=btn.dataset.action,id=btn.dataset.id;let products=getProducts();const p=products.find(x=>x.id===id);if(action==="toggle"&&p){p.enabled=!p.enabled;saveProducts(products);render();}if(action==="edit"&&p){fields.id.value=p.id;fields.name.value=p.name;fields.category.value=p.category;fields.image.value=p.image;fields.status.value=p.status;fields.url.value=p.url;fields.keywords.value=p.keywords||"";fields.description.value=p.description||"";fields.enabled.checked=!!p.enabled;fields.external.checked=!!p.external;window.scrollTo({top:0,behavior:"smooth"});}if(action==="delete"&&confirm(`Delete ${p?.name||'this product'}?`)){products=products.filter(x=>x.id!==id);saveProducts(products);render();}});document.getElementById("adminAddProductBtn")?.addEventListener("click",clear);document.getElementById("adminCancelEditBtn")?.addEventListener("click",clear);document.getElementById("adminResetProductsBtn")?.addEventListener("click",()=>{if(confirm("Reset product data to default?")){localStorage.removeItem(PRODUCT_STORAGE_KEY);clear();render();}});render();}
 
-    const matches = [...workspaceSearchData, ...productSearchItems].filter(item => {
-      const haystack = [item.title, item.description, ...(item.keywords || [])].join(" ").toLowerCase();
-      return haystack.includes(q);
-    }).slice(0, 8);
-
-    results.classList.add("show");
-    if (!matches.length) {
-      results.innerHTML = `<div class="search-empty">No results found for “${escapeHtml(query)}”</div>`;
-      return;
-    }
-
-    results.innerHTML = matches.map(item => `
-      <a class="search-result-item" href="${item.url}">
-        <div class="search-result-icon">${escapeHtml(item.icon)}</div>
-        <div>
-          <strong>${escapeHtml(item.title)}</strong>
-          <span>${escapeHtml(item.description)}</span>
-        </div>
-      </a>
-    `).join("");
-  }
-
-  input.addEventListener("input", () => renderResults(input.value));
-  input.addEventListener("keydown", e => {
-    if (e.key === "Escape") {
-      input.value = "";
-      renderResults("");
-      input.blur();
-    }
-  });
-
-  document.addEventListener("click", e => {
-    if (!e.target.closest(".search-wrap")) results.classList.remove("show");
-  });
-}
-
-function initNotifications() {
-  const toggle = document.getElementById("notificationToggle");
-  const panel = document.getElementById("notificationPanel");
-  if (!toggle || !panel) return;
-
-  toggle.addEventListener("click", event => {
-    event.stopPropagation();
-    panel.classList.toggle("show");
-  });
-
-  document.addEventListener("click", event => {
-    if (!event.target.closest(".notification-wrap")) panel.classList.remove("show");
-  });
-}
-
-function productCard(product) {
-  const isExternal = product.external;
-  const safeName = escapeHtml(product.name);
-  const safeCategory = escapeHtml(product.category);
-  const safeDescription = escapeHtml(product.description);
-  const imagePath = `assets/img/products/${product.image}`;
-  const fallback = product.name.split(" ").map(word => word[0]).join("").slice(0, 3).toUpperCase();
-  const statusClass = isExternal ? "external" : product.status.toLowerCase().includes("soon") ? "soon" : "";
-  const cta = isExternal ? "Open External" : "Open Product";
-  const target = isExternal ? " target=\"_blank\" rel=\"noopener\"" : "";
-
-  return `
-    <article class="product-card" data-category="${safeCategory}" data-search="${escapeHtml([product.name, product.category, product.description, ...(product.keywords || [])].join(" ").toLowerCase())}">
-      <div class="product-logo" data-fallback="${fallback}">
-        <img src="${imagePath}" alt="${safeName} logo" loading="lazy" onerror="this.remove();this.parentElement.classList.add('logo-missing')">
-      </div>
-      <div class="product-meta">
-        <span class="tag blue">${safeCategory}</span>
-        <span class="product-status ${statusClass}">${escapeHtml(product.status)}</span>
-      </div>
-      <h3>${safeName}</h3>
-      <p>${safeDescription}</p>
-      <a class="product-action" href="${escapeHtml(product.url)}"${target}>
-        <span>${cta}</span>
-        <span class="product-action-icon">${iconMap.arrow}</span>
-      </a>
-    </article>
-  `;
-}
-
-function initProductsPage() {
-  const directory = document.getElementById("productDirectory");
-  const tabs = document.getElementById("productTabs");
-  const input = document.getElementById("productSearch");
-  const empty = document.getElementById("productEmpty");
-  if (!directory || !tabs) return;
-
-  let activeCategory = "all";
-  let activeSearch = "";
-
-  tabs.innerHTML = productCategories.map(cat => `
-    <button type="button" class="product-tab ${cat.id === "all" ? "active" : ""}" data-category="${escapeHtml(cat.id)}">
-      <span class="product-tab-icon">${iconMap[cat.icon] || ""}</span>
-      <span>${escapeHtml(cat.label)}</span>
-    </button>
-  `).join("");
-
-  function render() {
-    const enabled = productData.filter(p => p.enabled);
-    const filtered = enabled.filter(product => {
-      const matchCategory = activeCategory === "all" || product.category === activeCategory;
-      const haystack = [product.name, product.category, product.description, ...(product.keywords || [])].join(" ").toLowerCase();
-      const matchSearch = !activeSearch || haystack.includes(activeSearch);
-      return matchCategory && matchSearch;
-    });
-
-    const grouped = productCategories
-      .filter(cat => cat.id !== "all")
-      .map(cat => ({ ...cat, products: filtered.filter(p => p.category === cat.id) }))
-      .filter(group => group.products.length > 0);
-
-    if (!filtered.length) {
-      directory.innerHTML = "";
-      if (empty) empty.classList.add("show");
-      return;
-    }
-
-    if (empty) empty.classList.remove("show");
-
-    directory.innerHTML = grouped.map(group => `
-      <div class="product-category-section">
-        <div class="product-category-head">
-          <div class="product-category-icon">${iconMap[group.icon] || iconMap.box}</div>
-          <div>
-            <h2>${escapeHtml(group.label === "Viewer" ? "Viewer & Collaboration" : group.label)}</h2>
-            <span>${group.products.length} product${group.products.length > 1 ? "s" : ""}</span>
-          </div>
-        </div>
-        <div class="product-grid">
-          ${group.products.map(productCard).join("")}
-        </div>
-      </div>
-    `).join("");
-  }
-
-  tabs.addEventListener("click", event => {
-    const button = event.target.closest(".product-tab");
-    if (!button) return;
-    activeCategory = button.dataset.category;
-    tabs.querySelectorAll(".product-tab").forEach(tab => tab.classList.remove("active"));
-    button.classList.add("active");
-    render();
-  });
-
-  if (input) {
-    input.addEventListener("input", () => {
-      activeSearch = input.value.trim().toLowerCase();
-      render();
-    });
-  }
-
-  render();
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  injectIcons();
-  protectManagementPage();
-  initManagementLogin();
-  initWorkspaceSearch();
-  initNotifications();
-  initProductsPage();
-});
+document.addEventListener("DOMContentLoaded",()=>{protectManagementPage();injectIcons();initManagementLogin();initNotifications();initWorkspaceSearch();initProductsPage();initAdminProducts();});
