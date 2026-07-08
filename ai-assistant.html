@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gstar Workspace | AI Assistant</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#f6f8fc;--card:#fff;--text:#0f172a;--muted:#64748b;--line:#e5e7eb;
+--blue:#0b4ed8;--blue2:#1f8fff;--soft:#edf4ff;--green:#10b981;--orange:#f97316;
+--shadow:0 18px 45px rgba(15,23,42,.06)
+}
+body{font-family:Poppins,sans-serif;background:var(--bg);color:var(--text)}
+.wrapper{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+aside{background:#fff;border-right:1px solid #e7edf5;padding:26px}
+.logo{font-size:22px;font-weight:700;color:var(--blue);margin-bottom:40px}
+nav a{display:block;text-decoration:none;color:#64748b;padding:12px 14px;border-radius:12px;margin-bottom:6px}
+nav a:hover,nav a.active{background:var(--soft);color:var(--blue);font-weight:600}
+.divider{height:1px;background:#eef2f7;margin:18px 0}
+main{padding:36px;max-width:1500px;width:100%}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;gap:18px}
+.crumb{font-size:13px;color:#94a3b8;margin-bottom:4px}
+h1{font-size:34px;letter-spacing:-1.2px}
+.search{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 18px;width:340px;color:#94a3b8}
+.hero{background:#fff;border:1px solid var(--line);border-radius:28px;padding:34px;box-shadow:var(--shadow);margin-bottom:26px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-130px;top:-130px;width:320px;height:320px;background:radial-gradient(circle,#d9eeff 0%,transparent 70%)}
+.kicker{color:var(--blue);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.hero h2{font-size:42px;letter-spacing:-1.5px;margin-bottom:12px;position:relative;z-index:1}
+.hero p{color:var(--muted);line-height:1.75;max-width:720px;position:relative;z-index:1}
+.section{margin-top:28px}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:16px;gap:16px}
+.section h2,.section-title{font-size:24px;letter-spacing:-.6px}
+.section-desc{font-size:14px;color:var(--muted);margin-top:3px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 12px 35px rgba(15,23,42,.04);transition:.2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 18px 45px rgba(15,23,42,.08)}
+.icon{width:46px;height:46px;border-radius:14px;background:var(--soft);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-weight:700;color:var(--blue)}
+.card h3{font-size:17px;margin-bottom:8px}
+.card p{color:var(--muted);font-size:14px;line-height:1.7}
+.tag{display:inline-flex;margin-top:14px;padding:6px 10px;border-radius:999px;background:#f1f5f9;color:#475569;font-size:12px;font-weight:600}
+.tag.blue{background:var(--soft);color:var(--blue)}
+.list{display:grid;gap:12px}
+.list-item{display:flex;justify-content:space-between;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 18px}
+.list-item strong{font-size:14px}
+.list-item span{display:block;font-size:12px;color:var(--muted);margin-top:3px}
+.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:none;border-radius:13px;padding:12px 16px;font-weight:600;font-family:inherit;cursor:pointer}
+.btn.primary{background:var(--blue);color:#fff}
+.btn.secondary{background:#fff;color:#334155;border:1px solid var(--line)}
+.footer{margin-top:30px;text-align:center;font-size:12px;color:#94a3b8}
+@media(max-width:1100px){
+.wrapper{grid-template-columns:1fr}
+aside{border-right:none;border-bottom:1px solid #eee}
+.grid-4{grid-template-columns:repeat(2,1fr)}
+.grid-3,.grid-2{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+main{padding:20px}.top,.section-head{align-items:flex-start;flex-direction:column}.search{width:100%}.hero h2{font-size:32px}.grid-4{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+<aside><div class="logo">Gstar Workspace</div><nav>
+<a href="index.html">Dashboard</a>
+<a href="products.html">Products</a>
+<a href="marketing.html">Marketing</a>
+<a href="sales.html">Sales</a>
+<a href="support.html">Support</a>
+<a href="knowledge.html">Knowledge Base</a>
+<a class="active" href="ai-assistant.html">AI Assistant</a>
+<div class="divider"></div>
+<a href="Gstar-Management.html">Management</a>
+</nav></aside>
+<main>
+<div class="top">
+<div>
+<div class="crumb">Internal Workspace / AI Assistant</div>
+<h1>AI Assistant</h1>
+</div>
+<div class="search">Search anything...</div>
+</div>
+
+<section class="hero">
+<div class="kicker">Workspace AI</div>
+<h2>Ask product, sales and support questions.</h2>
+<p>Prototype interface for an internal AI assistant that can later connect to product documents, FAQs and team knowledge.</p>
+</section>
+
+
+<style>
+.chat-box{background:#fff;border:1px solid var(--line);border-radius:28px;padding:24px;box-shadow:var(--shadow)}
+.chat-area{min-height:280px;background:#f8fafc;border:1px solid #edf2f7;border-radius:22px;padding:20px;display:grid;align-content:start;gap:14px;margin-bottom:16px}
+.bubble{max-width:760px;padding:14px 16px;border-radius:16px;font-size:14px;line-height:1.65}
+.bubble.ai{background:#fff;border:1px solid var(--line)}
+.bubble.user{background:var(--blue);color:#fff;margin-left:auto}
+.prompt-row{display:flex;gap:10px}
+.prompt-row input{flex:1;border:1px solid var(--line);border-radius:14px;padding:15px 16px;font-family:inherit}
+</style>
+<section class="section">
+<div class="chat-box">
+<div class="chat-area">
+<div class="bubble ai"><strong>Workspace AI</strong><br>Ask about product information, sales materials, support FAQ or internal resources.</div>
+<div class="bubble user">GstarBIM ต่างกับ Revit ยังไง?</div>
+<div class="bubble ai">Use this area as a prototype for future AI search. It can later connect to internal documents, Google Drive or a knowledge base.</div>
+</div>
+<div class="prompt-row">
+<input placeholder="Ask Workspace AI...">
+<button class="btn primary">Send</button>
+</div>
+</div>
+</section>
+<section class="section">
+<div class="section-head"><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Examples for internal team usage</div></div></div>
+<div class="grid-3">
+<div class="card"><h3>Sales</h3><p>“Summarize key selling points for GstarCAD 2027.”</p></div>
+<div class="card"><h3>Marketing</h3><p>“Create LINE OA copy for license support campaign.”</p></div>
+<div class="card"><h3>Support</h3><p>“Explain offline activation process step by step.”</p></div>
+</div>
+</section>
+
+
+<div class="footer">Gstar Workspace · AI Assistant</div>
+</main>
+</div>
+</body>
+</html>
