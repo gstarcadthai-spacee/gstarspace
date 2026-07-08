@@ -34,71 +34,67 @@
 
     <div class="top-actions">
       <div class="search-wrap">
-        <svg class="top-icon" viewBox="0 0 24 24"><path d="m21 21-4.35-4.35"></path><circle cx="11" cy="11" r="7"></circle></svg>
+        <span class="search-icon" data-icon="search"></span>
         <input id="workspaceSearch" class="search-input" type="search" placeholder="Search anything..." autocomplete="off">
         <div id="searchResults" class="search-results"></div>
       </div>
 
-      <button id="notificationBtn" class="notification-btn" type="button" aria-label="Notifications">
-        <svg viewBox="0 0 24 24"><path d="M10.27 21a2 2 0 0 0 3.46 0"></path><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path></svg>
-        <span class="notification-dot"></span>
-      </button>
-
-      <div id="notificationPanel" class="notification-panel">
-        <div class="notification-head"><strong>Latest Updates</strong><span>View all</span></div>
-        <a class="notification-item" href="#"><span class="notification-mark"></span><div><strong>GstarCAD 2027 Sales Kit Updated</strong><small>Sales Kit และ Marketing Materials ได้รับการอัปเดตล่าสุด</small></div></a>
-        <a class="notification-item" href="#"><span class="notification-mark"></span><div><strong>GstarBIM Launch Resources</strong><small>เพิ่มไฟล์ Webinar, Sales Deck และ Landing Page</small></div></a>
-        <a class="notification-item" href="management-login.html"><span class="notification-mark"></span><div><strong>Management Console</strong><small>จัดการประกาศและ Product Resources ในระยะถัดไป</small></div></a>
+      <div class="notification-wrap">
+        <button class="notification-btn" id="notificationToggle" type="button" aria-label="Notifications">
+          <span data-icon="bell"></span>
+          <span class="notification-dot"></span>
+        </button>
+        <div class="notification-panel" id="notificationPanel">
+          <div class="notification-head">
+            <strong>Latest Updates</strong>
+            <span>3 new</span>
+          </div>
+          <a class="notification-item" href="#">
+            <span class="notification-mark"></span>
+            <div><strong>GstarCAD 2027 Sales Kit Updated</strong><small>Sales Kit และ Marketing Materials ได้รับการอัปเดตล่าสุด</small></div>
+          </a>
+          <a class="notification-item" href="#">
+            <span class="notification-mark"></span>
+            <div><strong>GstarBIM Launch Resources</strong><small>เพิ่มไฟล์ Webinar, Sales Deck และ Landing Page</small></div>
+          </a>
+          <a class="notification-item" href="#">
+            <span class="notification-mark"></span>
+            <div><strong>Workspace Management Ready</strong><small>เปิดใช้งานระบบ Management Console สำหรับผู้ดูแลระบบ</small></div>
+          </a>
+        </div>
       </div>
     </div>
   </div>
 
   <section class="hero product-hero">
     <div class="kicker">Product Portfolio</div>
-    <h2>Product resources by category.</h2>
-    <p>ศูนย์กลางสินค้าและโซลูชัน แยกตามหมวดหมู่ เพื่อให้ทีมเข้าถึงข้อมูล โลโก้ ลิงก์ และทรัพยากรของแต่ละโปรแกรมได้เร็วขึ้น</p>
+    <h2>All solutions, grouped by workflow.</h2>
+    <p>รวมผลิตภัณฑ์และโซลูชันที่เกี่ยวข้องกับทีม GstarCAD Thailand แยกตามหมวดงาน เช่น CAD, BIM, Viewer, Add-ons และ Partner Solutions พร้อมรองรับการเพิ่ม/ปิดใช้งานจาก Admin ในอนาคต</p>
   </section>
 
   <section class="section product-control-panel">
     <div class="section-head product-head">
       <div>
-        <div class="section-title">Product Categories</div>
-        <div class="section-desc">เลือกหมวดหมู่ หรือค้นหาชื่อโปรแกรมที่ต้องการ</div>
+        <div class="section-title">Product Directory</div>
+        <div class="section-desc">ค้นหาหรือเลือกหมวดหมู่เพื่อดูผลิตภัณฑ์</div>
       </div>
       <div class="product-search-box">
-        <svg viewBox="0 0 24 24"><path d="m21 21-4.35-4.35"></path><circle cx="11" cy="11" r="7"></circle></svg>
+        <span data-icon="search"></span>
         <input id="productSearch" type="search" placeholder="Search products..." autocomplete="off">
       </div>
     </div>
-
-    <div class="product-tabs" id="productTabs">
-      <button class="product-tab active" type="button" data-filter="all">All</button>
-      <button class="product-tab" type="button" data-filter="CAD">CAD</button>
-      <button class="product-tab" type="button" data-filter="BIM">BIM</button>
-      <button class="product-tab" type="button" data-filter="Viewer & Collaboration">Viewer & Collaboration</button>
-      <button class="product-tab" type="button" data-filter="Add-ons">Add-ons</button>
-      <button class="product-tab" type="button" data-filter="Manufacturing">Manufacturing</button>
-      <button class="product-tab" type="button" data-filter="3D Printing">3D Printing</button>
-      <button class="product-tab" type="button" data-filter="Partners">Partners</button>
-    </div>
+    <div class="product-tabs" id="productTabs"></div>
   </section>
 
   <section class="section">
-    <div class="product-grid" id="productGrid"></div>
-    <div id="productEmpty" class="product-empty">ไม่พบสินค้าที่ตรงกับคำค้นหา</div>
-  </section>
-
-  <section class="section admin-note">
-    <div>
-      <strong>Admin-ready structure</strong>
-      <p>หน้านี้วางโครงไว้ให้อนาคต Admin เพิ่ม ลบ ปิดใช้งาน เปลี่ยนหมวด หรือเปลี่ยนลิงก์สินค้าได้ผ่าน Management Console / Apps Script</p>
-    </div>
-    <a class="btn secondary" href="management-login.html">Open Management</a>
+    <div id="productDirectory" class="product-directory"></div>
+    <div id="productEmpty" class="product-empty">No products found.</div>
   </section>
 
   <div class="footer">Gstar Workspace · Products</div>
 </main>
 </div>
+
 <script src="assets/js/app.js"></script>
 </body>
 </html>
