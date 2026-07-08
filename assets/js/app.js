@@ -137,22 +137,44 @@ function renderProductCardV5(p){
 function initMobileDrawer(){
   const topbar=document.querySelector('.topbar');
   const sidebar=document.querySelector('.sidebar');
-  if(!topbar||!sidebar||document.querySelector('.mobile-menu-btn'))return;
-  const btn=document.createElement('button');
-  btn.className='mobile-menu-btn';
-  btn.type='button';
-  btn.setAttribute('aria-label','Open navigation');
-  btn.innerHTML='<span></span>';
-  topbar.prepend(btn);
-  const backdrop=document.createElement('div');
-  backdrop.className='mobile-drawer-backdrop';
-  document.body.appendChild(backdrop);
-  const close=()=>{document.body.classList.remove('mobile-nav-open');btn.setAttribute('aria-label','Open navigation')};
-  const open=()=>{document.body.classList.add('mobile-nav-open');btn.setAttribute('aria-label','Close navigation')};
-  btn.addEventListener('click',()=>document.body.classList.contains('mobile-nav-open')?close():open());
-  backdrop.addEventListener('click',close);
-  sidebar.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
+  if(!topbar||!sidebar)return;
+
+  // Safety reset: prevent an invisible mobile overlay from blocking every page.
+  document.body.classList.remove('mobile-nav-open');
+  document.querySelectorAll('.mobile-drawer-backdrop').forEach((el,i)=>{ if(i>0) el.remove(); });
+
+  let btn=document.querySelector('.mobile-menu-btn');
+  if(!btn){
+    btn=document.createElement('button');
+    btn.className='mobile-menu-btn';
+    btn.type='button';
+    btn.setAttribute('aria-label','Open navigation');
+    btn.innerHTML='<span></span>';
+    topbar.prepend(btn);
+  }
+
+  let backdrop=document.querySelector('.mobile-drawer-backdrop');
+  if(!backdrop){
+    backdrop=document.createElement('div');
+    backdrop.className='mobile-drawer-backdrop';
+    document.body.appendChild(backdrop);
+  }
+
+  const close=()=>{
+    document.body.classList.remove('mobile-nav-open');
+    btn.setAttribute('aria-label','Open navigation');
+  };
+  const open=()=>{
+    document.body.classList.add('mobile-nav-open');
+    btn.setAttribute('aria-label','Close navigation');
+  };
+  const toggle=()=>document.body.classList.contains('mobile-nav-open')?close():open();
+
+  btn.onclick=(e)=>{e.preventDefault();e.stopPropagation();toggle();};
+  backdrop.onclick=close;
+  sidebar.querySelectorAll('a').forEach(a=>a.onclick=close);
   document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+  window.addEventListener('resize',()=>{if(window.innerWidth>760)close()});
 }
 
 const productOverviewV51={
