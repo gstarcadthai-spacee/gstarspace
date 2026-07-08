@@ -3,173 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Gstar Workspace</title>
+<title>Gstar Workspace | Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Poppins,sans-serif;background:#f6f8fc;color:#0f172a}
-.wrapper{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
-aside{background:#fff;border-right:1px solid #e7edf5;padding:26px}
-.logo{font-size:22px;font-weight:700;color:#0b4ed8;margin-bottom:40px}
-nav a{display:block;text-decoration:none;color:#64748b;padding:12px 14px;border-radius:12px;margin-bottom:6px}
-nav a:hover,nav a.active{background:#edf4ff;color:#0b4ed8;font-weight:600}
-main{padding:36px;max-width:1400px}
-
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
-.search{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:14px 18px;width:340px;color:#94a3b8}
-
-.hero{
-background:#fff;
-border:1px solid #e5e7eb;
-border-radius:28px;
-padding:48px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-overflow:hidden;
-position:relative;
-}
-.hero:after{
-content:"";
-position:absolute;
-right:-120px;
-top:-120px;
-width:340px;
-height:340px;
-background:radial-gradient(circle,#d9eeff 0%,transparent 70%);
-}
-.hero h1{
-font-size:54px;
-line-height:1;
-letter-spacing:-2px;
-margin-bottom:18px;
-}
-.hero p{
-color:#64748b;
-max-width:560px;
-line-height:1.8;
-margin-bottom:28px;
-}
-.btn{
-display:inline-block;
-padding:14px 22px;
-background:#0b4ed8;
-color:#fff;
-border-radius:14px;
-text-decoration:none;
-font-weight:600;
-}
-.hero-card{
-width:280px;
-background:linear-gradient(180deg,#0b4ed8,#1f8fff);
-color:#fff;
-border-radius:24px;
-padding:28px;
-box-shadow:0 30px 60px rgba(11,78,216,.25);
-position:relative;
-z-index:2;
-}
-.hero-card h3{margin-bottom:12px}
-.hero-card p{color:#dcecff;font-size:14px;line-height:1.6;margin:0}
-
-.section{margin-top:36px}
-.section h2{font-size:24px;margin-bottom:18px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.card{
-background:#fff;
-border:1px solid #e5e7eb;
-border-radius:22px;
-padding:24px;
-transition:.2s;
-}
-.card:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(0,0,0,.06)}
-.icon{
-width:46px;height:46px;border-radius:14px;
-background:#eef5ff;
-display:flex;
-align-items:center;
-justify-content:center;
-margin-bottom:16px;
-font-weight:700;
-color:#0b4ed8;
-}
-.card h3{margin-bottom:8px;font-size:17px}
-.card p{color:#64748b;font-size:14px;line-height:1.7}
-@media(max-width:1100px){
-.wrapper{grid-template-columns:1fr}
-aside{border-right:none;border-bottom:1px solid #eee}
-.hero{flex-direction:column;align-items:flex-start;gap:30px}
-.grid{grid-template-columns:repeat(2,1fr)}
-}
-</style>
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 <div class="wrapper">
-<aside>
-<div class="logo">Gstar Workspace</div>
-<nav>
+<aside class="sidebar"><div class="logo">Gstar Workspace</div><nav class="nav">
 <a class="active" href="index.html">Dashboard</a>
-<a href="#">Products</a>
-<a href="#">Marketing</a>
-<a href="#">Sales</a>
-<a href="#">Support</a>
-<a href="#">Knowledge Base</a>
-<a href="#">AI Assistant</a>
-<a href="Gstar-Management.html">Admin Management</a>
-</nav>
-</aside>
-
-<main>
-
+<a href="products.html">Products</a>
+<a href="marketing.html">Marketing</a>
+<a href="sales.html">Sales</a>
+<a href="support.html">Support</a>
+<a href="knowledge.html">Knowledge Base</a>
+<a href="ai-assistant.html">AI Assistant</a>
+<div class="divider"></div>
+<a href="Gstar-Management.html">Management</a>
+</nav></aside>
+<main class="main">
 <div class="top">
 <div>
-<div style="font-size:13px;color:#94a3b8">Internal Workspace</div>
-<h2 style="margin-top:4px">Dashboard</h2>
+<div class="crumb">Internal Workspace / Dashboard</div>
+<h1>Dashboard</h1>
 </div>
 <div class="search">Search anything...</div>
 </div>
+<section class="hero">
+<div class="kicker">Product Operations</div>
+<h2>Everything. One Workspace.</h2>
+<p>A centralized platform for product information, marketing assets, sales enablement and technical resources across the Gstar ecosystem.</p>
+</section>
 
-<div class="hero">
-<div>
-<div style="color:#0b4ed8;font-weight:600;margin-bottom:12px;">PRODUCT OPERATIONS</div>
-<h1>Everything.<br>One Workspace.</h1>
-<p>
-A centralized platform for product information, marketing assets,
-sales enablement and technical resources across the Gstar ecosystem.
-</p>
-<a class="btn" href="Gstar-Management.html">Open Admin Console</a>
+<section class="section">
+<div class="section-head"><div><div class="section-title">Quick Access</div><div class="section-desc">Frequently used workflows for internal teams</div></div></div>
+<div class="grid-4">
+<a class="card" href="products.html"><div class="icon">P</div><h3>Products</h3><p>All product documentation and resources.</p></a>
+<a class="card" href="marketing.html"><div class="icon">M</div><h3>Marketing Hub</h3><p>Campaigns, brand assets and templates.</p></a>
+<a class="card" href="sales.html"><div class="icon">S</div><h3>Sales Hub</h3><p>Proposal, pricing and sales materials.</p></a>
+<a class="card" href="support.html"><div class="icon">T</div><h3>Support</h3><p>License guide, FAQ and troubleshooting.</p></a>
 </div>
+</section>
+<section class="section">
+<div class="section-head"><div><div class="section-title">Latest Updates</div><div class="section-desc">Current internal announcements</div></div></div>
+<div class="list">
+<div class="list-item"><div><strong>GstarCAD 2027 resources added</strong><span>Sales and marketing materials are now available.</span></div><span class="tag blue">Active</span></div>
+<div class="list-item"><div><strong>GstarBIM launch kit updated</strong><span>Internal deck and messaging have been revised.</span></div><span class="tag">Updated</span></div>
+<div class="list-item"><div><strong>Management console ready</strong><span>Resource library and admin access page are available.</span></div><a class="btn primary" href="Gstar-Management.html">Open</a></div>
+</div>
+</section>
 
-<div class="hero-card">
-<h3>Latest Update</h3>
-<p>GstarCAD 2027 resources are now available for Sales & Marketing.</p>
-<hr style="margin:18px 0;border:none;border-top:1px solid rgba(255,255,255,.2)">
-<p>Updated product messaging and launch materials.</p>
-</div>
-
-</div>
-
-<div class="section">
-<h2>Quick Access</h2>
-<div class="grid">
-<div class="card"><div class="icon">P</div><h3>Products</h3><p>All product documentation and resources.</p></div>
-<div class="card"><div class="icon">M</div><h3>Marketing Hub</h3><p>Campaigns, brand assets and templates.</p></div>
-<div class="card"><div class="icon">S</div><h3>Sales Hub</h3><p>Proposal, pricing and sales materials.</p></div>
-<div class="card"><div class="icon">T</div><h3>Support</h3><p>License guide, FAQ and troubleshooting.</p></div>
-</div>
-</div>
-
-<div class="section">
-<h2>Products</h2>
-<div class="grid">
-<div class="card"><h3>GstarCAD</h3><p>Core CAD resources</p></div>
-<div class="card"><h3>GstarBIM</h3><p>BIM workflow & launch kit</p></div>
-<div class="card"><h3>CADprofi</h3><p>Industry add-ons</p></div>
-<div class="card"><h3>3D FastView</h3><p>Viewer & Cloud</p></div>
-</div>
-</div>
-
+<div class="footer">Gstar Workspace · Dashboard</div>
 </main>
 </div>
+<script src="assets/js/app.js"></script>
 </body>
 </html>

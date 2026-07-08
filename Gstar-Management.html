@@ -5,525 +5,63 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Gstar Workspace | Management</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
---bg:#f6f8fc;
---card:#ffffff;
---text:#0f172a;
---muted:#64748b;
---line:#e5e7eb;
---blue:#0b4ed8;
---blue-soft:#eef5ff;
---green:#10b981;
---orange:#f97316;
---red:#ef4444;
---shadow:0 18px 45px rgba(15,23,42,.06);
-}
-body{font-family:Poppins,sans-serif;background:var(--bg);color:var(--text)}
-.wrapper{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
-aside{background:#fff;border-right:1px solid #e7edf5;padding:26px}
-.logo{font-size:22px;font-weight:700;color:var(--blue);margin-bottom:40px}
-nav a{display:block;text-decoration:none;color:#64748b;padding:12px 14px;border-radius:12px;margin-bottom:6px;cursor:pointer}
-nav a:hover,nav a.active{background:var(--blue-soft);color:var(--blue);font-weight:600}
-main{padding:36px;max-width:1500px;width:100%}
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;gap:18px}
-.crumb{font-size:13px;color:#94a3b8;margin-bottom:4px}
-h1{font-size:32px;letter-spacing:-1px}
-.actions{display:flex;gap:10px}
-.btn{border:none;border-radius:13px;padding:13px 18px;font-weight:600;font-family:inherit;cursor:pointer}
-.btn.primary{background:var(--blue);color:#fff}
-.btn.secondary{background:#fff;color:#334155;border:1px solid var(--line)}
-.admin-hero{
-background:#fff;
-border:1px solid var(--line);
-border-radius:28px;
-padding:30px;
-display:grid;
-grid-template-columns:1fr 320px;
-gap:24px;
-box-shadow:var(--shadow);
-margin-bottom:24px;
-}
-.admin-hero h2{font-size:36px;letter-spacing:-1.5px;margin-bottom:12px}
-.admin-hero p{color:var(--muted);line-height:1.75;max-width:720px}
-.search-box{margin-top:24px;display:flex;gap:10px}
-.search-box input{flex:1;border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-family:inherit}
-.search-box button{border:none;background:var(--blue);color:#fff;border-radius:14px;padding:0 20px;font-weight:600}
-.system-card{
-background:linear-gradient(180deg,#0b4ed8,#1f8fff);
-color:#fff;
-border-radius:22px;
-padding:24px;
-}
-.system-card h3{font-size:18px;margin-bottom:16px}
-.system-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.18);font-size:14px}
-.system-row:last-child{border-bottom:none}
-.status{display:inline-flex;align-items:center;gap:7px}
-.dot{width:8px;height:8px;border-radius:50%;background:#22c55e}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
-.stat{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 10px 30px rgba(15,23,42,.04)}
-.stat strong{font-size:28px;display:block;letter-spacing:-1px}
-.stat span{color:var(--muted);font-size:13px}
-.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:22px}
-.card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:var(--shadow)}
-.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-.card h2{font-size:20px;letter-spacing:-.5px}
-.link{font-size:13px;text-decoration:none;color:var(--blue);font-weight:600}
-table{width:100%;border-collapse:collapse}
-th{text-align:left;color:#94a3b8;font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;padding:12px;border-bottom:1px solid var(--line)}
-td{padding:15px 12px;border-bottom:1px solid #f1f5f9;font-size:14px;vertical-align:middle}
-.resource-title{font-weight:600}
-.resource-sub{font-size:12px;color:var(--muted);margin-top:3px}
-.badge{display:inline-flex;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:600}
-.badge.blue{background:#eef5ff;color:var(--blue)}
-.badge.green{background:#ecfdf5;color:#059669}
-.badge.orange{background:#fff7ed;color:#ea580c}
-.badge.gray{background:#f1f5f9;color:#475569}
-.menu-btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;color:#64748b;cursor:pointer}
-.form-grid{display:grid;gap:14px}
-label{font-size:13px;color:#475569;font-weight:600}
-input,select,textarea{width:100%;border:1px solid var(--line);border-radius:13px;padding:13px 14px;font-family:inherit;background:#fff}
-textarea{height:92px;resize:none}
-.form-row{display:grid;gap:7px}
-.role-list,.activity-list{display:grid;gap:12px}
-.role-item,.activity-item{
-display:grid;
-grid-template-columns:42px 1fr auto;
-gap:12px;
-align-items:center;
-padding:14px;
-border:1px solid #edf2f7;
-background:#f8fafc;
-border-radius:16px;
-}
-.avatar{
-width:42px;height:42px;border-radius:14px;
-background:#eef5ff;color:var(--blue);
-display:grid;place-items:center;font-weight:700;
-}
-.role-item strong,.activity-item strong{font-size:14px}
-.role-item span,.activity-item span{display:block;color:var(--muted);font-size:12px;margin-top:3px}
-.small{font-size:12px;color:#94a3b8}
-.tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
-.tab{padding:9px 12px;border-radius:999px;border:1px solid var(--line);background:#fff;color:#64748b;font-size:13px;font-weight:600}
-.tab.active{background:var(--blue-soft);color:var(--blue);border-color:#dbeafe}
-.product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.product-item{border:1px solid #edf2f7;background:#f8fafc;border-radius:16px;padding:15px}
-.product-item strong{font-size:14px}
-.toggle{
-width:42px;height:24px;border-radius:999px;background:#cbd5e1;position:relative;margin-top:12px;
-}
-.toggle:after{content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
-.toggle.on{background:var(--blue)}
-.toggle.on:after{left:21px}
-.footer{margin-top:28px;text-align:center;font-size:12px;color:#94a3b8}
-@media(max-width:1100px){
-.wrapper{grid-template-columns:1fr}
-aside{border-right:none;border-bottom:1px solid #eee}
-.admin-hero,.grid{grid-template-columns:1fr}
-.stats{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:700px){
-main{padding:20px}
-.top,.actions,.card-head{align-items:flex-start;flex-direction:column}
-.stats,.product-grid{grid-template-columns:1fr}
-.admin-hero h2{font-size:30px}
-table{display:block;overflow-x:auto}
-}
-
-/* Password Gate */
-body.locked .wrapper{
-  filter:blur(10px);
-  pointer-events:none;
-  user-select:none;
-}
-.login-overlay{
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  display:grid;
-  place-items:center;
-  padding:24px;
-  background:
-    radial-gradient(circle at top right, rgba(11,78,216,.18), transparent 32%),
-    linear-gradient(135deg, rgba(246,248,252,.92), rgba(255,255,255,.96));
-  backdrop-filter:blur(18px);
-}
-.login-card{
-  width:min(420px,100%);
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:28px;
-  padding:32px;
-  box-shadow:0 30px 90px rgba(15,23,42,.14);
-}
-.login-mark{
-  width:52px;
-  height:52px;
-  border-radius:16px;
-  display:grid;
-  place-items:center;
-  color:#fff;
-  font-weight:700;
-  background:linear-gradient(135deg,var(--blue),#1f8fff);
-  margin-bottom:20px;
-}
-.login-card h2{
-  font-size:28px;
-  letter-spacing:-1px;
-  margin-bottom:8px;
-}
-.login-card p{
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.65;
-  margin-bottom:22px;
-}
-.login-card label{
-  display:block;
-  margin-bottom:8px;
-}
-.login-password-wrap{
-  display:flex;
-  gap:10px;
-}
-.login-password-wrap input{
-  flex:1;
-}
-.login-error{
-  display:none;
-  margin-top:12px;
-  color:var(--red);
-  font-size:13px;
-  font-weight:600;
-}
-.login-error.show{
-  display:block;
-}
-.login-help{
-  margin-top:18px;
-  padding-top:18px;
-  border-top:1px solid var(--line);
-  color:#94a3b8;
-  font-size:12px;
-  line-height:1.6;
-}
-.logout-btn{
-  border:none;
-  border-radius:13px;
-  padding:13px 18px;
-  font-weight:600;
-  font-family:inherit;
-  cursor:pointer;
-  background:#fff;
-  color:#334155;
-  border:1px solid var(--line);
-}
-
-</style>
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="locked">
-
-<div class="login-overlay" id="loginOverlay">
-  <div class="login-card">
-    <div class="login-mark">G</div>
-    <h2>Admin Access</h2>
-    <p>Enter the workspace password to manage internal resources, product content and team access.</p>
-
-    <form id="loginForm">
-      <label for="adminPassword">Password</label>
-      <div class="login-password-wrap">
-        <input type="password" id="adminPassword" placeholder="Enter password" autocomplete="current-password">
-        <button class="btn primary" type="submit">Unlock</button>
-      </div>
-      <div class="login-error" id="loginError">Incorrect password. Please try again.</div>
-    </form>
-
-    <div class="login-help">
-      Demo password: <strong>gstar2026</strong><br>
-      Note: This is a simple front-end password gate. For real internal use, connect it with Google Login or a backend authentication system.
-    </div>
-  </div>
-</div>
-
 <div class="wrapper">
-<aside>
-<div class="logo">Gstar Workspace</div>
-<nav>
+<aside class="sidebar"><div class="logo">Gstar Workspace</div><nav class="nav">
 <a href="index.html">Dashboard</a>
-<a href="#">Products</a>
-<a href="#">Marketing</a>
-<a href="#">Sales</a>
-<a href="#">Support</a>
-<a href="#">Knowledge Base</a>
-<a class="active" href="Gstar-Management.html">Admin Management</a>
-</nav>
-</aside>
-
-<main>
+<a href="products.html">Products</a>
+<a href="marketing.html">Marketing</a>
+<a href="sales.html">Sales</a>
+<a href="support.html">Support</a>
+<a href="knowledge.html">Knowledge Base</a>
+<a href="ai-assistant.html">AI Assistant</a>
+<div class="divider"></div>
+<a class="active" href="Gstar-Management.html">Management</a>
+</nav></aside>
+<main class="main">
 <div class="top">
 <div>
-<div class="crumb">Internal Workspace / Admin</div>
+<div class="crumb">Internal Workspace / Management</div>
 <h1>Management</h1>
 </div>
-<div class="actions">
-<button class="logout-btn" onclick="logoutAdmin()">Logout</button>
-<button class="btn secondary">Export List</button>
-<button class="btn primary">+ Add Resource</button>
+<div class="search">Search anything...</div>
 </div>
-</div>
-
-<section class="admin-hero">
-<div>
-<h2>Manage workspace content, access and product resources.</h2>
-<p>
-Control internal documents, product visibility, team permissions and operational updates
-from one clean admin console. Designed for marketing, sales and support teams to keep
-Gstar product information accurate and easy to access.
-</p>
-<div class="search-box">
-<input placeholder="Search resource, owner, product, file type...">
-<button>Search</button>
-</div>
-</div>
-
-<div class="system-card">
-<h3>System Overview</h3>
-<div class="system-row"><span>Status</span><span class="status"><i class="dot"></i> Active</span></div>
-<div class="system-row"><span>Last Sync</span><span>Today 16:40</span></div>
-<div class="system-row"><span>Content Owner</span><span>Marketing Team</span></div>
-<div class="system-row"><span>Access Mode</span><span>Internal Only</span></div>
-</div>
+<section class="hero">
+<div class="kicker">Workspace Control</div>
+<h2>Manage internal resources and access.</h2>
+<p>Control content, product visibility, resource ownership and workspace administration from one clean console.</p>
 </section>
 
-<section class="stats">
-<div class="stat"><strong>128</strong><span>Total Resources</span></div>
-<div class="stat"><strong>36</strong><span>Product Docs</span></div>
-<div class="stat"><strong>18</strong><span>Campaign Assets</span></div>
-<div class="stat"><strong>09</strong><span>Admin Users</span></div>
-</section>
+<div class="admin-gate">
+  <form class="admin-login" id="adminLoginForm">
+    <h2>Management Access</h2>
+    <p>Enter the workspace password to manage resources, product content and internal settings.</p>
+    <input type="password" id="adminPassword" placeholder="Enter password">
+    <button class="btn primary" type="submit">Unlock</button>
+    <div class="error" id="adminError">Incorrect password. Please try again.</div>
+    <p style="font-size:12px;margin-top:16px;color:#94a3b8">Demo password: <strong>gstar2026</strong></p>
+  </form>
+</div>
+<section class="section"><div class="grid-4">
+<div class="card"><div class="icon">128</div><h3>Total Resources</h3><p>Documents, links and internal materials currently listed.</p></div>
+<div class="card"><div class="icon">36</div><h3>Product Docs</h3><p>Product-level resources organized by workstream.</p></div>
+<div class="card"><div class="icon">18</div><h3>Campaign Assets</h3><p>Marketing and launch materials under management.</p></div>
+<div class="card"><div class="icon">09</div><h3>Admin Users</h3><p>Internal users with content management access.</p></div>
+</div></section>
+<section class="section"><div class="section-head"><div><div class="section-title">Resource Library</div><div class="section-desc">Admin view for managing workspace content</div></div><button class="btn primary">+ Add Resource</button></div>
+<div class="list">
+<div class="list-item"><div><strong>GstarCAD 2027 Sales Kit</strong><span>Product Center / GstarCAD</span></div><span class="tag blue">Published</span></div>
+<div class="list-item"><div><strong>GstarBIM Launch Messaging</strong><span>Marketing Hub / Campaign</span></div><span class="tag blue">Published</span></div>
+<div class="list-item"><div><strong>License Activation FAQ</strong><span>Support Hub / Knowledge Base</span></div><span class="tag">Published</span></div>
+<div class="list-item"><div><strong>Partner Onboarding Pack</strong><span>Partner Operations</span></div><span class="tag">Draft</span></div>
+</div></section>
+<section class="section"><button class="btn secondary" onclick="logoutManagement()">Logout Management</button></section>
 
-<section class="grid">
-<div class="card">
-<div class="card-head">
-<h2>Resource Library</h2>
-<a class="link" href="#">View all →</a>
-</div>
-
-<div class="tabs">
-<div class="tab active">All</div>
-<div class="tab">Products</div>
-<div class="tab">Marketing</div>
-<div class="tab">Sales</div>
-<div class="tab">Support</div>
-</div>
-
-<table>
-<thead>
-<tr>
-<th>Resource</th>
-<th>Type</th>
-<th>Owner</th>
-<th>Status</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<div class="resource-title">GstarCAD 2027 Sales Kit</div>
-<div class="resource-sub">Product Center / GstarCAD</div>
-</td>
-<td><span class="badge blue">Deck</span></td>
-<td>Sales</td>
-<td><span class="badge green">Published</span></td>
-<td><button class="menu-btn">Edit</button></td>
-</tr>
-<tr>
-<td>
-<div class="resource-title">GstarBIM Launch Messaging</div>
-<div class="resource-sub">Marketing Hub / Campaign</div>
-</td>
-<td><span class="badge orange">Copy</span></td>
-<td>Marketing</td>
-<td><span class="badge green">Published</span></td>
-<td><button class="menu-btn">Edit</button></td>
-</tr>
-<tr>
-<td>
-<div class="resource-title">License Activation FAQ</div>
-<div class="resource-sub">Support Hub / Knowledge Base</div>
-</td>
-<td><span class="badge gray">Guide</span></td>
-<td>Support</td>
-<td><span class="badge green">Published</span></td>
-<td><button class="menu-btn">Edit</button></td>
-</tr>
-<tr>
-<td>
-<div class="resource-title">Partner Onboarding Pack</div>
-<div class="resource-sub">Partner Operations</div>
-</td>
-<td><span class="badge blue">PDF</span></td>
-<td>BD</td>
-<td><span class="badge orange">Draft</span></td>
-<td><button class="menu-btn">Edit</button></td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<div class="card">
-<div class="card-head">
-<h2>Add New Resource</h2>
-</div>
-<div class="form-grid">
-<div class="form-row">
-<label>Resource Name</label>
-<input placeholder="e.g. GstarCAD Price List Q3">
-</div>
-<div class="form-row">
-<label>Category</label>
-<select>
-<option>Product Center</option>
-<option>Marketing Hub</option>
-<option>Sales Enablement</option>
-<option>Technical Support</option>
-<option>Partner Operations</option>
-</select>
-</div>
-<div class="form-row">
-<label>Product</label>
-<select>
-<option>GstarCAD</option>
-<option>GstarBIM</option>
-<option>CADprofi</option>
-<option>3D FastView</option>
-<option>All Products</option>
-</select>
-</div>
-<div class="form-row">
-<label>File / Link</label>
-<input placeholder="Paste Google Drive, Sheet, Site or URL">
-</div>
-<div class="form-row">
-<label>Description</label>
-<textarea placeholder="Short note for internal users..."></textarea>
-</div>
-<button class="btn primary">Save Resource</button>
-</div>
-</div>
-</section>
-
-<section class="grid" style="margin-top:22px">
-<div class="card">
-<div class="card-head">
-<h2>Admin Roles</h2>
-<a class="link">Manage access →</a>
-</div>
-<div class="role-list">
-<div class="role-item">
-<div class="avatar">M</div>
-<div><strong>Marketing Admin</strong><span>Can manage campaign, assets and product content</span></div>
-<div class="small">Full</div>
-</div>
-<div class="role-item">
-<div class="avatar">S</div>
-<div><strong>Sales Editor</strong><span>Can update sales materials and pricing references</span></div>
-<div class="small">Edit</div>
-</div>
-<div class="role-item">
-<div class="avatar">T</div>
-<div><strong>Support Editor</strong><span>Can update FAQ, troubleshooting and license guides</span></div>
-<div class="small">Edit</div>
-</div>
-</div>
-</div>
-
-<div class="card">
-<div class="card-head">
-<h2>Product Visibility</h2>
-</div>
-<div class="product-grid">
-<div class="product-item"><strong>GstarCAD</strong><div class="small">Visible in Product Center</div><div class="toggle on"></div></div>
-<div class="product-item"><strong>GstarBIM</strong><div class="small">Visible in Product Center</div><div class="toggle on"></div></div>
-<div class="product-item"><strong>CADprofi</strong><div class="small">Visible in Product Center</div><div class="toggle on"></div></div>
-<div class="product-item"><strong>3D FastView</strong><div class="small">Visible in Product Center</div><div class="toggle on"></div></div>
-</div>
-</div>
-</section>
-
-<section class="card" style="margin-top:22px">
-<div class="card-head">
-<h2>Recent Activity</h2>
-<a class="link">Activity log →</a>
-</div>
-<div class="activity-list">
-<div class="activity-item">
-<div class="avatar">G</div>
-<div><strong>GstarCAD 2027 Sales Kit updated</strong><span>Sales materials were revised and republished.</span></div>
-<div class="small">2h ago</div>
-</div>
-<div class="activity-item">
-<div class="avatar">B</div>
-<div><strong>GstarBIM Launch Messaging added</strong><span>New positioning document was added to Marketing Hub.</span></div>
-<div class="small">Today</div>
-</div>
-<div class="activity-item">
-<div class="avatar">L</div>
-<div><strong>License Activation FAQ published</strong><span>Support guide is now visible in Knowledge Base.</span></div>
-<div class="small">Yesterday</div>
-</div>
-</div>
-</section>
-
-<div class="footer">Gstar Workspace · Management Console</div>
+<div class="footer">Gstar Workspace · Management</div>
 </main>
 </div>
-
-<script>
-const ADMIN_PASSWORD = "gstar2026";
-const SESSION_KEY = "gstar_admin_unlocked";
-
-function unlockAdmin(){
-  document.body.classList.remove("locked");
-  const overlay = document.getElementById("loginOverlay");
-  if(overlay) overlay.style.display = "none";
-}
-
-function logoutAdmin(){
-  sessionStorage.removeItem(SESSION_KEY);
-  document.body.classList.add("locked");
-  const overlay = document.getElementById("loginOverlay");
-  if(overlay) overlay.style.display = "grid";
-  const input = document.getElementById("adminPassword");
-  if(input) input.value = "";
-}
-
-document.addEventListener("DOMContentLoaded", function(){
-  if(sessionStorage.getItem(SESSION_KEY) === "true"){
-    unlockAdmin();
-  }
-
-  const form = document.getElementById("loginForm");
-  const input = document.getElementById("adminPassword");
-  const error = document.getElementById("loginError");
-
-  form.addEventListener("submit", function(e){
-    e.preventDefault();
-
-    if(input.value.trim() === ADMIN_PASSWORD){
-      sessionStorage.setItem(SESSION_KEY, "true");
-      unlockAdmin();
-    }else{
-      error.classList.add("show");
-      input.value = "";
-      input.focus();
-    }
-  });
-});
-</script>
-
+<script src="assets/js/app.js"></script>
 </body>
 </html>
