@@ -1,20 +1,16 @@
-# Gstar Workspace V4 Final Foundation
+# Gstar Workspace Foundation + Management V2
 
-Upload this pack to restore and lock the stable workspace foundation before Products V5.
+Upload all files to repository root.
 
-## Included
-- index.html
-- products.html
-- marketing.html
-- sales.html
-- support.html
-- knowledge.html
-- ai-assistant.html
-- Gstar-Management.html
-- assets/css/style.css
-- assets/js/app.js
+Included:
+- Foundation UI lock: sidebar, topbar, hero, cards
+- Management login gate
+- Management Console mock with localStorage
+- Product Management mock
+- Announcement Management mock
+- Notification preview
+- Apps Script intentionally not connected yet
 
-## Notes
-- This is the stable mock/foundation set.
-- Apps Script is not connected.
-- Products V5 should be developed later in a separate product-specific CSS file.
+Password: `gstar2026`
+
+Important: keep product logo files in either `assets/img/products/` using exact names in app.js.
