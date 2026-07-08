@@ -1,781 +1,174 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gstar Workspace | Internal Product Hub</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      --bg:#f4f7fb;
-      --surface:#ffffff;
-      --surface-2:#f8fafc;
-      --text:#0f172a;
-      --muted:#64748b;
-      --line:#e2e8f0;
-      --blue:#0057d9;
-      --blue-2:#0ea5e9;
-      --navy:#071a33;
-      --green:#10b981;
-      --orange:#f97316;
-      --shadow:0 24px 70px rgba(15,23,42,.08);
-      --radius:22px;
-    }
-
-    *{box-sizing:border-box;margin:0;padding:0}
-
-    body{
-      min-height:100vh;
-      font-family:"Poppins","Noto Sans Thai",sans-serif;
-      background:
-        radial-gradient(circle at top right, rgba(14,165,233,.13), transparent 34%),
-        radial-gradient(circle at top left, rgba(0,87,217,.12), transparent 28%),
-        var(--bg);
-      color:var(--text);
-    }
-
-    .layout{
-      display:grid;
-      grid-template-columns:280px 1fr;
-      min-height:100vh;
-    }
-
-    .sidebar{
-      position:sticky;
-      top:0;
-      height:100vh;
-      padding:24px 18px;
-      background:rgba(255,255,255,.86);
-      border-right:1px solid var(--line);
-      backdrop-filter:blur(20px);
-    }
-
-    .brand{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      padding:8px 10px 26px;
-      border-bottom:1px solid var(--line);
-      margin-bottom:20px;
-    }
-
-    .brand-mark{
-      width:42px;
-      height:42px;
-      border-radius:12px;
-      display:grid;
-      place-items:center;
-      color:white;
-      font-weight:800;
-      background:linear-gradient(135deg,var(--blue),var(--blue-2));
-      box-shadow:0 12px 30px rgba(0,87,217,.24);
-    }
-
-    .brand-title{
-      font-size:16px;
-      font-weight:700;
-      letter-spacing:-.02em;
-    }
-
-    .brand-subtitle{
-      font-size:12px;
-      color:var(--muted);
-      margin-top:2px;
-    }
-
-    .nav-label{
-      font-size:11px;
-      color:#94a3b8;
-      font-weight:700;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      margin:22px 12px 8px;
-    }
-
-    .nav{
-      display:grid;
-      gap:4px;
-    }
-
-    .nav a{
-      display:flex;
-      align-items:center;
-      gap:11px;
-      padding:12px 13px;
-      border-radius:13px;
-      color:#475569;
-      text-decoration:none;
-      font-size:14px;
-      font-weight:500;
-      transition:.2s ease;
-    }
-
-    .nav a:hover,.nav a.active{
-      color:var(--blue);
-      background:#eef6ff;
-    }
-
-    .main{
-      padding:28px;
-      max-width:1500px;
-      width:100%;
-      margin:0 auto;
-    }
-
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:18px;
-      margin-bottom:22px;
-    }
-
-    .breadcrumb{
-      color:var(--muted);
-      font-size:13px;
-    }
-
-    .top-actions{
-      display:flex;
-      gap:10px;
-      align-items:center;
-    }
-
-    .status-pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 13px;
-      background:var(--surface);
-      border:1px solid var(--line);
-      border-radius:999px;
-      color:#475569;
-      font-size:13px;
-      box-shadow:0 10px 30px rgba(15,23,42,.04);
-    }
-
-    .status-dot{
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background:var(--green);
-    }
-
-    .hero{
-      position:relative;
-      overflow:hidden;
-      border-radius:30px;
-      padding:38px;
-      min-height:300px;
-      background:
-        linear-gradient(135deg, rgba(7,26,51,.98), rgba(0,87,217,.9)),
-        linear-gradient(45deg, rgba(255,255,255,.08) 25%, transparent 25%);
-      box-shadow:var(--shadow);
-      color:white;
-    }
-
-    .hero::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background-image:
-        linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px);
-      background-size:42px 42px;
-      mask-image:linear-gradient(to right, black 45%, transparent 95%);
-    }
-
-    .hero::after{
-      content:"";
-      position:absolute;
-      width:420px;
-      height:420px;
-      right:-120px;
-      top:-90px;
-      border-radius:50%;
-      background:radial-gradient(circle, rgba(14,165,233,.48), transparent 62%);
-    }
-
-    .hero-content{
-      position:relative;
-      z-index:1;
-      max-width:760px;
-    }
-
-    .kicker{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding:7px 11px;
-      border:1px solid rgba(255,255,255,.18);
-      background:rgba(255,255,255,.08);
-      border-radius:999px;
-      font-size:12px;
-      font-weight:700;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-      margin-bottom:18px;
-    }
-
-    .hero h1{
-      font-size:clamp(38px,5vw,68px);
-      line-height:.98;
-      letter-spacing:-.055em;
-      margin-bottom:18px;
-    }
-
-    .hero p{
-      color:rgba(255,255,255,.82);
-      font-size:17px;
-      line-height:1.7;
-      max-width:700px;
-    }
-
-    .search-panel{
-      position:relative;
-      z-index:2;
-      margin-top:28px;
-      display:grid;
-      grid-template-columns:1fr auto;
-      gap:10px;
-      max-width:720px;
-      padding:8px;
-      background:rgba(255,255,255,.12);
-      border:1px solid rgba(255,255,255,.2);
-      border-radius:20px;
-      backdrop-filter:blur(16px);
-    }
-
-    .search-panel input{
-      border:0;
-      outline:0;
-      border-radius:14px;
-      padding:16px 18px;
-      background:white;
-      color:var(--text);
-      font-size:14px;
-      font-family:inherit;
-    }
-
-    .search-panel button{
-      border:0;
-      padding:0 22px;
-      border-radius:14px;
-      background:linear-gradient(135deg,var(--blue-2),#38bdf8);
-      color:white;
-      font-weight:700;
-      font-family:inherit;
-      cursor:pointer;
-    }
-
-    .metrics{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:14px;
-      margin-top:18px;
-    }
-
-    .metric{
-      background:var(--surface);
-      border:1px solid var(--line);
-      border-radius:20px;
-      padding:18px;
-      box-shadow:0 16px 40px rgba(15,23,42,.05);
-    }
-
-    .metric-value{
-      font-size:26px;
-      font-weight:800;
-      letter-spacing:-.03em;
-    }
-
-    .metric-label{
-      color:var(--muted);
-      font-size:13px;
-      margin-top:4px;
-    }
-
-    .section{
-      margin-top:30px;
-    }
-
-    .section-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:end;
-      gap:16px;
-      margin-bottom:16px;
-    }
-
-    .section-title{
-      font-size:22px;
-      font-weight:800;
-      letter-spacing:-.03em;
-    }
-
-    .section-desc{
-      color:var(--muted);
-      font-size:14px;
-      margin-top:3px;
-    }
-
-    .link-action{
-      color:var(--blue);
-      font-weight:700;
-      text-decoration:none;
-      font-size:14px;
-    }
-
-    .grid-4{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:16px;
-    }
-
-    .grid-3{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:16px;
-    }
-
-    .card{
-      position:relative;
-      overflow:hidden;
-      background:rgba(255,255,255,.92);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      padding:22px;
-      box-shadow:0 18px 45px rgba(15,23,42,.055);
-      transition:.22s ease;
-    }
-
-    .card:hover{
-      transform:translateY(-3px);
-      box-shadow:0 24px 70px rgba(15,23,42,.095);
-      border-color:#cbd5e1;
-    }
-
-    .card-icon{
-      width:44px;
-      height:44px;
-      display:grid;
-      place-items:center;
-      border-radius:14px;
-      background:#eef6ff;
-      color:var(--blue);
-      margin-bottom:17px;
-      font-size:20px;
-    }
-
-    .card h3{
-      font-size:17px;
-      font-weight:750;
-      letter-spacing:-.02em;
-      margin-bottom:8px;
-    }
-
-    .card p{
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.65;
-    }
-
-    .product-card{
-      min-height:190px;
-    }
-
-    .product-card::after{
-      content:"";
-      position:absolute;
-      right:-42px;
-      bottom:-42px;
-      width:130px;
-      height:130px;
-      border-radius:50%;
-      background:linear-gradient(135deg,rgba(0,87,217,.09),rgba(14,165,233,.16));
-    }
-
-    .tag-row{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-top:16px;
-    }
-
-    .tag{
-      display:inline-flex;
-      padding:6px 9px;
-      border-radius:999px;
-      font-size:11px;
-      font-weight:700;
-      background:#f1f5f9;
-      color:#475569;
-    }
-
-    .tag.primary{
-      color:#0057d9;
-      background:#eaf4ff;
-    }
-
-    .module-card{
-      display:grid;
-      grid-template-columns:52px 1fr;
-      gap:16px;
-      align-items:start;
-    }
-
-    .module-card .card-icon{
-      margin:0;
-    }
-
-    .updates-card{
-      display:grid;
-      grid-template-columns:1.25fr .75fr;
-      gap:16px;
-    }
-
-    .update-list{
-      display:grid;
-      gap:12px;
-    }
-
-    .update-item{
-      display:grid;
-      grid-template-columns:12px 1fr;
-      gap:12px;
-      padding:15px;
-      border-radius:16px;
-      background:var(--surface-2);
-      border:1px solid #edf2f7;
-    }
-
-    .update-dot{
-      width:9px;
-      height:9px;
-      border-radius:50%;
-      margin-top:7px;
-      background:var(--blue-2);
-    }
-
-    .update-item strong{
-      display:block;
-      font-size:14px;
-      margin-bottom:3px;
-    }
-
-    .update-item span{
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.55;
-    }
-
-    .insight{
-      min-height:100%;
-      background:linear-gradient(135deg,#f8fafc,#eef6ff);
-      border:1px solid #dbeafe;
-      border-radius:22px;
-      padding:22px;
-    }
-
-    .insight strong{
-      display:block;
-      font-size:16px;
-      margin-bottom:8px;
-    }
-
-    .insight p{
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.65;
-    }
-
-    .footer{
-      margin:32px 0 8px;
-      color:#94a3b8;
-      font-size:12px;
-      text-align:center;
-    }
-
-    @media(max-width:1100px){
-      .layout{grid-template-columns:1fr}
-      .sidebar{position:relative;height:auto}
-      .nav{grid-template-columns:repeat(2,1fr)}
-      .metrics,.grid-4{grid-template-columns:repeat(2,1fr)}
-      .updates-card{grid-template-columns:1fr}
-    }
-
-    @media(max-width:680px){
-      .main{padding:18px}
-      .hero{padding:26px;border-radius:24px}
-      .topbar,.section-head{align-items:flex-start;flex-direction:column}
-      .search-panel{grid-template-columns:1fr}
-      .search-panel button{padding:15px}
-      .metrics,.grid-4,.grid-3{grid-template-columns:1fr}
-      .nav{grid-template-columns:1fr}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gstar Workspace</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Poppins,sans-serif;background:#f6f8fc;color:#0f172a}
+.wrapper{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+aside{background:#fff;border-right:1px solid #e7edf5;padding:26px}
+.logo{font-size:22px;font-weight:700;color:#0b4ed8;margin-bottom:40px}
+nav a{display:block;text-decoration:none;color:#64748b;padding:12px 14px;border-radius:12px;margin-bottom:6px}
+nav a:hover,nav a.active{background:#edf4ff;color:#0b4ed8;font-weight:600}
+main{padding:36px;max-width:1400px}
+
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+.search{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:14px 18px;width:340px;color:#94a3b8}
+
+.hero{
+background:#fff;
+border:1px solid #e5e7eb;
+border-radius:28px;
+padding:48px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+overflow:hidden;
+position:relative;
+}
+.hero:after{
+content:"";
+position:absolute;
+right:-120px;
+top:-120px;
+width:340px;
+height:340px;
+background:radial-gradient(circle,#d9eeff 0%,transparent 70%);
+}
+.hero h1{
+font-size:54px;
+line-height:1;
+letter-spacing:-2px;
+margin-bottom:18px;
+}
+.hero p{
+color:#64748b;
+max-width:560px;
+line-height:1.8;
+margin-bottom:28px;
+}
+.btn{
+display:inline-block;
+padding:14px 22px;
+background:#0b4ed8;
+color:#fff;
+border-radius:14px;
+text-decoration:none;
+font-weight:600;
+}
+.hero-card{
+width:280px;
+background:linear-gradient(180deg,#0b4ed8,#1f8fff);
+color:#fff;
+border-radius:24px;
+padding:28px;
+box-shadow:0 30px 60px rgba(11,78,216,.25);
+position:relative;
+z-index:2;
+}
+.hero-card h3{margin-bottom:12px}
+.hero-card p{color:#dcecff;font-size:14px;line-height:1.6;margin:0}
+
+.section{margin-top:36px}
+.section h2{font-size:24px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{
+background:#fff;
+border:1px solid #e5e7eb;
+border-radius:22px;
+padding:24px;
+transition:.2s;
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(0,0,0,.06)}
+.icon{
+width:46px;height:46px;border-radius:14px;
+background:#eef5ff;
+display:flex;
+align-items:center;
+justify-content:center;
+margin-bottom:16px;
+font-weight:700;
+color:#0b4ed8;
+}
+.card h3{margin-bottom:8px;font-size:17px}
+.card p{color:#64748b;font-size:14px;line-height:1.7}
+@media(max-width:1100px){
+.wrapper{grid-template-columns:1fr}
+aside{border-right:none;border-bottom:1px solid #eee}
+.hero{flex-direction:column;align-items:flex-start;gap:30px}
+.grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
 </head>
-
 <body>
-  <div class="layout">
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-mark">G</div>
-        <div>
-          <div class="brand-title">Gstar Workspace</div>
-          <div class="brand-subtitle">Internal Product Hub</div>
-        </div>
-      </div>
+<div class="wrapper">
+<aside>
+<div class="logo">Gstar Workspace</div>
+<nav>
+<a class="active">Dashboard</a>
+<a>Products</a>
+<a>Marketing</a>
+<a>Sales</a>
+<a>Support</a>
+<a>Knowledge Base</a>
+<a>AI Assistant</a>
+</nav>
+</aside>
 
-      <div class="nav-label">Workspace</div>
-      <nav class="nav">
-        <a class="active" href="#">Dashboard</a>
-        <a href="#">Product Center</a>
-        <a href="#">Knowledge Base</a>
-        <a href="#">Document Library</a>
-      </nav>
+<main>
 
-      <div class="nav-label">Teams</div>
-      <nav class="nav">
-        <a href="#">Marketing Hub</a>
-        <a href="#">Sales Enablement</a>
-        <a href="#">Technical Support</a>
-        <a href="#">Partner Operations</a>
-      </nav>
+<div class="top">
+<div>
+<div style="font-size:13px;color:#94a3b8">Internal Workspace</div>
+<h2 style="margin-top:4px">Dashboard</h2>
+</div>
+<div class="search">Search anything...</div>
+</div>
 
-      <div class="nav-label">Tools</div>
-      <nav class="nav">
-        <a href="#">Campaign Tracker</a>
-        <a href="#">Asset Request</a>
-        <a href="#">AI Assistant</a>
-      </nav>
-    </aside>
+<div class="hero">
+<div>
+<div style="color:#0b4ed8;font-weight:600;margin-bottom:12px;">PRODUCT OPERATIONS</div>
+<h1>Everything.<br>One Workspace.</h1>
+<p>
+A centralized platform for product information, marketing assets,
+sales enablement and technical resources across the Gstar ecosystem.
+</p>
+<a class="btn">Open Knowledge Base</a>
+</div>
 
-    <main class="main">
-      <div class="topbar">
-        <div class="breadcrumb">Internal Portal / Dashboard</div>
-        <div class="top-actions">
-          <div class="status-pill"><span class="status-dot"></span> Workspace Active</div>
-          <div class="status-pill">Updated Q3 2026</div>
-        </div>
-      </div>
+<div class="hero-card">
+<h3>Latest Update</h3>
+<p>GstarCAD 2027 resources are now available for Sales & Marketing.</p>
+<hr style="margin:18px 0;border:none;border-top:1px solid rgba(255,255,255,.2)">
+<p>Updated product messaging and launch materials.</p>
+</div>
 
-      <section class="hero">
-        <div class="hero-content">
-          <div class="kicker">Product Operations System</div>
-          <h1>One workspace for every Gstar product.</h1>
-          <p>
-            Centralized internal portal for product knowledge, sales enablement,
-            marketing assets, support documentation, and partner-ready resources
-            across the Gstar ecosystem.
-          </p>
+</div>
 
-          <div class="search-panel">
-            <input type="text" placeholder="Search docs, product sheets, campaigns, license guides, partner materials..." />
-            <button>Search</button>
-          </div>
-        </div>
-      </section>
+<div class="section">
+<h2>Quick Access</h2>
+<div class="grid">
+<div class="card"><div class="icon">P</div><h3>Products</h3><p>All product documentation and resources.</p></div>
+<div class="card"><div class="icon">M</div><h3>Marketing Hub</h3><p>Campaigns, brand assets and templates.</p></div>
+<div class="card"><div class="icon">S</div><h3>Sales Hub</h3><p>Proposal, pricing and sales materials.</p></div>
+<div class="card"><div class="icon">T</div><h3>Support</h3><p>License guide, FAQ and troubleshooting.</p></div>
+</div>
+</div>
 
-      <div class="metrics">
-        <div class="metric">
-          <div class="metric-value">08</div>
-          <div class="metric-label">Product Workspaces</div>
-        </div>
-        <div class="metric">
-          <div class="metric-value">04</div>
-          <div class="metric-label">Team Hubs</div>
-        </div>
-        <div class="metric">
-          <div class="metric-value">120+</div>
-          <div class="metric-label">Internal Resources</div>
-        </div>
-        <div class="metric">
-          <div class="metric-value">24/7</div>
-          <div class="metric-label">Knowledge Access</div>
-        </div>
-      </div>
+<div class="section">
+<h2>Products</h2>
+<div class="grid">
+<div class="card"><h3>GstarCAD</h3><p>Core CAD resources</p></div>
+<div class="card"><h3>GstarBIM</h3><p>BIM workflow & launch kit</p></div>
+<div class="card"><h3>CADprofi</h3><p>Industry add-ons</p></div>
+<div class="card"><h3>3D FastView</h3><p>Viewer & Cloud</p></div>
+</div>
+</div>
 
-      <section class="section">
-        <div class="section-head">
-          <div>
-            <div class="section-title">Command Center</div>
-            <div class="section-desc">Frequently used workflows for internal teams</div>
-          </div>
-          <a href="#" class="link-action">View all tools →</a>
-        </div>
-
-        <div class="grid-4">
-          <div class="card">
-            <div class="card-icon">↗</div>
-            <h3>Sales Materials</h3>
-            <p>Price list, proposal decks, comparison sheets, product positioning, and objection handling.</p>
-          </div>
-
-          <div class="card">
-            <div class="card-icon">◎</div>
-            <h3>Marketing Assets</h3>
-            <p>Brand kits, campaign visuals, social content, landing page copy, and launch materials.</p>
-          </div>
-
-          <div class="card">
-            <div class="card-icon">⚙</div>
-            <h3>Support Resources</h3>
-            <p>Installation guides, activation steps, license transfer, patches, and technical FAQ.</p>
-          </div>
-
-          <div class="card">
-            <div class="card-icon">⌁</div>
-            <h3>Partner Toolkit</h3>
-            <p>Partner onboarding, reseller documents, product packs, and regional sales enablement.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-head">
-          <div>
-            <div class="section-title">Product Center</div>
-            <div class="section-desc">Structured resources by product line</div>
-          </div>
-          <a href="#" class="link-action">Manage products →</a>
-        </div>
-
-        <div class="grid-4">
-          <div class="card product-card">
-            <div class="card-icon">C</div>
-            <h3>GstarCAD</h3>
-            <p>Core 2D CAD product resources for sales, marketing, support, and partner communication.</p>
-            <div class="tag-row">
-              <span class="tag primary">Core Product</span>
-              <span class="tag">DWG</span>
-              <span class="tag">License</span>
-            </div>
-          </div>
-
-          <div class="card product-card">
-            <div class="card-icon">B</div>
-            <h3>GstarBIM</h3>
-            <p>BIM transition materials, workflow messaging, product decks, and market education content.</p>
-            <div class="tag-row">
-              <span class="tag primary">Growth Product</span>
-              <span class="tag">BIM</span>
-              <span class="tag">OpenBIM</span>
-            </div>
-          </div>
-
-          <div class="card product-card">
-            <div class="card-icon">P</div>
-            <h3>CADprofi</h3>
-            <p>Industry add-on materials for mechanical, electrical, HVAC, and architecture workflows.</p>
-            <div class="tag-row">
-              <span class="tag primary">Add-on</span>
-              <span class="tag">Industry Tools</span>
-            </div>
-          </div>
-
-          <div class="card product-card">
-            <div class="card-icon">3D</div>
-            <h3>3D FastView</h3>
-            <p>Viewer and collaboration resources for mobile, cloud, and cross-device product workflows.</p>
-            <div class="tag-row">
-              <span class="tag primary">Viewer</span>
-              <span class="tag">Cloud</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-head">
-          <div>
-            <div class="section-title">Team Hubs</div>
-            <div class="section-desc">Role-based access points for daily operations</div>
-          </div>
-        </div>
-
-        <div class="grid-3">
-          <div class="card module-card">
-            <div class="card-icon">M</div>
-            <div>
-              <h3>Marketing Hub</h3>
-              <p>Campaign planning, content library, launch assets, media kits, social templates, and landing page resources.</p>
-            </div>
-          </div>
-
-          <div class="card module-card">
-            <div class="card-icon">S</div>
-            <div>
-              <h3>Sales Enablement</h3>
-              <p>Proposal support, product comparison, pricing, promotions, sales scripts, and customer-facing documents.</p>
-            </div>
-          </div>
-
-          <div class="card module-card">
-            <div class="card-icon">T</div>
-            <div>
-              <h3>Technical Support</h3>
-              <p>Knowledge base for installation, activation, troubleshooting, patches, known issues, and remote support.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-head">
-          <div>
-            <div class="section-title">Operational Updates</div>
-            <div class="section-desc">Latest internal changes and resource updates</div>
-          </div>
-        </div>
-
-        <div class="updates-card">
-          <div class="card">
-            <div class="update-list">
-              <div class="update-item">
-                <div class="update-dot"></div>
-                <div>
-                  <strong>GstarCAD 2027 launch assets added</strong>
-                  <span>Product highlights, campaign key message, and sales talking points are now available.</span>
-                </div>
-              </div>
-
-              <div class="update-item">
-                <div class="update-dot"></div>
-                <div>
-                  <strong>GstarBIM internal deck updated</strong>
-                  <span>Updated positioning, BIM transition narrative, and product workflow overview.</span>
-                </div>
-              </div>
-
-              <div class="update-item">
-                <div class="update-dot"></div>
-                <div>
-                  <strong>License support FAQ revised</strong>
-                  <span>Activation, transfer license, network license, and remote support notes have been updated.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="insight">
-            <strong>Workspace Principle</strong>
-            <p>
-              Keep every product resource structured by purpose: Sales, Marketing,
-              Support, Partner, and Knowledge. This prevents the portal from becoming
-              a link collection and turns it into a scalable internal operating system.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <div class="footer">
-        Gstar Workspace · Internal Product Hub · Designed for scalable product operations
-      </div>
-    </main>
-  </div>
+</main>
+</div>
 </body>
 </html>
