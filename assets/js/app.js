@@ -181,3 +181,47 @@ document.addEventListener("DOMContentLoaded", function () {
   initWorkspaceSearch();
   initNotifications();
 });
+
+function initProductFilters() {
+  const grid = document.getElementById("productGrid");
+  const tabs = document.querySelectorAll(".product-tab");
+  const search = document.getElementById("productSearch");
+  const empty = document.getElementById("productEmpty");
+  if (!grid || !tabs.length) return;
+
+  let activeCategory = "all";
+
+  function applyFilters() {
+    const query = search ? search.value.trim().toLowerCase() : "";
+    const cards = Array.from(grid.querySelectorAll(".product-card"));
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      const category = card.dataset.category || "";
+      const haystack = [card.innerText, card.dataset.keywords || ""].join(" ").toLowerCase();
+      const categoryMatch = activeCategory === "all" || category === activeCategory;
+      const searchMatch = !query || haystack.includes(query);
+      const visible = categoryMatch && searchMatch;
+
+      card.style.display = visible ? "flex" : "none";
+      if (visible) visibleCount += 1;
+    });
+
+    if (empty) empty.classList.toggle("show", visibleCount === 0);
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", function () {
+      tabs.forEach(item => item.classList.remove("active"));
+      tab.classList.add("active");
+      activeCategory = tab.dataset.filter || "all";
+      applyFilters();
+    });
+  });
+
+  if (search) search.addEventListener("input", applyFilters);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  initProductFilters();
+});
