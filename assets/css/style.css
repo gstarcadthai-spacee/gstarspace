@@ -712,3 +712,148 @@ body:before{
 @media (prefers-reduced-motion: reduce){
   *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important;}
 }
+
+/* =========================================================
+   V4.2 Premium Sidebar + Typography Polish
+   - remove active left indicator
+   - lighter typography across UI
+   - floating glass active menu, smoother hover
+   ========================================================= */
+:root{
+  --font-regular:400;
+  --font-medium:500;
+  --font-semibold:600;
+  --font-bold:700;
+}
+
+/* Typography: quieter, less heavy */
+body{font-weight:var(--font-regular);}
+.topbar h1{font-weight:700;letter-spacing:-1.35px;}
+.hero h2{font-weight:700;letter-spacing:-1.65px;}
+.kicker{font-weight:650;}
+.section-title{font-weight:650;}
+.card h3,.preview-card h3,.integration-card h3,.login-card h2,.modal-card h3{font-weight:600;}
+.card p,.hero p,.section-desc,.list-item span,.login-card p,.login-copy p{font-weight:400;}
+.btn,.mini-btn,.tab{font-weight:600;}
+.tag{font-weight:600;}
+.row-title{font-weight:600;}
+.admin-table th{font-weight:600;}
+.admin-rail button{font-weight:500;}
+.icon-badge{font-weight:650;}
+.search-shell input,.product-search input{font-weight:400;}
+.search-shell input::placeholder,.product-search input::placeholder{font-weight:400;color:#93a6bd;}
+
+/* Sidebar background: premium glass layer */
+.sidebar{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.90),rgba(248,252,255,.78)),
+    radial-gradient(circle at 15% 8%,rgba(91,180,255,.12),transparent 34%);
+  border-right:1px solid rgba(178,202,239,.52);
+  box-shadow:inset -1px 0 0 rgba(255,255,255,.72), 12px 0 42px rgba(15,23,42,.025);
+  overflow:hidden;
+}
+.sidebar:before{
+  content:"";
+  position:absolute;
+  inset:0 auto 0 0;
+  width:100%;
+  pointer-events:none;
+  background:linear-gradient(112deg,rgba(255,255,255,.36) 0%,rgba(255,255,255,.10) 23%,transparent 44%);
+  opacity:.72;
+}
+.sidebar > *{position:relative;z-index:1;}
+
+/* Brand: calmer text + premium mark */
+.brand{
+  font-weight:650;
+  letter-spacing:-.35px;
+  color:#092b66;
+}
+.brand-mark{
+  background:
+    linear-gradient(135deg,rgba(11,92,255,.96),rgba(65,184,255,.90)),
+    radial-gradient(circle at 30% 18%,rgba(255,255,255,.65),transparent 36%);
+  border:1px solid rgba(255,255,255,.78);
+  box-shadow:0 14px 34px rgba(11,92,255,.16), inset 0 1px 0 rgba(255,255,255,.62);
+  transition:transform 280ms cubic-bezier(.22,1,.36,1), box-shadow 280ms cubic-bezier(.22,1,.36,1);
+}
+.brand:hover .brand-mark{
+  transform:scale(1.025) rotate(-2deg);
+  box-shadow:0 18px 40px rgba(11,92,255,.18), inset 0 1px 0 rgba(255,255,255,.72);
+}
+
+/* Sidebar menu: remove blue bar/line; make active a floating glass capsule */
+.nav{gap:12px;}
+.nav a{
+  position:relative;
+  overflow:hidden;
+  color:#4d5c72;
+  font-weight:450;
+  letter-spacing:-.01em;
+  border-radius:16px;
+  padding:13px 15px;
+  border:1px solid transparent;
+  transform:translateZ(0);
+  transition:
+    transform 260ms cubic-bezier(.22,1,.36,1),
+    color 260ms cubic-bezier(.22,1,.36,1),
+    background 260ms cubic-bezier(.22,1,.36,1),
+    border-color 260ms cubic-bezier(.22,1,.36,1),
+    box-shadow 260ms cubic-bezier(.22,1,.36,1);
+}
+.nav a:before,
+.nav a:after{
+  display:none!important;
+  content:none!important;
+}
+.nav a:hover{
+  color:#18365f;
+  font-weight:500;
+  transform:translateX(2px) scale(1.002);
+  background:rgba(255,255,255,.54);
+  border-color:rgba(190,213,255,.46);
+  box-shadow:0 10px 24px rgba(15,23,42,.035), inset 0 1px 0 rgba(255,255,255,.78);
+}
+.nav a.active{
+  color:#0b55dc;
+  font-weight:600;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.92),rgba(237,246,255,.82) 42%,rgba(220,235,255,.72)),
+    radial-gradient(circle at 20% 10%,rgba(255,255,255,.82),transparent 38%);
+  border:1px solid rgba(166,198,255,.55);
+  box-shadow:
+    0 16px 34px rgba(11,92,255,.095),
+    0 5px 16px rgba(15,23,42,.035),
+    inset 0 1px 0 rgba(255,255,255,.90),
+    inset 0 -1px 0 rgba(160,190,255,.18);
+  backdrop-filter:blur(16px) saturate(1.1);
+  -webkit-backdrop-filter:blur(16px) saturate(1.1);
+}
+.nav a.active:hover{
+  transform:translateX(2px) scale(1.006);
+  color:#0a4fd0;
+  box-shadow:
+    0 18px 38px rgba(11,92,255,.11),
+    0 6px 18px rgba(15,23,42,.04),
+    inset 0 1px 0 rgba(255,255,255,.94),
+    inset 0 -1px 0 rgba(160,190,255,.20);
+}
+.divider{
+  background:linear-gradient(90deg,transparent,rgba(174,203,255,.50),transparent);
+  height:1px;
+  margin:18px 6px;
+}
+
+/* Notifications: keep V2, but soften type weight */
+.panel-title{font-weight:650;}
+.panel-title:after{font-weight:600;}
+.notification-panel strong{font-weight:600;}
+.notification-panel span{font-weight:400;}
+.panel-link{font-weight:600;}
+
+/* Softer overall content weights */
+.list-item strong{font-weight:600;}
+.search-result strong{font-weight:600;}
+.stat-card strong{font-weight:650;}
+.admin-table td{font-weight:400;}
+.modal-card label,.login-card label{font-weight:600;}
