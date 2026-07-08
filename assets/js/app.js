@@ -47,3 +47,88 @@ function toggleAnnouncement(id){setAnnouncements(getAnnouncements().map(a=>a.id=
 function deleteAnnouncement(id){if(confirm('Delete this announcement?')){setAnnouncements(getAnnouncements().filter(a=>a.id!==id));renderAdmin()}}
 function toast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t)}t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
 document.addEventListener('DOMContentLoaded',()=>{applyIcons();guardAdmin();renderNotifications();renderDashboard();renderProducts();initBell();initSearch();initLogin();initAdmin()});
+
+/* Products V5 override — scoped to products.html only */
+const productOverviewDefaults={
+  gstarcad:{version:'2027 SP0',developer:'Gstarsoft',platform:'Windows / macOS',license:'Perpetual / Subscription',website:'Official Website'},
+  'gstarcad-architecture':{version:'2027',developer:'Gstarsoft',platform:'Windows',license:'Perpetual / Subscription',website:'Official Website'},
+  'gstarcad-mechanical':{version:'2027',developer:'Gstarsoft',platform:'Windows',license:'Perpetual / Subscription',website:'Official Website'},
+  solidworks:{version:'Current',developer:'Dassault Systèmes',platform:'Windows',license:'Subscription',website:'Official Website'},
+  gstarbim:{version:'Current',developer:'Gstarsoft',platform:'Windows',license:'Subscription / Perpetual',website:'Official Website'},
+  extraxion:{version:'Current',developer:'AppliCAD',platform:'Windows',license:'Project / Commercial',website:'Official Website'},
+  gstarcad365:{version:'Current',developer:'Gstarsoft',platform:'Web / Cloud',license:'Subscription',website:'Official Website'},
+  '3d-fastview':{version:'Current',developer:'Gstarsoft',platform:'Windows / Web / Mobile',license:'Subscription',website:'Official Website'},
+  cadprofi:{version:'Current',developer:'CADProfi',platform:'Windows',license:'Perpetual / Subscription',website:'Official Website'},
+  formlabs:{version:'Current',developer:'Formlabs',platform:'Hardware / Cloud',license:'Partner',website:'Official Website'}
+};
+const productActionDefaults={
+  gstarcad:[
+    ['Download Free Trial','https://www.gstarcad.net/download/'],
+    ['Download Trial + Script','#'],
+    ['Open Ticket','#'],
+    ['LINE Hotline','#']
+  ],
+  gstarbim:[['Download Free Trial','#'],['Download Trial + Script','#'],['Open Ticket','#'],['LINE Hotline','#']],
+  extraxion:[['Open Product Page','#'],['Open Ticket','#'],['LINE Hotline','#']],
+  default:[['Download Free Trial','#'],['Download Trial + Script','#'],['Open Ticket','#'],['LINE Hotline','#']]
+};
+function productOverview(p){return p.overview||productOverviewDefaults[p.id]||{version:p.version||'Current',developer:p.developer||'—',platform:p.platform||'Windows',license:p.license||p.status||'Active',website:'Official Website'}}
+function productActions(p){return (p.actions&&p.actions.length?p.actions:productActionDefaults[p.id]||productActionDefaults.default).map(a=>Array.isArray(a)?{title:a[0],url:a[1]}:a)}
+function productLogoHtml(p){const primary=imgPath(p.logo);const fallback=`product/${p.logo}`;const initials=(p.name||'PR').split(/\s+/).map(w=>w[0]).join('').slice(0,2);return `<img class="product-logo-v5" src="${primary}" alt="${p.name}" data-fallback-src="${fallback}" data-initials="${initials}" onerror="if(!this.dataset.usedFallback){this.dataset.usedFallback='1';this.src=this.dataset.fallbackSrc}else{this.outerHTML='<div class=&quot;initial-logo&quot;>'+this.dataset.initials+'</div>'}">`}
+function normalizeProductUrl(url){return url&&url!=='#'?url:'#'}
+function showV5Toast(message='✓ Copied'){let t=document.getElementById('v5Toast');if(!t){t=document.createElement('div');t.id='v5Toast';t.className='v5-toast';document.body.appendChild(t)}t.textContent=message;t.classList.add('show');clearTimeout(window.__v5ToastTimer);window.__v5ToastTimer=setTimeout(()=>t.classList.remove('show'),1800)}
+async function copyProductUrl(url){try{await navigator.clipboard.writeText(url);showV5Toast('✓ Copied')}catch(e){showV5Toast('Copy failed')}}
+function openProductUrl(url){if(!url||url==='#'){showV5Toast('Link not added yet');return}window.open(url,'_blank','noopener')}
+function renderProducts(){
+  const tabs=document.getElementById('categoryTabs'),groups=document.getElementById('productGroups'),search=document.getElementById('productSearch');
+  if(!tabs||!groups)return;
+  groups.classList.add('v5');
+  const allProducts=getProducts().filter(p=>p.enabled!==false);
+  const categories=['All','CAD','BIM','BOQ & Estimation','Viewer & Collaboration','Add-ons','3D Printing','Partners'];
+  if(!tabs.dataset.v5Ready){
+    tabs.innerHTML=categories.map(c=>`<button class="tab ${c==='All'?'active':''}" data-cat="${c}">${c}</button>`).join('');
+    tabs.dataset.v5Ready='1';
+    tabs.querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>{tabs.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');window.__productsV5Expanded=null;renderProducts()}));
+    if(search)search.addEventListener('input',()=>{window.__productsV5Expanded=null;renderProducts()});
+  }
+  const activeCat=tabs.querySelector('.tab.active')?.dataset.cat||'All';
+  const q=(search?.value||'').trim().toLowerCase();
+  const filtered=allProducts.filter(p=>{
+    const catMatch=activeCat==='All'||p.category===activeCat||(activeCat==='Partners'&&(p.category==='Partners'||p.external));
+    const text=`${p.name} ${p.category} ${p.description} ${p.keywords||''} ${p.developer||''}`.toLowerCase();
+    return catMatch && (!q||text.includes(q));
+  });
+  if(!filtered.length){groups.innerHTML=`<div class="empty-products-v5"><strong>No products found</strong><br><span>Try another keyword or category.</span></div>`;return;}
+  groups.innerHTML=`<div class="section-head"><div><div class="section-title">${activeCat==='All'?'All Products':activeCat}</div><div class="section-desc">${filtered.length} products · click a card to open workspace actions</div></div></div><div class="product-grid-v5">${filtered.map(renderProductCardV5).join('')}</div>`;
+  groups.querySelectorAll('.product-card-v5').forEach(card=>{
+    card.addEventListener('click',e=>{
+      if(e.target.closest('button'))return;
+      const id=card.dataset.id;
+      window.__productsV5Expanded=window.__productsV5Expanded===id?null:id;
+      renderProducts();
+    });
+  });
+  groups.querySelectorAll('[data-open-url]').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();openProductUrl(btn.dataset.openUrl)}));
+  groups.querySelectorAll('[data-copy-url]').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();copyProductUrl(btn.dataset.copyUrl)}));
+}
+function renderProductCardV5(p){
+  const expanded=window.__productsV5Expanded===p.id;
+  const overview=productOverview(p);
+  const actions=productActions(p);
+  const primaryUrl=normalizeProductUrl(p.url);
+  const overviewRows=[['Current Version',overview.version],['Developer',overview.developer],['Platform',overview.platform],['License',overview.license],['Official Website',overview.website]];
+  return `<article class="product-card-v5 ${expanded?'expanded':''}" data-id="${p.id}" tabindex="0" role="button" aria-expanded="${expanded}">
+    <div class="product-logo-shell">${productLogoHtml(p)}</div>
+    <h3>${p.name}</h3>
+    <p>${p.description||''}</p>
+    <div class="product-open-hint">Open Workspace →</div>
+    <div class="product-expanded-body">
+      <div class="v5-block-title">Quick Actions</div>
+      <div class="quick-action-list">
+        ${actions.map(a=>`<div class="quick-action-card"><div class="quick-action-title">${a.title}</div><button class="quick-action-btn" type="button" data-open-url="${a.url||primaryUrl}">Open</button><button class="quick-action-btn" type="button" data-copy-url="${a.url||primaryUrl}">Copy</button></div>`).join('')}
+      </div>
+      <div class="v5-block-title">Overview</div>
+      <div class="overview-grid-v5">${overviewRows.map(([k,v])=>`<div class="overview-item-v5"><span>${k}</span><strong>${v||'—'}</strong></div>`).join('')}</div>
+    </div>
+  </article>`
+}
