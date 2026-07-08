@@ -188,7 +188,7 @@ function productActions(p){
   return [
     versionedAction(p,'Download Free Trial','trial'),
     versionedAction(p,'Download Trial + Script','script'),
-    simpleAction('Support Portal',productLinkFor(p,'support')),
+    simpleAction('Open Ticket','https://cs.applicadthai.com/'),
     simpleAction('Official Website',productLinkFor(p,'website'))
   ];
 }
