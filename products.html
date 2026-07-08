@@ -6,18 +6,14 @@
   <title>Products | Gstar Workspace</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="workspace-shell">
     <aside class="sidebar">
-      <div class="brand-block">
-        <div class="brand-mark">G</div>
-        <div>
-          <strong>Gstar Workspace</strong>
-          <span>Internal SaaS Platform</span>
-        </div>
+      <div class="brand-block brand-text-only">
+        <strong>Gstar Workspace</strong>
       </div>
 
       <nav class="side-nav" aria-label="Main navigation">
@@ -33,16 +29,25 @@
     </aside>
 
     <main class="main-content">
-      <section class="hero glass-panel">
+      <header class="topbar">
+        <div></div>
+        <div class="global-search"><span>⌕</span><input type="search" placeholder="Search anything..." /></div>
+        <button class="notify-button" aria-label="Notifications">⌕</button>
+      </header>
+
+      <section class="page-title-row">
+        <p>Internal Workspace / Products</p>
+        <h1>Products</h1>
+      </section>
+
+      <section class="product-hero glass-panel">
         <div class="hero-copy">
           <p class="eyebrow">Product Workspace</p>
-          <h1>Product Portfolio</h1>
+          <h2>Product Portfolio</h2>
           <p>Explore the complete Gstar ecosystem.</p>
         </div>
-
         <div class="hero-search">
-          <label for="productSearch">Search Products</label>
-          <div class="search-box">
+          <div class="search-box product-search-box">
             <span>⌕</span>
             <input id="productSearch" type="search" placeholder="Search products..." autocomplete="off" />
           </div>
@@ -58,7 +63,6 @@
         </div>
 
         <div class="filter-row" id="categoryFilters" aria-label="Product categories"></div>
-
         <div class="product-grid" id="productGrid"></div>
 
         <div class="empty-state" id="emptyState" hidden>
@@ -71,7 +75,6 @@
   </div>
 
   <div class="toast" id="toast">✓ Copied</div>
-
   <script src="app.js"></script>
 </body>
 </html>
