@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My PTCAD | Member Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root{
+      --navy:#12358f;
+      --blue:#1765ff;
+      --sky:#8fd3ff;
+      --ink:#0b1f4d;
+      --muted:#667085;
+      --line:#e6edf8;
+      --soft:#f6f9ff;
+      --white:#ffffff;
+      --green:#20b26b;
+      --orange:#ffb020;
+      --red:#ef4444;
+      --shadow:0 18px 50px rgba(20,53,143,.10);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Poppins','Noto Sans Thai',system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#fbfdff 0%,#fff 45%,#f7faff 100%)}
+    a{text-decoration:none;color:inherit}
+    .page{max-width:1480px;margin:32px auto;padding:0 28px}
+    .shell{background:#fff;border:1px solid var(--line);border-radius:28px;overflow:hidden;box-shadow:var(--shadow)}
+    .nav{height:84px;display:flex;align-items:center;gap:28px;padding:0 36px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.92);backdrop-filter:blur(16px);position:sticky;top:0;z-index:30}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--navy)}
+    .logo-mark{width:44px;height:44px;border-radius:14px;background:linear-gradient(145deg,#8fd3ff 0%,#1c66ff 52%,#0d2d86 100%);color:white;display:grid;place-items:center;font-weight:900;font-size:24px;box-shadow:0 10px 22px rgba(23,101,255,.24)}
+    .menu{display:flex;align-items:center;gap:28px;margin-left:24px;font-weight:600;font-size:15px;color:#20315d}
+    .menu a:hover{color:var(--blue)}
+    .search{margin-left:auto;min-width:280px;height:44px;border:1px solid var(--line);border-radius:999px;display:flex;align-items:center;gap:10px;padding:0 16px;color:#98a2b3;background:#fff;font-size:14px}
+    .icon-btn{width:42px;height:42px;border:1px solid transparent;border-radius:14px;display:grid;place-items:center;color:#23345f;background:#fff}.icon-btn:hover{border-color:var(--line);background:var(--soft)}
+    .account{height:46px;border:1px solid var(--line);border-radius:14px;display:flex;align-items:center;gap:10px;padding:0 14px 0 10px;background:#fff;font-weight:800;color:#102b76;position:relative;cursor:pointer}
+    .avatar{width:32px;height:32px;border-radius:11px;background:linear-gradient(145deg,#dff3ff,#1765ff);display:grid;place-items:center;color:#fff;font-weight:900}
+    .dropdown{position:absolute;right:0;top:58px;width:250px;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 22px 60px rgba(20,53,143,.16);padding:12px;display:none;z-index:50}.account:hover .dropdown{display:block}
+    .dropdown-head{padding:10px 10px 12px;border-bottom:1px solid var(--line);margin-bottom:8px}.dropdown-head b{display:block}.dropdown-head span{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+    .drop-link{height:42px;border-radius:12px;display:flex;align-items:center;gap:10px;padding:0 10px;color:#344054;font-size:14px;font-weight:700}.drop-link:hover{background:var(--soft);color:var(--blue)}.drop-link.signout{color:var(--red);border-top:1px solid var(--line);border-radius:0;margin-top:6px;padding-top:12px;height:48px}
+    .primary-btn,.secondary-btn{height:46px;padding:0 24px;border-radius:12px;font-weight:800;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:10px;cursor:pointer}.primary-btn{border:0;background:linear-gradient(135deg,var(--blue),#0d57df);color:#fff;box-shadow:0 12px 24px rgba(23,101,255,.22)}.secondary-btn{border:1.5px solid var(--blue);background:#fff;color:var(--blue)}
+    .portal-hero{padding:54px 68px;background:linear-gradient(105deg,#ffffff 0%,#f4f9ff 60%,#e4f3ff 100%);border-bottom:1px solid var(--line)}
+    .welcome{display:flex;justify-content:space-between;gap:30px;align-items:flex-end}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--blue);font-weight:800;font-size:14px;margin-bottom:12px}.welcome h1{font-size:44px;line-height:1.1;margin:0 0 10px;color:var(--navy);letter-spacing:-1px}.welcome p{color:var(--muted);font-size:16px;line-height:1.65;margin:0;max-width:720px}
+    .quick-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:34px}.stat{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 10px 28px rgba(20,53,143,.05)}.stat i{color:var(--blue);margin-bottom:12px}.stat b{display:block;font-size:24px;color:#102b76}.stat span{font-size:13px;color:var(--muted);font-weight:700}
+    .portal{display:grid;grid-template-columns:280px 1fr;gap:28px;padding:40px 68px 68px;background:#fff}
+    .side{position:sticky;top:112px;align-self:start;border:1px solid var(--line);border-radius:24px;background:#fff;box-shadow:0 12px 34px rgba(20,53,143,.055);padding:14px}.side a{height:48px;border-radius:14px;display:flex;align-items:center;gap:12px;padding:0 14px;color:#344054;font-weight:800;font-size:14px}.side a:hover,.side a.active{background:#eef6ff;color:var(--blue)}.side .divider{height:1px;background:var(--line);margin:10px 0}.side a.signout{color:var(--red)}
+    .main{display:grid;gap:28px}.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:20px}.section-kicker{font-weight:800;color:var(--blue);font-size:13px;margin-bottom:6px}.section-head h2{font-size:32px;line-height:1.2;color:#102b76;margin:0}.section-desc{margin:6px 0 0;color:var(--muted);line-height:1.6;font-size:15px}.card{background:#fff;border:1px solid var(--line);border-radius:26px;padding:28px;box-shadow:0 12px 34px rgba(20,53,143,.055)}
+    .product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.product-card{border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#fff,#fbfdff);overflow:hidden;transition:.22s ease}.product-card:hover{transform:translateY(-4px);border-color:#cfe0ff;box-shadow:0 18px 42px rgba(20,53,143,.10)}.product-media{height:128px;background:linear-gradient(135deg,#f7fbff,#e9f4ff);display:grid;place-items:center;position:relative}.product-badge{position:absolute;left:14px;top:14px;border-radius:999px;background:#eaf3ff;color:var(--blue);padding:6px 10px;font-size:11px;font-weight:900}.prod-icon{width:72px;height:72px;border-radius:22px;background:white;color:var(--blue);display:grid;place-items:center;box-shadow:0 14px 30px rgba(12,45,126,.10)}.product-body{padding:20px}.product-body h3{margin:0 0 8px;color:#102b76;font-size:20px}.product-body p{margin:0;color:var(--muted);line-height:1.55;font-size:13px}.product-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.small-primary,.small-secondary{height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}.small-primary{background:var(--blue);color:#fff}.small-secondary{border:1px solid var(--line);color:var(--blue);background:#fff}
+    .workspace{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}.license-card{border:1px solid var(--line);border-radius:22px;padding:22px;background:#fbfdff}.license-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.license-top h3{margin:0;color:#102b76;font-size:22px}.status{border-radius:999px;background:#e9fbf2;color:var(--green);padding:7px 12px;font-size:12px;font-weight:900}.serial{margin:18px 0;padding:16px;border:1px dashed #bfd0ef;border-radius:16px;background:#fff;display:flex;justify-content:space-between;gap:10px;align-items:center}.serial code{font-family:'Poppins',monospace;font-weight:800;color:#102b76}.download-list{display:grid;gap:12px}.download-row{border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:14px}.download-row b{display:block;color:#102b76}.download-row span{display:block;color:var(--muted);font-size:13px;margin-top:2px}.mini-link{color:var(--blue);font-weight:900;font-size:13px;white-space:nowrap}
+    .activity-list{display:grid;gap:12px}.activity{display:flex;gap:12px;border-bottom:1px solid var(--line);padding-bottom:12px}.activity:last-child{border-bottom:0;padding-bottom:0}.activity-icon{width:38px;height:38px;border-radius:13px;background:#eef6ff;color:var(--blue);display:grid;place-items:center;flex:none}.activity b{display:block;color:#102b76;font-size:14px}.activity span{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+    .orders{width:100%;border-collapse:collapse}.orders th{font-size:12px;color:#667085;text-transform:uppercase;letter-spacing:.35px;text-align:left;padding:12px;border-bottom:1px solid var(--line)}.orders td{padding:16px 12px;border-bottom:1px solid var(--line);color:#344054;font-size:14px}.orders b{color:#102b76}.paid{background:#e9fbf2;color:var(--green);border-radius:999px;padding:6px 10px;font-weight:900;font-size:12px;display:inline-flex}.pending{background:#fff7e6;color:#b7791f;border-radius:999px;padding:6px 10px;font-weight:900;font-size:12px;display:inline-flex}
+    .tutorial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.tutorial{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#fff}.video-thumb{height:112px;background:linear-gradient(135deg,#0c2c82,#1765ff);display:grid;place-items:center;color:#fff}.tutorial-body{padding:16px}.tutorial-body b{display:block;color:#102b76}.tutorial-body span{display:block;color:var(--muted);font-size:13px;margin-top:4px}
+    footer{padding:46px 68px;background:#102b76;color:white;display:grid;grid-template-columns:1.1fr repeat(3,.7fr);gap:30px}footer p, footer a{color:rgba(255,255,255,.72);font-size:14px;line-height:1.8}footer h4{margin:0 0 14px}footer .logo-mark{box-shadow:none}
+    @media(max-width:1100px){.menu{display:none}.search{min-width:220px}.portal{grid-template-columns:1fr}.side{position:relative;top:0;display:grid;grid-template-columns:repeat(3,1fr)}.side .divider{display:none}.product-grid,.tutorial-grid{grid-template-columns:repeat(2,1fr)}.workspace{grid-template-columns:1fr}.quick-stats{grid-template-columns:repeat(2,1fr)}footer{grid-template-columns:1fr 1fr}}
+    @media(max-width:720px){.page{padding:0;margin:0}.shell{border-radius:0}.nav{height:auto;flex-wrap:wrap;padding:18px}.search{order:5;width:100%;min-width:100%}.account{margin-left:auto}.portal-hero,.portal{padding:38px 22px}.welcome{display:block}.welcome h1{font-size:34px}.side{grid-template-columns:1fr}.product-grid,.tutorial-grid,.quick-stats{grid-template-columns:1fr}.product-actions{grid-template-columns:1fr}.section-head{display:block}.orders{display:block;overflow-x:auto}.card{padding:22px}footer{grid-template-columns:1fr;padding:40px 22px}}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="shell">
+      <header class="nav">
+        <a href="index.html" class="logo" aria-label="PTCAD Home"><span class="logo-mark">P</span></a>
+        <nav class="menu">
+          <a href="products.html">ผลิตภัณฑ์</a>
+          <a href="#downloads">ดาวน์โหลด</a>
+          <a href="#tutorials">Tutorials</a>
+          <a href="#support">บริการช่วยเหลือ</a>
+        </nav>
+        <div class="search"><i data-lucide="search" size="18"></i><span>ค้นหาอะไรก็ได้...</span></div>
+        <a class="icon-btn" href="cart.html" aria-label="Cart"><i data-lucide="shopping-cart" size="22"></i></a>
+        <div class="account">
+          <span class="avatar">G</span><span>Gyokoi</span><i data-lucide="chevron-down" size="16"></i>
+          <div class="dropdown">
+            <div class="dropdown-head"><b>Gyokoi Tamonwan</b><span>gyokoi@example.com</span></div>
+            <a class="drop-link" href="#"><i data-lucide="layout-dashboard" size="16"></i> Dashboard</a>
+            <a class="drop-link" href="#my-products"><i data-lucide="box" size="16"></i> My Products</a>
+            <a class="drop-link" href="#orders"><i data-lucide="receipt" size="16"></i> Orders & Invoices</a>
+            <a class="drop-link" href="#profile"><i data-lucide="user" size="16"></i> Profile</a>
+            <a class="drop-link" href="#security"><i data-lucide="shield" size="16"></i> Security</a>
+            <a class="drop-link signout" href="login.html"><i data-lucide="log-out" size="16"></i> Sign Out</a>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="portal-hero">
+          <div class="welcome">
+            <div>
+              <div class="eyebrow"><i data-lucide="badge-check" size="18"></i> MY PTCAD</div>
+              <h1>สวัสดี Gyokoi</h1>
+              <p>จัดการซอฟต์แวร์ License ดาวน์โหลดไฟล์ติดตั้ง วิดีโอสอนใช้งาน คำสั่งซื้อ และเอกสารทั้งหมดได้ในที่เดียว</p>
+            </div>
+            <div class="hero-actions">
+              <a class="primary-btn" href="#downloads"><i data-lucide="download" size="18"></i> ดาวน์โหลดล่าสุด</a>
+              <a class="secondary-btn" href="#support"><i data-lucide="message-circle" size="18"></i> ติดต่อ Support</a>
+            </div>
+          </div>
+          <div class="quick-stats">
+            <div class="stat"><i data-lucide="box" size="24"></i><b>2</b><span>Products Owned</span></div>
+            <div class="stat"><i data-lucide="key-round" size="24"></i><b>1</b><span>Active License</span></div>
+            <div class="stat"><i data-lucide="play-circle" size="24"></i><b>18</b><span>Tutorial Videos</span></div>
+            <div class="stat"><i data-lucide="receipt" size="24"></i><b>3</b><span>Orders & Invoices</span></div>
+          </div>
+        </section>
+
+        <div class="portal">
+          <aside class="side">
+            <a class="active" href="#dashboard"><i data-lucide="layout-dashboard" size="18"></i> Dashboard</a>
+            <a href="#my-products"><i data-lucide="box" size="18"></i> My Products</a>
+            <a href="#downloads"><i data-lucide="download-cloud" size="18"></i> Downloads</a>
+            <a href="#tutorials"><i data-lucide="play-circle" size="18"></i> Tutorials</a>
+            <a href="#orders"><i data-lucide="receipt" size="18"></i> Orders</a>
+            <a href="#invoices"><i data-lucide="file-text" size="18"></i> Invoices</a>
+            <div class="divider"></div>
+            <a href="#profile"><i data-lucide="user" size="18"></i> Profile</a>
+            <a href="#security"><i data-lucide="shield" size="18"></i> Security</a>
+            <a class="signout" href="login.html"><i data-lucide="log-out" size="18"></i> Sign Out</a>
+          </aside>
+
+          <div class="main" id="dashboard">
+            <section class="card" id="my-products">
+              <div class="section-head">
+                <div><div class="section-kicker">MY PRODUCTS</div><h2>สินค้าที่คุณมี</h2><p class="section-desc">ทุกโปรแกรมและ Plug-ins ที่ซื้อแล้วจะอยู่ตรงนี้</p></div>
+                <a class="secondary-btn" href="products.html">ดูผลิตภัณฑ์เพิ่ม</a>
+              </div>
+              <div class="product-grid">
+                <article class="product-card">
+                  <div class="product-media"><span class="product-badge">Active</span><div class="prod-icon"><i data-lucide="monitor" size="38"></i></div></div>
+                  <div class="product-body"><h3>PTCAD Standard</h3><p>Annual Subscription • ต่ออายุ 09 Jul 2027</p><div class="product-actions"><a class="small-primary" href="#workspace">Manage</a><a class="small-secondary" href="#downloads">Download</a></div></div>
+                </article>
+                <article class="product-card">
+                  <div class="product-media"><span class="product-badge">Active</span><div class="prod-icon"><i data-lucide="building-2" size="38"></i></div></div>
+                  <div class="product-body"><h3>Civil Promax</h3><p>Plug-in • Compatible with PTCAD 2027</p><div class="product-actions"><a class="small-primary" href="#workspace">Manage</a><a class="small-secondary" href="#downloads">Download</a></div></div>
+                </article>
+                <article class="product-card">
+                  <div class="product-media"><span class="product-badge">Locked</span><div class="prod-icon"><i data-lucide="sparkles" size="38"></i></div></div>
+                  <div class="product-body"><h3>AI Tools</h3><p>ยังไม่ได้ซื้อ หรือยังไม่เปิดให้ใช้งาน</p><div class="product-actions"><a class="small-primary" href="products.html">ดูสินค้า</a><a class="small-secondary" href="#tutorials">ดูวิดีโอ</a></div></div>
+                </article>
+              </div>
+            </section>
+
+            <section class="card" id="workspace">
+              <div class="section-head"><div><div class="section-kicker">PRODUCT WORKSPACE</div><h2>PTCAD Standard</h2><p class="section-desc">จัดการ License ดาวน์โหลดไฟล์ และเข้าถึงเอกสารของสินค้านี้</p></div></div>
+              <div class="workspace">
+                <div class="license-card">
+                  <div class="license-top"><div><h3>License</h3><p class="section-desc">Annual Subscription</p></div><span class="status">Active</span></div>
+                  <div class="serial"><code>PTC-STD-2027-XXXX-92KQ</code><a class="mini-link" href="#">Copy</a></div>
+                  <div class="note-list">
+                    <p class="section-desc">Activated Device: DESKTOP-GYOKOI</p>
+                    <p class="section-desc">Expire Date: 09 Jul 2027</p>
+                  </div>
+                  <br><a class="secondary-btn" href="#">Deactivate Device</a>
+                </div>
+                <div class="license-card" id="downloads">
+                  <h3>Downloads</h3>
+                  <div class="download-list">
+                    <div class="download-row"><div><b>PTCAD 2027 Installer</b><span>Windows • Latest Version</span></div><a class="mini-link" href="#">Download</a></div>
+                    <div class="download-row"><div><b>Offline Activation Guide</b><span>PDF Manual</span></div><a class="mini-link" href="#">Download</a></div>
+                    <div class="download-row"><div><b>Release Notes</b><span>Version history</span></div><a class="mini-link" href="#">View</a></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="card" id="tutorials">
+              <div class="section-head"><div><div class="section-kicker">LEARNING CENTER</div><h2>วิดีโอ Tutorial สำหรับสมาชิก</h2><p class="section-desc">ดูได้เฉพาะผู้ที่สมัครสมาชิกหรือมีสินค้าในบัญชี</p></div><a class="secondary-btn" href="#">ดูทั้งหมด</a></div>
+              <div class="tutorial-grid">
+                <article class="tutorial"><div class="video-thumb"><i data-lucide="play" size="42"></i></div><div class="tutorial-body"><b>เริ่มต้นใช้งาน PTCAD</b><span>12 นาที • Beginner</span></div></article>
+                <article class="tutorial"><div class="video-thumb"><i data-lucide="play" size="42"></i></div><div class="tutorial-body"><b>การติดตั้งและ Activate</b><span>8 นาที • Setup</span></div></article>
+                <article class="tutorial"><div class="video-thumb"><i data-lucide="play" size="42"></i></div><div class="tutorial-body"><b>Civil Promax Workflow</b><span>18 นาที • Plug-in</span></div></article>
+              </div>
+            </section>
+
+            <section class="card" id="orders">
+              <div class="section-head"><div><div class="section-kicker">ORDERS & INVOICES</div><h2>คำสั่งซื้อล่าสุด</h2></div></div>
+              <table class="orders">
+                <thead><tr><th>Order</th><th>Product</th><th>Status</th><th>Total</th><th>Invoice</th></tr></thead>
+                <tbody>
+                  <tr><td><b>#PT20260709</b></td><td>PTCAD Standard Annual</td><td><span class="paid">Paid</span></td><td>฿4,990</td><td><a class="mini-link" href="#">Download</a></td></tr>
+                  <tr><td><b>#PT20260708</b></td><td>Civil Promax</td><td><span class="paid">Paid</span></td><td>฿3,900</td><td><a class="mini-link" href="#">Download</a></td></tr>
+                  <tr><td><b>#PT20260701</b></td><td>PTCAD Renewal</td><td><span class="pending">Pending</span></td><td>฿4,990</td><td><a class="mini-link" href="#">View</a></td></tr>
+                </tbody>
+              </table>
+            </section>
+
+            <section class="card" id="support">
+              <div class="section-head"><div><div class="section-kicker">SUPPORT</div><h2>ต้องการความช่วยเหลือ?</h2><p class="section-desc">เปิด Ticket หรือทักทีมซัพพอร์ตภาษาไทยได้เลย</p></div><div class="hero-actions"><a class="primary-btn" href="#"><i data-lucide="message-circle" size="18"></i> ติดต่อ Support</a><a class="secondary-btn" href="#"><i data-lucide="monitor-up" size="18"></i> Remote Support</a></div></div>
+            </section>
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        <div><div class="logo"><span class="logo-mark">P</span><span style="color:#fff">PTCAD</span></div><p>โปรแกรมเขียนแบบ 2D ที่ซื้อออนไลน์ได้ง่ายสำหรับคนไทย รองรับ DWG ใช้งานง่าย และมีทีมช่วยเหลือภาษาไทย</p></div>
+        <div><h4>ผลิตภัณฑ์</h4><p>PTCAD Lite<br>PTCAD Standard<br>PTCAD Plus<br>Civil Promax</p></div>
+        <div><h4>ช่วยเหลือ</h4><p>Downloads<br>Learning Center<br>FAQ<br>Support</p></div>
+        <div><h4>บัญชี</h4><p>My Products<br>Orders<br>Invoices<br>Security</p></div>
+      </footer>
+    </div>
+  </div>
+  <script>lucide.createIcons();</script>
+</body>
+</html>
