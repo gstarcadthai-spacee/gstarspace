@@ -18,17 +18,17 @@ const mgIcons={
   palette:'<svg viewBox="0 0 24 24"><path d="M12 22a10 10 0 1 1 10-10c0 1.7-1.3 3-3 3h-1.8c-.9 0-1.5.9-1.1 1.7l.3.7c.7 1.8-.6 3.6-2.4 3.6H12Z"></path></svg>'
 };
 
-const hubs=['Marketing','Sales','Support','Product'];
+const hubs=['Marketing','Sales','Support','Product','Knowledge'];
 const resourceHubRules={
   'Price List':['Sales'],
   'Brochure':['Marketing','Sales','Product'],
   'Presentation':['Marketing','Sales'],
   'KV':['Marketing'],
-  'Manual':['Support','Product'],
+  'Manual':['Support','Product','Knowledge'],
   'Installer':['Support','Product'],
   'Canva':['Marketing'],
-  'Website':['Marketing','Sales','Support','Product'],
-  'Document':['Sales','Support','Product']
+  'Website':['Marketing','Sales','Support','Product','Knowledge'],
+  'Document':['Sales','Support','Product','Knowledge']
 };
 let state={products:[],versions:[],pricelists:[],resources:[],announcements:[],settings:[],activity:[]};
 let loading=false;
@@ -118,17 +118,44 @@ function renderManagementNotifications() {
 }
 function renderAll(){renderStats();renderProducts();renderResources();renderHubs();renderAnnouncements();renderActivity();populateProductSelect();populateResourceSelect();renderManagementNotifications()}
 
-function populateProductSelect(){
+function populateProductSelect(selectedValue){
   const el=byId('rProduct');
   if(!el||el.tagName!=='SELECT')return;
-  const selected=el.value;
+
+  const selected=selectedValue!==undefined?selectedValue:el.value;
+  const products=Array.isArray(state.products)?state.products:[];
+
   el.innerHTML='<option value="">All Products</option>'+
-    state.products
+    products
+      .filter(product=>(product.ID||product.id)&&(product.Name||product.name))
       .slice()
-      .sort((a,b)=>String(a.Name||'').localeCompare(String(b.Name||'')))
-      .map(p=>`<option value="${attr(p.ID)}">${escapeHTML(p.Name)}</option>`)
+      .sort((a,b)=>String(a.Name||a.name||'').localeCompare(String(b.Name||b.name||'')))
+      .map(product=>{
+        const id=product.ID||product.id;
+        const name=product.Name||product.name;
+        return `<option value="${attr(id)}">${escapeHTML(name)}</option>`;
+      })
       .join('');
-  el.value=selected;
+
+  if([...el.options].some(option=>option.value===String(selected||''))){
+    el.value=String(selected||'');
+  }else{
+    el.value='';
+  }
+}
+
+async function ensureProductsLoaded(){
+  if(Array.isArray(state.products)&&state.products.length)return state.products;
+
+  try{
+    const products=await GstarAPI.list('products');
+    state.products=Array.isArray(products)?products:[];
+  }catch(error){
+    console.warn('Could not load products for Resource dropdown.',error);
+    state.products=[];
+  }
+
+  return state.products;
 }
 
 function populateResourceSelect(){
@@ -173,7 +200,7 @@ function fillResourceForm(resource){
   rCategory.value=resource.Category||'Price List';
   rType.value=resource.Type||'PDF';
   rUrl.value=resource.URL||'';
-  rProduct.value=resource.ProductID||'';
+  populateProductSelect(resource.ProductID||resource.productId||'');
   rStatus.value=resource.Status||'Published';
   rDesc.value=resource.Description||'';
   renderHubChecks(resource.Hubs||[]);
@@ -185,7 +212,7 @@ function renderHubChecks(selectedHubs=[]){
   hubChecks.innerHTML=hubs.map(h=>{
     const supported=allowed.includes(h);
     const checked=supported&&selectedHubs.includes(h);
-    const icon=h==='Marketing'?'megaphone':h==='Sales'?'package':h==='Support'?'bell':'resource';
+    const icon=h==='Marketing'?'megaphone':h==='Sales'?'package':h==='Support'?'bell':h==='Knowledge'?'database':'resource';
     return `<label class="hub-check" style="${supported?'':'opacity:.42'}" title="${supported?'Available for this resource category':'Not supported for '+category}">
       <input type="checkbox" value="${h}" ${checked?'checked':''} ${supported?'':'disabled'}>
       <span data-m-icon="${icon}"></span>${h}
@@ -227,18 +254,22 @@ function previewProduct(){
 }
 async function deleteProduct(id){if(!confirm('Delete this product?'))return;setBusy(true);try{for(const v of state.versions.filter(x=>x.ProductID===id))await GstarAPI.remove('versions',v.ID);await GstarAPI.remove('products',id);logLocal('Deleted product');await loadData();flash('Product deleted')}catch(error){flash(error.message,true)}finally{setBusy(false)}}
 
-function openResourceModal(id){
+async function openResourceModal(id){
+  await ensureProductsLoaded();
   populateProductSelect();
   populateResourceSelect();
-  showModal('resourceModal');
 
   if(id){
     rExisting.value=id;
     selectExistingResource(id);
+    populateProductSelect(rProduct.value);
   }else{
     rExisting.value='';
     clearResourceForm();
+    populateProductSelect('');
   }
+
+  showModal('resourceModal');
 }
 
 async function saveResource(){const id=rId.value;const payload={Title:rName.value.trim(),Category:rCategory.value,Type:rType.value,URL:rUrl.value.trim(),ProductID:rProduct.value.trim(),Status:rStatus.value,Description:rDesc.value.trim(),Hubs:[...hubChecks.querySelectorAll('input:checked')].map(x=>x.value)};if(!payload.Title){flash('Please enter Resource Name',true);return}setBusy(true);try{id?await GstarAPI.update('resources',id,payload):await GstarAPI.create('resources',payload);logLocal(`${id?'Updated':'Added'} resource: ${payload.Title}`);closeModal('resourceModal');await loadData();flash('Resource saved to Google Sheet')}catch(error){flash(error.message,true)}finally{setBusy(false)}}
