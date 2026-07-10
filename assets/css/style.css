@@ -962,3 +962,13 @@ body{font-weight:var(--font-regular);}
 .panel-title:after{
   content:attr(data-count)!important;
 }
+
+
+/* Notification badge: show Loading immediately, then use API count */
+#notificationPanel .panel-title::after{
+  content:"Loading"!important;
+}
+
+#notificationPanel .panel-title[data-count]::after{
+  content:attr(data-count)!important;
+}
