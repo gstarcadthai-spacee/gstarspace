@@ -85,16 +85,28 @@ function resourceCard(r){const tags=(r.Hubs||[]).length?r.Hubs.map(h=>`<span cla
 function renderHubs(){byId('hubCards').innerHTML=hubs.map(h=>{const list=state.resources.filter(r=>(r.Hubs||[]).includes(h)&&r.Status!=='Hidden');return `<article class="card resource-card hub-card"><div class="hub-head"><div class="resource-icon"><span data-m-icon="route"></span></div><div><h3>${h} Hub</h3><p>${list.length} resources routed here</p></div></div><div class="resource-mini-list">${list.slice(0,6).map(r=>`<div class="resource-mini"><strong>${escapeHTML(r.Title)}</strong><small>${escapeHTML(r.Category)} · ${escapeHTML(productName(r.ProductID))}</small></div>`).join('')||`<div class="resource-mini"><strong>No resource yet</strong><small>Select ${h} in Show in Hubs.</small></div>`}</div></article>`}).join('');applyManagementIcons()}
 function renderAnnouncements(){byId('announcementRows').innerHTML=state.announcements.map(a=>`<tr><td><div class="table-title">${escapeHTML(a.Title)}</div><div class="table-sub">${escapeHTML(a.Description||'')}</div></td><td><span class="tag ${a.Priority==='High'?'orange':a.Priority==='Critical'?'danger':''}">${escapeHTML(a.Priority||'Normal')}</span></td><td>${escapeHTML(a.Status||'Draft')}</td><td><button class="mini-action" onclick="copyLink(this,'${attr(a.ButtonURL||'')}')"><span data-m-icon="copy"></span> Copy</button></td><td><div class="row-actions"><button class="mini-action" onclick="openAnnouncementModal('${attr(a.ID)}')">Edit</button><button class="mini-action" onclick="deleteAnnouncement('${attr(a.ID)}')">Delete</button></div></td></tr>`).join('')||`<tr><td colspan="5"><div class="empty-state">No announcements found.</div></td></tr>`;applyManagementIcons()}
 function renderActivity(){const rows=state.activity.length?state.activity:['Connected to Apps Script backend'];byId('activityList').innerHTML=rows.map(x=>`<div class="activity-item"><span class="activity-dot"></span><div><strong>${escapeHTML(x)}</strong><small>${new Date().toLocaleDateString('th-TH')}</small></div></div>`).join('')}
-function renderAll() {
-  renderStats();
-  renderProducts();
-  renderResources();
-  renderHubs();
-  renderAnnouncements();
-  renderActivity();
-  populateProductSelect();
-  renderNotifications();
+
+function renderManagementNotifications(){
+  const panel=byId('notificationItems');
+  if(!panel)return;
+
+  const activeAnnouncements=state.announcements.filter(
+    announcement=>announcement.Status==='Published'
+  );
+
+  panel.innerHTML=activeAnnouncements.map(announcement=>`
+    <div class="list-item">
+      <div>
+        <strong>${escapeHTML(announcement.Title)}</strong>
+        <span>${escapeHTML(announcement.Description||'')}</span>
+      </div>
+    </div>
+  `).join('')||`
+    <div class="empty-state">No new announcements.</div>
+  `;
 }
+
+function renderAll(){renderStats();renderProducts();renderResources();renderHubs();renderAnnouncements();renderActivity();populateProductSelect();renderManagementNotifications()}
 
 function populateProductSelect(){const el=byId('rProduct');if(!el)return;if(el.tagName==='SELECT'){const selected=el.value;el.innerHTML='<option value="">All Products</option>'+state.products.map(p=>`<option value="${attr(p.ID)}">${escapeHTML(p.Name)}</option>`).join('');el.value=selected}}
 
@@ -129,25 +141,6 @@ function showModal(id){byId(id).classList.add('show');applyManagementIcons()}
 function closeModal(id){byId(id).classList.remove('show')}
 function copyLink(btn,text){navigator.clipboard?.writeText(text||'');const old=btn.innerHTML;btn.innerHTML='<span data-m-icon="check"></span>Copied';btn.classList.add('copy-flash');applyManagementIcons();setTimeout(()=>{btn.innerHTML=old;btn.classList.remove('copy-flash');applyManagementIcons()},1200)}
 function openUrl(url){if(url&&url!=='#')window.open(url,'_blank','noopener')}
-function renderNotifications() {
-  const panel = byId('notificationItems');
-  if (!panel) return;
-
-  const activeAnnouncements = state.announcements.filter(
-    a => a.Status === 'Published'
-  );
-
-  panel.innerHTML = activeAnnouncements.map(a => `
-    <div class="list-item">
-      <div>
-        <strong>${escapeHTML(a.Title)}</strong>
-        <span>${escapeHTML(a.Description || '')}</span>
-      </div>
-    </div>
-  `).join('') || `
-    <div class="empty-state">No new announcements.</div>
-  `;
-}
 
 document.addEventListener('DOMContentLoaded',async()=>{
   applyManagementIcons();
