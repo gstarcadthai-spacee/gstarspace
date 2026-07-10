@@ -86,26 +86,25 @@ function renderHubs(){byId('hubCards').innerHTML=hubs.map(h=>{const list=state.r
 function renderAnnouncements(){byId('announcementRows').innerHTML=state.announcements.map(a=>`<tr><td><div class="table-title">${escapeHTML(a.Title)}</div><div class="table-sub">${escapeHTML(a.Description||'')}</div></td><td><span class="tag ${a.Priority==='High'?'orange':a.Priority==='Critical'?'danger':''}">${escapeHTML(a.Priority||'Normal')}</span></td><td>${escapeHTML(a.Status||'Draft')}</td><td><button class="mini-action" onclick="copyLink(this,'${attr(a.ButtonURL||'')}')"><span data-m-icon="copy"></span> Copy</button></td><td><div class="row-actions"><button class="mini-action" onclick="openAnnouncementModal('${attr(a.ID)}')">Edit</button><button class="mini-action" onclick="deleteAnnouncement('${attr(a.ID)}')">Delete</button></div></td></tr>`).join('')||`<tr><td colspan="5"><div class="empty-state">No announcements found.</div></td></tr>`;applyManagementIcons()}
 function renderActivity(){const rows=state.activity.length?state.activity:['Connected to Apps Script backend'];byId('activityList').innerHTML=rows.map(x=>`<div class="activity-item"><span class="activity-dot"></span><div><strong>${escapeHTML(x)}</strong><small>${new Date().toLocaleDateString('th-TH')}</small></div></div>`).join('')}
 
-function renderManagementNotifications(){
-  const panel=byId('notificationItems');
-  if(!panel)return;
+function renderManagementNotifications() {
+  const panel = byId('notificationItems');
+  if (!panel) return;
 
-  const activeAnnouncements=state.announcements.filter(
-    announcement=>announcement.Status==='Published'
-  );
+  const activeAnnouncements = state.announcements
+    .filter(a => a.Status === 'Published')
+    .slice(0, 5); // แสดงสูงสุด 5 รายการ
 
-  panel.innerHTML=activeAnnouncements.map(announcement=>`
+  panel.innerHTML = activeAnnouncements.map(a => `
     <div class="list-item">
       <div>
-        <strong>${escapeHTML(announcement.Title)}</strong>
-        <span>${escapeHTML(announcement.Description||'')}</span>
+        <strong>${escapeHTML(a.Title)}</strong>
+        <span>${escapeHTML(a.Description || '')}</span>
       </div>
     </div>
-  `).join('')||`
+  `).join('') || `
     <div class="empty-state">No new announcements.</div>
   `;
 }
-
 function renderAll(){renderStats();renderProducts();renderResources();renderHubs();renderAnnouncements();renderActivity();populateProductSelect();renderManagementNotifications()}
 
 function populateProductSelect(){const el=byId('rProduct');if(!el)return;if(el.tagName==='SELECT'){const selected=el.value;el.innerHTML='<option value="">All Products</option>'+state.products.map(p=>`<option value="${attr(p.ID)}">${escapeHTML(p.Name)}</option>`).join('');el.value=selected}}
