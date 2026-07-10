@@ -1,40 +1,23 @@
-GSTAR PRODUCT LINKS HOTFIX V1
+GSTAR RESOURCE MANAGER UX V1
 
-A. GITHUB — upload/overwrite only:
+Upload/overwrite only:
 1. Gstar-Management.html
 2. assets/js/management.js
-3. assets/js/products.js
-4. products.html
 
-Do NOT overwrite:
-- assets/js/app.js
-- assets/css/style.css
-- assets/js/api.js
-- assets/css/management.css
-- Dashboard / Marketing / Sales / Support files
+No Apps Script redeploy is required.
+Do not change products.js, app.js, api.js, or CSS.
 
-B. APPS SCRIPT:
-1. Open the existing Gstar Workspace Apps Script project.
-2. Open Code.gs.
-3. Replace the entire Code.gs with apps-script/Code.gs from this ZIP.
-4. Add a new Script file named ProductLinksMigration.
-5. Paste apps-script/ProductLinksMigration.gs into it.
-6. Save.
-7. Run upgradeProductLinksSchema() once.
-8. Deploy > Manage deployments > Edit > New version > Deploy.
-9. Keep using the same /exec URL.
-
-C. TEST:
-1. Open Control Tower > Products > Edit GstarCAD.
-2. Fill:
-   - Free Trial Download URL
-   - Trial + Script URL
-3. Save.
-4. Confirm both columns in Products sheet:
-   - DownloadURL
-   - TrialScriptURL
-5. Hard refresh Products page.
-6. Each button must open its own link.
-7. If a link is blank, button shows "No link" instead of opening the official website.
-
-This patch does not modify Dashboard, shared bell, login, style.css, or Apps Script URL.
+Changes:
+- Choose an existing Resource from a dropdown, or choose + New Resource.
+- Existing Resource selection loads its saved form for editing.
+- Primary Product dropdown is generated from Products in Google Sheet.
+- Show in Hubs is restricted by Resource Category:
+  Price List: Sales
+  Brochure: Marketing, Sales, Product
+  Presentation: Marketing, Sales
+  KV: Marketing
+  Manual: Support, Product
+  Installer: Support, Product
+  Canva: Marketing
+  Website: Marketing, Sales, Support, Product
+  Document: Sales, Support, Product

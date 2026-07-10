@@ -19,6 +19,17 @@ const mgIcons={
 };
 
 const hubs=['Marketing','Sales','Support','Product'];
+const resourceHubRules={
+  'Price List':['Sales'],
+  'Brochure':['Marketing','Sales','Product'],
+  'Presentation':['Marketing','Sales'],
+  'KV':['Marketing'],
+  'Manual':['Support','Product'],
+  'Installer':['Support','Product'],
+  'Canva':['Marketing'],
+  'Website':['Marketing','Sales','Support','Product'],
+  'Document':['Sales','Support','Product']
+};
 let state={products:[],versions:[],pricelists:[],resources:[],announcements:[],settings:[],activity:[]};
 let loading=false;
 
@@ -105,9 +116,84 @@ function renderManagementNotifications() {
     <div class="empty-state">No new announcements.</div>
   `;
 }
-function renderAll(){renderStats();renderProducts();renderResources();renderHubs();renderAnnouncements();renderActivity();populateProductSelect();renderManagementNotifications()}
+function renderAll(){renderStats();renderProducts();renderResources();renderHubs();renderAnnouncements();renderActivity();populateProductSelect();populateResourceSelect();renderManagementNotifications()}
 
-function populateProductSelect(){const el=byId('rProduct');if(!el)return;if(el.tagName==='SELECT'){const selected=el.value;el.innerHTML='<option value="">All Products</option>'+state.products.map(p=>`<option value="${attr(p.ID)}">${escapeHTML(p.Name)}</option>`).join('');el.value=selected}}
+function populateProductSelect(){
+  const el=byId('rProduct');
+  if(!el||el.tagName!=='SELECT')return;
+  const selected=el.value;
+  el.innerHTML='<option value="">All Products</option>'+
+    state.products
+      .slice()
+      .sort((a,b)=>String(a.Name||'').localeCompare(String(b.Name||'')))
+      .map(p=>`<option value="${attr(p.ID)}">${escapeHTML(p.Name)}</option>`)
+      .join('');
+  el.value=selected;
+}
+
+function populateResourceSelect(){
+  const el=byId('rExisting');
+  if(!el)return;
+  const selected=el.value;
+  el.innerHTML='<option value="">+ New Resource</option>'+
+    state.resources
+      .slice()
+      .sort((a,b)=>String(a.Title||'').localeCompare(String(b.Title||'')))
+      .map(r=>`<option value="${attr(r.ID)}">${escapeHTML(r.Title||'Untitled Resource')}</option>`)
+      .join('');
+  if([...el.options].some(option=>option.value===selected))el.value=selected;
+}
+
+function clearResourceForm(){
+  rId.value='';
+  rName.value='';
+  rCategory.value='Price List';
+  rType.value='PDF';
+  rUrl.value='';
+  rProduct.value='';
+  rStatus.value='Published';
+  rDesc.value='';
+  resourceModalTitle.textContent='Add Resource';
+  renderHubChecks([]);
+}
+
+function selectExistingResource(id){
+  if(!id){
+    clearResourceForm();
+    return;
+  }
+  const resource=state.resources.find(item=>item.ID===id);
+  if(resource)fillResourceForm(resource);
+}
+
+function fillResourceForm(resource){
+  resourceModalTitle.textContent='Edit Resource';
+  rId.value=resource.ID||'';
+  rName.value=resource.Title||'';
+  rCategory.value=resource.Category||'Price List';
+  rType.value=resource.Type||'PDF';
+  rUrl.value=resource.URL||'';
+  rProduct.value=resource.ProductID||'';
+  rStatus.value=resource.Status||'Published';
+  rDesc.value=resource.Description||'';
+  renderHubChecks(resource.Hubs||[]);
+}
+
+function renderHubChecks(selectedHubs=[]){
+  const category=rCategory.value||'Price List';
+  const allowed=resourceHubRules[category]||[];
+  hubChecks.innerHTML=hubs.map(h=>{
+    const supported=allowed.includes(h);
+    const checked=supported&&selectedHubs.includes(h);
+    const icon=h==='Marketing'?'megaphone':h==='Sales'?'package':h==='Support'?'bell':'resource';
+    return `<label class="hub-check" style="${supported?'':'opacity:.42'}" title="${supported?'Available for this resource category':'Not supported for '+category}">
+      <input type="checkbox" value="${h}" ${checked?'checked':''} ${supported?'':'disabled'}>
+      <span data-m-icon="${icon}"></span>${h}
+      ${supported?'':'<small style="display:block">Not supported</small>'}
+    </label>`;
+  }).join('');
+  applyManagementIcons();
+}
 
 function openProductModal(id){const p=id?state.products.find(x=>x.ID===id):null;byId('productModalTitle').textContent=p?'Edit Product':'Add Product';pId.value=p?.ID||'';pName.value=p?.Name||'';pCategory.value=p?.Category||'';pTagline.value=p?.Tagline||'';pLogo.value=p?.Logo||'';pDeveloper.value=p?.Developer||'';pDesc.value=p?.Description||'';pVersion.value=p?.CurrentVersion||'';pDownload.value=p?.DownloadURL||'';pTrialScript.value=p?.TrialScriptURL||'';pPlatform.value=p?.Platform||'';pLicense.value=p?.License||'';pWebsite.value=p?.WebsiteURL||'';pStatus.value=p?.Status||'Active';versionList.innerHTML='';versionHistory(p?.ID).forEach(v=>addVersionRow({version:v.Version,url:v.DownloadURL,platform:v.Platform,id:v.ID}));if(!p)addVersionRow();productPreview.style.display='none';showModal('productModal')}
 function addVersionRow(v={version:'',url:'',platform:'Windows',id:''}){const row=document.createElement('div');row.className='version-row';row.dataset.versionId=v.id||'';row.innerHTML=`<input class="mg-input v-version" placeholder="2026 SP4" value="${attr(v.version)}"><input class="mg-input v-url" placeholder="Download URL" value="${attr(v.url)}"><input class="mg-input v-platform" placeholder="Windows" value="${attr(v.platform)}"><button class="mini-action" onclick="this.parentElement.remove()" type="button" aria-label="Delete version"><span data-m-icon="close"></span></button>`;versionList.appendChild(row);applyManagementIcons()}
@@ -141,7 +227,20 @@ function previewProduct(){
 }
 async function deleteProduct(id){if(!confirm('Delete this product?'))return;setBusy(true);try{for(const v of state.versions.filter(x=>x.ProductID===id))await GstarAPI.remove('versions',v.ID);await GstarAPI.remove('products',id);logLocal('Deleted product');await loadData();flash('Product deleted')}catch(error){flash(error.message,true)}finally{setBusy(false)}}
 
-function openResourceModal(id){const r=id?state.resources.find(x=>x.ID===id):null;resourceModalTitle.textContent=r?'Edit Resource':'Add Resource';rId.value=r?.ID||'';rName.value=r?.Title||'';rCategory.value=r?.Category||'Price List';rType.value=r?.Type||'PDF';rUrl.value=r?.URL||'';rProduct.value=r?.ProductID||'';rStatus.value=r?.Status||'Published';rDesc.value=r?.Description||'';hubChecks.innerHTML=hubs.map(h=>`<label class="hub-check"><input type="checkbox" value="${h}" ${(r?.Hubs||[]).includes(h)?'checked':''}> <span data-m-icon="${h==='Marketing'?'megaphone':h==='Sales'?'package':h==='Support'?'bell':'resource'}"></span>${h}</label>`).join('');showModal('resourceModal')}
+function openResourceModal(id){
+  populateProductSelect();
+  populateResourceSelect();
+  showModal('resourceModal');
+
+  if(id){
+    rExisting.value=id;
+    selectExistingResource(id);
+  }else{
+    rExisting.value='';
+    clearResourceForm();
+  }
+}
+
 async function saveResource(){const id=rId.value;const payload={Title:rName.value.trim(),Category:rCategory.value,Type:rType.value,URL:rUrl.value.trim(),ProductID:rProduct.value.trim(),Status:rStatus.value,Description:rDesc.value.trim(),Hubs:[...hubChecks.querySelectorAll('input:checked')].map(x=>x.value)};if(!payload.Title){flash('Please enter Resource Name',true);return}setBusy(true);try{id?await GstarAPI.update('resources',id,payload):await GstarAPI.create('resources',payload);logLocal(`${id?'Updated':'Added'} resource: ${payload.Title}`);closeModal('resourceModal');await loadData();flash('Resource saved to Google Sheet')}catch(error){flash(error.message,true)}finally{setBusy(false)}}
 
 function openAnnouncementModal(id){const a=id?state.announcements.find(x=>x.ID===id):null;aId.value=a?.ID||'';aTitle.value=a?.Title||'';aPriority.value=a?.Priority||'Normal';aDesc.value=a?.Description||'';aUrl.value=a?.ButtonURL||'';aStatus.value=a?.Status||'Published';showModal('announcementModal')}
@@ -157,5 +256,9 @@ document.addEventListener('DOMContentLoaded',async()=>{
   applyManagementIcons();
   document.querySelectorAll('.mg-tab').forEach(b=>b.addEventListener('click',()=>setSection(b.dataset.section)));
   byId('globalSearch')?.addEventListener('input',renderAll);
+  byId('rExisting')?.addEventListener('change',event=>selectExistingResource(event.target.value));
+  byId('rCategory')?.addEventListener('change',()=>renderHubChecks(
+    [...hubChecks.querySelectorAll('input:checked')].map(input=>input.value)
+  ));
   await loadData();
 });

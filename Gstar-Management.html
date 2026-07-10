@@ -1,129 +1,115 @@
 <!DOCTYPE html>
+
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gstar Workspace | Management</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="assets/img/favicon.png">
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/management.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gstar Workspace | Management</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="assets/img/favicon.png" rel="icon" type="image/png"/>
+<link href="assets/css/style.css" rel="stylesheet"/>
+<link href="assets/css/management.css" rel="stylesheet"/>
 </head>
 <body>
-  <div class="wrapper management-wrapper">
-    <aside class="sidebar">
-      <a class="brand" href="index.html"><span class="brand-mark">G</span><span>Gstar<br>Workspace</span></a>
-      <nav class="nav">
-        <a href="index.html">Dashboard</a>
-        <a href="products.html">Products</a>
-        <a href="marketing.html">Marketing</a>
-        <a href="sales.html">Sales</a>
-        <a href="support.html">Support</a>
-        <a href="knowledge.html">Knowledge Base</a>
-        <a href="ai-assistant.html">AI Assistant</a>
-        <div class="divider"></div>
-        <a class="active" href="Gstar-Management.html">Management</a>
-        
-      </nav>
-    </aside>
-
-    <main class="main management-main">
-      <header class="topbar management-topbar">
-        <div>
-          <div class="crumb">Internal Workspace / Management</div>
-          <h1>Control Tower</h1>
-        </div>
-        <div class="top-actions">
-          <a class="btn secondary home-link" href="index.html"><span data-m-icon="home"></span> Dashboard</a>
-          <div class="search-shell management-search"><span data-icon="search"></span><input id="globalSearch" type="search" placeholder="Search management..." autocomplete="off"></div>
-          <button class="icon-btn" id="bellButton" aria-label="Notifications"><span data-icon="bell"></span><span class="dot"></span></button>
-        </div>
-      </header>
-
-      <div class="notification-panel" id="notificationPanel"><div class="panel-title">Latest Updates</div><div id="notificationItems"></div><a class="panel-link" href="Gstar-Management.html">Manage announcements →</a></div>
-
-      <section class="hero management-hero">
-        <div class="kicker">Workspace OS</div>
-        <h2>Control Tower for products, resources and hub routing.</h2>
-        <p>จัดการข้อมูลหลักของ Workspace จากจุดเดียว โดย Resource อัปครั้งเดียว แล้วเลือกว่าจะให้ไปแสดงใน Marketing, Sales, Support หรือ Product Hub.</p>
-        <div class="management-tabs" role="tablist" aria-label="Control Tower Sections">
-          <button class="mg-tab active" data-section="dashboard"><span data-m-icon="dashboard"></span>Overview</button>
-          <button class="mg-tab" data-section="products"><span data-m-icon="package"></span>Products</button>
-          <button class="mg-tab" data-section="resources"><span data-m-icon="resource"></span>Resources</button>
-          <button class="mg-tab" data-section="hubs"><span data-m-icon="route"></span>Hub Routing</button>
-          <button class="mg-tab" data-section="announcements"><span data-m-icon="megaphone"></span>Announcements</button>
-          <button class="mg-tab" data-section="settings"><span data-m-icon="settings"></span>Settings</button>
-        </div>
-      </section>
-
-      <section id="dashboard" class="mg-section active">
-        <div id="stats" class="grid-4 mg-stats"></div>
-        <div class="grid-2 section mg-dashboard-grid">
-          <div class="card">
-            <div class="section-head"><div><div class="section-title">Recent Activity</div><div class="section-desc">บันทึกการแก้ไขล่าสุด</div></div></div>
-            <div class="mg-list" id="activityList"></div>
-          </div>
-          <div class="card">
-            <div class="section-head"><div><div class="section-title">System Status</div><div class="section-desc">Frontend only / localStorage</div></div></div>
-            <div class="status-stack">
-              <div class="status-item"><span data-m-icon="check"></span><div><strong>Foundation</strong><small>V1 Stable · use shared style.css</small></div></div>
-              <div class="status-item"><span data-m-icon="database"></span><div><strong>Database</strong><small>localStorage before Apps Script</small></div></div>
-              <div class="status-item"><span data-m-icon="route"></span><div><strong>Resource Routing</strong><small>Single source, multi hub</small></div></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="products" class="mg-section">
-        <div class="section-head"><div><div class="section-title">Product Manager</div><div class="section-desc">แก้ Product, Current Version, Download URL, Website URL และ Version History</div></div><button class="btn primary" onclick="openProductModal()"><span data-m-icon="plus"></span>Add Product</button></div>
-        <div class="mg-toolbar card flat-card"><input class="mg-input" id="productFilter" placeholder="Filter products..." oninput="renderProducts()"><select class="mg-select" id="productStatus" onchange="renderProducts()"><option value="All">All Status</option><option>Active</option><option>Hidden</option><option>Coming Soon</option></select></div>
-        <div class="card table-card"><div class="table-scroll"><table class="mg-table"><thead><tr><th>Product</th><th>Current Version</th><th>Platform</th><th>License</th><th>Status</th><th></th></tr></thead><tbody id="productRows"></tbody></table></div></div>
-      </section>
-
-      <section id="resources" class="mg-section">
-        <div class="section-head"><div><div class="section-title">Resource Library</div><div class="section-desc">อัปครั้งเดียว แล้วเลือก Show in Hubs เพื่อให้ไปโผล่เฉพาะหน้าที่เลือก</div></div><button class="btn primary" onclick="openResourceModal()"><span data-m-icon="plus"></span>Add Resource</button></div>
-        <div class="resource-note card"><span data-m-icon="info"></span><div><strong>Resource Routing</strong><p>ถ้าเลือก Sales อย่างเดียว ไฟล์จะไปโชว์เฉพาะ Sales Hub Routing. ถ้าเลือก Product + Support จะไปโชว์สองที่นั้นเท่านั้น ไม่ได้โชว์ทุก Hub.</p></div></div>
-        <div class="mg-toolbar card flat-card"><input class="mg-input" id="resourceFilter" placeholder="Filter resources..." oninput="renderResources()"><select class="mg-select" id="hubFilter" onchange="renderResources()"><option value="All">All Hubs</option><option>Marketing</option><option>Sales</option><option>Support</option><option>Product</option></select><select class="mg-select" id="categoryFilter" onchange="renderResources()"><option value="All">All Categories</option><option>Price List</option><option>Brochure</option><option>Presentation</option><option>KV</option><option>Manual</option><option>Installer</option><option>Canva</option><option>Website</option><option>Document</option></select></div>
-        <div class="resource-grid" id="resourceCards"></div>
-      </section>
-
-      <section id="hubs" class="mg-section">
-        <div class="section-head"><div><div class="section-title">Hub Routing</div><div class="section-desc">ดูว่า Resource ที่เลือกไว้จะไปโผล่หน้า Marketing / Sales / Support / Product อย่างไร</div></div></div>
-        <div class="resource-grid" id="hubCards"></div>
-      </section>
-
-      <section id="announcements" class="mg-section">
-        <div class="section-head"><div><div class="section-title">Announcements</div><div class="section-desc">ประกาศใน Workspace แบบ list / glass / pinned</div></div><button class="btn primary" onclick="openAnnouncementModal()"><span data-m-icon="plus"></span>New Announcement</button></div>
-        <div class="card table-card"><div class="table-scroll"><table class="mg-table"><thead><tr><th>Title</th><th>Priority</th><th>Status</th><th>URL</th><th></th></tr></thead><tbody id="announcementRows"></tbody></table></div></div>
-      </section>
-
-      <section id="settings" class="mg-section">
-        <div class="section-head"><div><div class="section-title">Workspace Settings</div><div class="section-desc">ตั้งค่าระบบเบื้องต้นสำหรับอนาคต</div></div></div>
-        <div class="resource-grid">
-          <div class="card resource-card"><div class="resource-icon"><span data-m-icon="settings"></span></div><h3>General</h3><p>Workspace Name, Logo, Version</p><button class="btn secondary">Edit</button></div>
-          <div class="card resource-card"><div class="resource-icon"><span data-m-icon="palette"></span></div><h3>Theme</h3><p>Glass / Light / Dark future</p><button class="btn secondary">Edit</button></div>
-          <div class="card resource-card"><div class="resource-icon"><span data-m-icon="bell"></span></div><h3>Notification</h3><p>Enable announcements and system notice</p><button class="btn secondary">Edit</button></div>
-        </div>
-      </section>
-
-      <footer class="footer">Gstar Workspace · Control Tower</footer>
-    </main>
-  </div>
-
-  <div class="modal" id="productModal"><div class="modal-card management-modal"><div class="modal-head"><div><h3 id="productModalTitle">Add Product</h3><p>ข้อมูลนี้จะถูกใช้ใน Product Page และ Quick Actions</p></div><button class="icon-btn modal-close" onclick="closeModal('productModal')"><span data-m-icon="close"></span></button></div><div class="form-grid">
-    <input type="hidden" id="pId"><label><span>Product Name</span><input id="pName" placeholder="GstarCAD"></label><label><span>Category</span><input id="pCategory" placeholder="CAD / BIM / Viewer"></label><label class="span-2"><span>Tagline</span><input id="pTagline" placeholder="Professional CAD Platform"></label><label><span>Logo Path</span><input id="pLogo" placeholder="product/GstarCAD.png"></label><label><span>Developer</span><input id="pDeveloper" placeholder="Gstarsoft"></label><label class="span-2"><span>Description</span><textarea id="pDesc" placeholder="Short internal description"></textarea></label><label><span>Current Version</span><input id="pVersion" placeholder="2027 SP0"></label><label><span>Free Trial Download URL</span><input id="pDownload" placeholder="https://..."></label><label><span>Trial + Script URL</span><input id="pTrialScript" placeholder="https://..."></label><label><span>Platform</span><input id="pPlatform" placeholder="Windows / Mac"></label><label><span>License</span><input id="pLicense" placeholder="Perpetual / Subscription"></label><label><span>Website URL</span><input id="pWebsite" placeholder="https://thaigstarcad.com/..."></label><label><span>Status</span><select id="pStatus"><option>Active</option><option>Hidden</option><option>Coming Soon</option></select></label><div class="span-2 version-manager"><div class="mini-section-head"><div><strong>Version History</strong><small>เพิ่มเวอร์ชันเก่าและลิงก์แยกได้</small></div><button class="btn secondary" onclick="addVersionRow()" type="button"><span data-m-icon="plus"></span>Add Version</button></div><div class="version-list" id="versionList"></div></div>
-  </div><div class="modal-actions"><button class="btn secondary" onclick="previewProduct()"><span data-m-icon="eye"></span>Preview</button><button class="btn primary" onclick="saveProduct()">Save Product</button></div><div id="productPreview" class="preview-box"></div></div></div>
-
-  <div class="modal" id="resourceModal"><div class="modal-card management-modal"><div class="modal-head"><div><h3 id="resourceModalTitle">Add Resource</h3><p>เลือก Hub ที่ต้องการให้ Resource นี้ไปแสดงจริง</p></div><button class="icon-btn modal-close" onclick="closeModal('resourceModal')"><span data-m-icon="close"></span></button></div><div class="form-grid">
-    <input type="hidden" id="rId"><label><span>Resource Name</span><input id="rName" placeholder="Price List GstarCAD 2027"></label><label><span>Category</span><select id="rCategory"><option>Price List</option><option>Brochure</option><option>Presentation</option><option>KV</option><option>Manual</option><option>Installer</option><option>Canva</option><option>Website</option><option>Document</option></select></label><label><span>Type</span><select id="rType"><option>PDF</option><option>Link</option><option>Canva</option><option>Google Drive</option><option>Website</option><option>Video</option><option>ZIP</option></select></label><label><span>URL</span><input id="rUrl" placeholder="https://..."></label><label><span>Primary Product</span><input id="rProduct" placeholder="GstarCAD / All Products"></label><label><span>Status</span><select id="rStatus"><option>Published</option><option>Draft</option><option>Hidden</option></select></label><label class="span-2"><span>Description</span><textarea id="rDesc" placeholder="Internal notes"></textarea></label><div class="span-2 hub-picker"><div class="mini-section-head"><div><strong>Show in Hubs</strong><small>เลือกเฉพาะหน้าที่ต้องการให้ Resource นี้ไปโผล่</small></div></div><div class="hub-check-grid" id="hubChecks"></div></div>
-  </div><div class="modal-actions"><button class="btn primary" onclick="saveResource()">Save Resource</button></div></div></div>
-
-  <div class="modal" id="announcementModal"><div class="modal-card management-modal"><div class="modal-head"><div><h3>Add Announcement</h3><p>ประกาศจะแสดงใน Notification Panel</p></div><button class="icon-btn modal-close" onclick="closeModal('announcementModal')"><span data-m-icon="close"></span></button></div><div class="form-grid"><input type="hidden" id="aId"><label><span>Title</span><input id="aTitle"></label><label><span>Priority</span><select id="aPriority"><option>Normal</option><option>High</option><option>Critical</option></select></label><label class="span-2"><span>Description</span><textarea id="aDesc"></textarea></label><label><span>Button URL</span><input id="aUrl"></label><label><span>Status</span><select id="aStatus"><option>Published</option><option>Draft</option><option>Hidden</option></select></label></div><div class="modal-actions"><button class="btn primary" onclick="saveAnnouncement()">Save Announcement</button></div></div></div>
-
-  <script src="assets/js/app.js"></script>
-  <script src="assets/js/api.js"></script>
-  <script src="assets/js/management.js"></script>
+<div class="wrapper management-wrapper">
+<aside class="sidebar">
+<a class="brand" href="index.html"><span class="brand-mark">G</span><span>Gstar<br/>Workspace</span></a>
+<nav class="nav">
+<a href="index.html">Dashboard</a>
+<a href="products.html">Products</a>
+<a href="marketing.html">Marketing</a>
+<a href="sales.html">Sales</a>
+<a href="support.html">Support</a>
+<a href="knowledge.html">Knowledge Base</a>
+<a href="ai-assistant.html">AI Assistant</a>
+<div class="divider"></div>
+<a class="active" href="Gstar-Management.html">Management</a>
+</nav>
+</aside>
+<main class="main management-main">
+<header class="topbar management-topbar">
+<div>
+<div class="crumb">Internal Workspace / Management</div>
+<h1>Control Tower</h1>
+</div>
+<div class="top-actions">
+<a class="btn secondary home-link" href="index.html"><span data-m-icon="home"></span> Dashboard</a>
+<div class="search-shell management-search"><span data-icon="search"></span><input autocomplete="off" id="globalSearch" placeholder="Search management..." type="search"/></div>
+<button aria-label="Notifications" class="icon-btn" id="bellButton"><span data-icon="bell"></span><span class="dot"></span></button>
+</div>
+</header>
+<div class="notification-panel" id="notificationPanel"><div class="panel-title">Latest Updates</div><div id="notificationItems"></div><a class="panel-link" href="Gstar-Management.html">Manage announcements →</a></div>
+<section class="hero management-hero">
+<div class="kicker">Workspace OS</div>
+<h2>Control Tower for products, resources and hub routing.</h2>
+<p>จัดการข้อมูลหลักของ Workspace จากจุดเดียว โดย Resource อัปครั้งเดียว แล้วเลือกว่าจะให้ไปแสดงใน Marketing, Sales, Support หรือ Product Hub.</p>
+<div aria-label="Control Tower Sections" class="management-tabs" role="tablist">
+<button class="mg-tab active" data-section="dashboard"><span data-m-icon="dashboard"></span>Overview</button>
+<button class="mg-tab" data-section="products"><span data-m-icon="package"></span>Products</button>
+<button class="mg-tab" data-section="resources"><span data-m-icon="resource"></span>Resources</button>
+<button class="mg-tab" data-section="hubs"><span data-m-icon="route"></span>Hub Routing</button>
+<button class="mg-tab" data-section="announcements"><span data-m-icon="megaphone"></span>Announcements</button>
+<button class="mg-tab" data-section="settings"><span data-m-icon="settings"></span>Settings</button>
+</div>
+</section>
+<section class="mg-section active" id="dashboard">
+<div class="grid-4 mg-stats" id="stats"></div>
+<div class="grid-2 section mg-dashboard-grid">
+<div class="card">
+<div class="section-head"><div><div class="section-title">Recent Activity</div><div class="section-desc">บันทึกการแก้ไขล่าสุด</div></div></div>
+<div class="mg-list" id="activityList"></div>
+</div>
+<div class="card">
+<div class="section-head"><div><div class="section-title">System Status</div><div class="section-desc">Frontend only / localStorage</div></div></div>
+<div class="status-stack">
+<div class="status-item"><span data-m-icon="check"></span><div><strong>Foundation</strong><small>V1 Stable · use shared style.css</small></div></div>
+<div class="status-item"><span data-m-icon="database"></span><div><strong>Database</strong><small>localStorage before Apps Script</small></div></div>
+<div class="status-item"><span data-m-icon="route"></span><div><strong>Resource Routing</strong><small>Single source, multi hub</small></div></div>
+</div>
+</div>
+</div>
+</section>
+<section class="mg-section" id="products">
+<div class="section-head"><div><div class="section-title">Product Manager</div><div class="section-desc">แก้ Product, Current Version, Download URL, Website URL และ Version History</div></div><button class="btn primary" onclick="openProductModal()"><span data-m-icon="plus"></span>Add Product</button></div>
+<div class="mg-toolbar card flat-card"><input class="mg-input" id="productFilter" oninput="renderProducts()" placeholder="Filter products..."/><select class="mg-select" id="productStatus" onchange="renderProducts()"><option value="All">All Status</option><option>Active</option><option>Hidden</option><option>Coming Soon</option></select></div>
+<div class="card table-card"><div class="table-scroll"><table class="mg-table"><thead><tr><th>Product</th><th>Current Version</th><th>Platform</th><th>License</th><th>Status</th><th></th></tr></thead><tbody id="productRows"></tbody></table></div></div>
+</section>
+<section class="mg-section" id="resources">
+<div class="section-head"><div><div class="section-title">Resource Library</div><div class="section-desc">อัปครั้งเดียว แล้วเลือก Show in Hubs เพื่อให้ไปโผล่เฉพาะหน้าที่เลือก</div></div><button class="btn primary" onclick="openResourceModal()"><span data-m-icon="plus"></span>Add Resource</button></div>
+<div class="resource-note card"><span data-m-icon="info"></span><div><strong>Resource Routing</strong><p>ถ้าเลือก Sales อย่างเดียว ไฟล์จะไปโชว์เฉพาะ Sales Hub Routing. ถ้าเลือก Product + Support จะไปโชว์สองที่นั้นเท่านั้น ไม่ได้โชว์ทุก Hub.</p></div></div>
+<div class="mg-toolbar card flat-card"><input class="mg-input" id="resourceFilter" oninput="renderResources()" placeholder="Filter resources..."/><select class="mg-select" id="hubFilter" onchange="renderResources()"><option value="All">All Hubs</option><option>Marketing</option><option>Sales</option><option>Support</option><option>Product</option></select><select class="mg-select" id="categoryFilter" onchange="renderResources()"><option value="All">All Categories</option><option>Price List</option><option>Brochure</option><option>Presentation</option><option>KV</option><option>Manual</option><option>Installer</option><option>Canva</option><option>Website</option><option>Document</option></select></div>
+<div class="resource-grid" id="resourceCards"></div>
+</section>
+<section class="mg-section" id="hubs">
+<div class="section-head"><div><div class="section-title">Hub Routing</div><div class="section-desc">ดูว่า Resource ที่เลือกไว้จะไปโผล่หน้า Marketing / Sales / Support / Product อย่างไร</div></div></div>
+<div class="resource-grid" id="hubCards"></div>
+</section>
+<section class="mg-section" id="announcements">
+<div class="section-head"><div><div class="section-title">Announcements</div><div class="section-desc">ประกาศใน Workspace แบบ list / glass / pinned</div></div><button class="btn primary" onclick="openAnnouncementModal()"><span data-m-icon="plus"></span>New Announcement</button></div>
+<div class="card table-card"><div class="table-scroll"><table class="mg-table"><thead><tr><th>Title</th><th>Priority</th><th>Status</th><th>URL</th><th></th></tr></thead><tbody id="announcementRows"></tbody></table></div></div>
+</section>
+<section class="mg-section" id="settings">
+<div class="section-head"><div><div class="section-title">Workspace Settings</div><div class="section-desc">ตั้งค่าระบบเบื้องต้นสำหรับอนาคต</div></div></div>
+<div class="resource-grid">
+<div class="card resource-card"><div class="resource-icon"><span data-m-icon="settings"></span></div><h3>General</h3><p>Workspace Name, Logo, Version</p><button class="btn secondary">Edit</button></div>
+<div class="card resource-card"><div class="resource-icon"><span data-m-icon="palette"></span></div><h3>Theme</h3><p>Glass / Light / Dark future</p><button class="btn secondary">Edit</button></div>
+<div class="card resource-card"><div class="resource-icon"><span data-m-icon="bell"></span></div><h3>Notification</h3><p>Enable announcements and system notice</p><button class="btn secondary">Edit</button></div>
+</div>
+</section>
+<footer class="footer">Gstar Workspace · Control Tower</footer>
+</main>
+</div>
+<div class="modal" id="productModal"><div class="modal-card management-modal"><div class="modal-head"><div><h3 id="productModalTitle">Add Product</h3><p>ข้อมูลนี้จะถูกใช้ใน Product Page และ Quick Actions</p></div><button class="icon-btn modal-close" onclick="closeModal('productModal')"><span data-m-icon="close"></span></button></div><div class="form-grid">
+<input id="pId" type="hidden"/><label><span>Product Name</span><input id="pName" placeholder="GstarCAD"/></label><label><span>Category</span><select id="pCategory"><option value="CAD">CAD</option><option value="BIM">BIM</option><option value="BOQ &amp; Estimation">BOQ &amp; Estimation</option><option value="Viewer &amp; Collaboration">Viewer &amp; Collaboration</option><option value="Add-ons">Add-ons</option><option value="3D Printing">3D Printing</option><option value="Partners">Partners</option></select></label><label class="span-2"><span>Tagline</span><input id="pTagline" placeholder="Professional CAD Platform"/></label><label><span>Logo Path</span><input id="pLogo" placeholder="product/GstarCAD.png"/></label><label><span>Developer</span><input id="pDeveloper" placeholder="Gstarsoft"/></label><label class="span-2"><span>Description</span><textarea id="pDesc" placeholder="Short internal description"></textarea></label><label><span>Current Version</span><input id="pVersion" placeholder="2027 SP0"/></label><label><span>Free Trial Download URL</span><input id="pDownload" placeholder="https://..."/></label><label><span>Trial + Script URL</span><input id="pTrialScript" placeholder="https://..."/></label><label><span>Platform</span><input id="pPlatform" placeholder="Windows / Mac"/></label><label><span>License</span><select id="pLicense"><option value="Perpetual">Perpetual</option><option value="Subscription">Subscription</option><option value="Network">Network</option><option value="Perpetual / Subscription">Perpetual / Subscription</option><option value="Perpetual / Network">Perpetual / Network</option><option value="Subscription / Network">Subscription / Network</option><option value="Perpetual / Subscription / Network">Perpetual / Subscription / Network</option><option value="Free">Free</option></select></label><label><span>Website URL</span><input id="pWebsite" placeholder="https://thaigstarcad.com/..."/></label><label><span>Status</span><select id="pStatus"><option>Active</option><option>Hidden</option><option>Coming Soon</option></select></label><div class="span-2 version-manager"><div class="mini-section-head"><div><strong>Version History</strong><small>เพิ่มเวอร์ชันเก่าและลิงก์แยกได้</small></div><button class="btn secondary" onclick="addVersionRow()" type="button"><span data-m-icon="plus"></span>Add Version</button></div><div class="version-list" id="versionList"></div></div>
+</div><div class="modal-actions"><button class="btn secondary" onclick="previewProduct()"><span data-m-icon="eye"></span>Preview</button><button class="btn primary" onclick="saveProduct()">Save Product</button></div><div class="preview-box" id="productPreview"></div></div></div>
+<div class="modal" id="resourceModal"><div class="modal-card management-modal"><div class="modal-head"><div><h3 id="resourceModalTitle">Add Resource</h3><p>เลือก Hub ที่ต้องการให้ Resource นี้ไปแสดงจริง</p></div><button class="icon-btn modal-close" onclick="closeModal('resourceModal')"><span data-m-icon="close"></span></button></div><div class="form-grid">
+<input id="rId" type="hidden"/><label class="span-2"><span>Choose Resource</span><select id="rExisting"><option value="">+ New Resource</option></select></label><label><span>Resource Name</span><input id="rName" placeholder="Price List GstarCAD 2027"/></label><label><span>Category</span><select id="rCategory"><option>Price List</option><option>Brochure</option><option>Presentation</option><option>KV</option><option>Manual</option><option>Installer</option><option>Canva</option><option>Website</option><option>Document</option></select></label><label><span>Type</span><select id="rType"><option>PDF</option><option>Link</option><option>Canva</option><option>Google Drive</option><option>Website</option><option>Video</option><option>ZIP</option></select></label><label><span>URL</span><input id="rUrl" placeholder="https://..."/></label><label><span>Primary Product</span><select id="rProduct"><option value="">All Products</option></select></label><label><span>Status</span><select id="rStatus"><option>Published</option><option>Draft</option><option>Hidden</option></select></label><label class="span-2"><span>Description</span><textarea id="rDesc" placeholder="Internal notes"></textarea></label><div class="span-2 hub-picker"><div class="mini-section-head"><div><strong>Show in Hubs</strong><small>เลือกเฉพาะหน้าที่ต้องการให้ Resource นี้ไปโผล่</small></div></div><div class="hub-check-grid" id="hubChecks"></div></div>
+</div><div class="modal-actions"><button class="btn primary" onclick="saveResource()">Save Resource</button></div></div></div>
+<div class="modal" id="announcementModal"><div class="modal-card management-modal"><div class="modal-head"><div><h3>Add Announcement</h3><p>ประกาศจะแสดงใน Notification Panel</p></div><button class="icon-btn modal-close" onclick="closeModal('announcementModal')"><span data-m-icon="close"></span></button></div><div class="form-grid"><input id="aId" type="hidden"/><label><span>Title</span><input id="aTitle"/></label><label><span>Priority</span><select id="aPriority"><option>Normal</option><option>High</option><option>Critical</option></select></label><label class="span-2"><span>Description</span><textarea id="aDesc"></textarea></label><label><span>Button URL</span><input id="aUrl"/></label><label><span>Status</span><select id="aStatus"><option>Published</option><option>Draft</option><option>Hidden</option></select></label></div><div class="modal-actions"><button class="btn primary" onclick="saveAnnouncement()">Save Announcement</button></div></div></div>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/management.js"></script>
 </body>
 </html>
