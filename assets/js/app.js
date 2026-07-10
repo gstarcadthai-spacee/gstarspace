@@ -24,13 +24,57 @@ function setAnnouncements(v){localStorage.setItem('gstar_announcements_v2',JSON.
 function applyIcons(){document.querySelectorAll('[data-icon]').forEach(el=>{if(icons[el.dataset.icon])el.innerHTML=icons[el.dataset.icon]})}
 function imgPath(file){return `assets/img/products/${file}`}
 function initBell(){const b=document.getElementById('bellButton'),p=document.getElementById('notificationPanel');if(!b||!p)return;b.onclick=e=>{e.stopPropagation();p.classList.toggle('show')};document.addEventListener('click',e=>{if(!p.contains(e.target)&&!b.contains(e.target))p.classList.remove('show')})}
-function renderNotifications(){const p=document.getElementById('notificationItems');if(p)p.innerHTML=getAnnouncements().filter(a=>a.enabled).slice(0,4).map(a=>`<div class="list-item"><div><strong>${a.title}</strong><span>${a.date}</span></div></div>`).join('')}
+let sharedAnnouncements=null;
+function setNotificationBadge(label){
+  const title=document.querySelector('#notificationPanel .panel-title');
+  if(title)title.dataset.count=label;
+}
+function renderNotifications(){
+  const p=document.getElementById('notificationItems');
+  if(!p)return;
+  if(sharedAnnouncements===null){
+    setNotificationBadge('Loading');
+    p.innerHTML='<div class="list-item"><div><strong>Loading updates...</strong><span>Please wait a moment</span></div></div>';
+    return;
+  }
+  const items=sharedAnnouncements.slice(0,5);
+  setNotificationBadge(sharedAnnouncements.length>5?'5+':`${sharedAnnouncements.length} New`);
+  p.innerHTML=items.length
+    ?items.map(a=>`<div class="list-item"><div><strong>${a.Title||a.title||'Update'}</strong><span>${a.Description||a.description||a.UpdatedAt||a.date||''}</span></div></div>`).join('')
+    :'<div class="list-item"><div><strong>No new announcements</strong><span>Published updates will appear here.</span></div></div>';
+}
+async function loadSharedAnnouncements(){
+  try{
+    const response=await fetch('https://script.google.com/macros/s/AKfycbxz82sAAB6v6d20-j9DTzFsJwILCcrfq-oKTDV0IK-LPBguaOC5bEZ7Xcg6-VGee8M/exec?action=bootstrap',{cache:'no-store',redirect:'follow'});
+    if(!response.ok)throw new Error(`HTTP ${response.status}`);
+    const result=await response.json();
+    const rows=(result?.data?.announcements||[])
+      .filter(a=>String(a.Status||a.status||'').toLowerCase()==='published')
+      .sort((a,b)=>new Date(b.UpdatedAt||0)-new Date(a.UpdatedAt||0));
+    sharedAnnouncements=rows;
+  }catch(error){
+    console.warn('Announcement API unavailable; using local fallback.',error);
+    sharedAnnouncements=getAnnouncements()
+      .filter(a=>a.enabled)
+      .map(a=>({Title:a.title,Description:a.description||a.date||'',UpdatedAt:a.date||''}));
+  }
+  renderNotifications();
+  renderDashboard();
+}
 function initSearch(){const input=document.getElementById('globalSearch'),results=document.getElementById('globalSearchResults');if(!input||!results)return;const pages=[['Dashboard','Workspace home','index.html'],['Products','Product portfolio','products.html'],['Marketing Hub','Brand and campaign assets','marketing.html'],['Sales Hub','Price list and proposal','sales.html'],['Support Hub','Technical FAQ','support.html'],['Knowledge Base','Internal wiki','knowledge.html'],['AI Assistant','Workspace AI','ai-assistant.html'],['Management','Admin console','management-login.html']];input.addEventListener('input',()=>{const q=input.value.trim().toLowerCase();if(!q){results.classList.remove('show');return}const productResults=getProducts().map(p=>[p.name,`${p.category} · ${p.description}`,'products.html']);const found=[...pages,...productResults].filter(x=>`${x[0]} ${x[1]}`.toLowerCase().includes(q)).slice(0,8);results.innerHTML=found.length?found.map(x=>`<a class="search-result" href="${x[2]}"><div><strong>${x[0]}</strong><br><small>${x[1]}</small></div></a>`).join(''):'<div class="search-result">No results</div>';results.classList.add('show')});document.addEventListener('click',e=>{if(!results.contains(e.target)&&e.target!==input)results.classList.remove('show')})}
 function initLogin(){const form=document.getElementById('managementLoginForm');if(!form)return;form.onsubmit=e=>{e.preventDefault();const pw=document.getElementById('managementPassword').value.trim();if(pw===MANAGEMENT_PASSWORD){sessionStorage.setItem('gstar_admin','1');location.href='Gstar-Management.html'}else document.getElementById('managementError').classList.add('show')}}
 function logoutManagement(){sessionStorage.removeItem('gstar_admin');location.href='management-login.html'}
 function guardAdmin(){if(document.body.dataset.admin==='true'&&sessionStorage.getItem('gstar_admin')!=='1')location.href='management-login.html'}
-function renderDashboard(){const box=document.getElementById('dashboardAnnouncements');if(!box)return;box.innerHTML=getAnnouncements().filter(a=>a.enabled).slice(0,3).map(a=>`<div class="list-item"><div><strong>${a.title}</strong><span>${a.description}</span></div><span class="tag ${a.status==='Active'?'blue':''}">${a.status}</span></div>`).join('')}
-function renderProducts(){const tabs=document.getElementById('categoryTabs'),groups=document.getElementById('productGroups'),search=document.getElementById('productSearch');if(!tabs||!groups)return;const active=getProducts().filter(p=>p.enabled);const cats=['All','CAD','BIM','BOQ & Estimation','Viewer & Collaboration','Add-ons','3D Printing','Partners'];if(!tabs.dataset.ready){tabs.innerHTML=cats.map(c=>`<button class="tab ${c==='All'?'active':''}" data-cat="${c}">${c}</button>`).join('');tabs.dataset.ready='1';tabs.querySelectorAll('button').forEach(b=>b.onclick=()=>{tabs.querySelectorAll('button').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderProducts()});if(search)search.oninput=renderProducts}
+function renderDashboard(){
+  const box=document.getElementById('dashboardAnnouncements');
+  if(!box)return;
+  if(sharedAnnouncements===null){
+    box.innerHTML='<div class="list-item"><div><strong>Loading updates...</strong><span>Connecting to Workspace data</span></div></div>';
+    return;
+  }
+  box.innerHTML=sharedAnnouncements.slice(0,3).map(a=>`<div class="list-item"><div><strong>${a.Title||a.title||'Update'}</strong><span>${a.Description||a.description||''}</span></div><span class="tag blue">Published</span></div>`).join('')||'<div class="list-item"><div><strong>No published announcements</strong><span>Add one from Control Tower.</span></div></div>';
+}
+function renderProducts(){if(window.GSTAR_PRODUCTS_V5)return;const tabs=document.getElementById('categoryTabs'),groups=document.getElementById('productGroups'),search=document.getElementById('productSearch');if(!tabs||!groups)return;const active=getProducts().filter(p=>p.enabled);const cats=['All','CAD','BIM','BOQ & Estimation','Viewer & Collaboration','Add-ons','3D Printing','Partners'];if(!tabs.dataset.ready){tabs.innerHTML=cats.map(c=>`<button class="tab ${c==='All'?'active':''}" data-cat="${c}">${c}</button>`).join('');tabs.dataset.ready='1';tabs.querySelectorAll('button').forEach(b=>b.onclick=()=>{tabs.querySelectorAll('button').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderProducts()});if(search)search.oninput=renderProducts}
 const cat=tabs.querySelector('.active')?.dataset.cat||'All';const q=(search?.value||'').toLowerCase();let items=active.filter(p=>(cat==='All'||p.category===cat||(cat==='Partners'&&p.external))&&`${p.name} ${p.category} ${p.description} ${p.keywords||''}`.toLowerCase().includes(q));if(!items.length){groups.innerHTML='<div class="card">No products found.</div>';return}groups.innerHTML=`<div><div class="section-head"><div><div class="section-title">${cat==='All'?'All Products':cat}</div><div class="section-desc">${items.length} products</div></div></div><div class="product-grid">${items.map(p=>`<a class="card product-card" href="${p.url||'#'}"><img src="${imgPath(p.logo)}" alt="${p.name}" onerror="this.outerHTML='<div class=&quot;initial-logo&quot;>${p.name.slice(0,2)}</div>'"><h3>${p.name}</h3><p>${p.description}</p><span class="tag blue">${p.category}</span></a>`).join('')}</div></div>`}
 function initAdmin(){const root=document.getElementById('adminRoot');if(!root)return;renderAdmin();document.querySelectorAll('.admin-rail button').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.admin-rail button').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.admin-panel').forEach(p=>p.classList.remove('active'));btn.classList.add('active');document.getElementById(btn.dataset.panel).classList.add('active')});document.getElementById('newProductBtn')?.addEventListener('click',()=>openProductModal());document.getElementById('newAnnouncementBtn')?.addEventListener('click',()=>openAnnouncementModal());document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>document.querySelectorAll('.modal').forEach(m=>m.classList.remove('show')));document.getElementById('productForm')?.addEventListener('submit',saveProduct);document.getElementById('announcementForm')?.addEventListener('submit',saveAnnouncement);document.getElementById('resetDemoBtn')?.addEventListener('click',()=>{localStorage.removeItem('gstar_products_v2');localStorage.removeItem('gstar_announcements_v2');renderAdmin();toast('Demo data reset')})}
 function renderAdmin(){const products=getProducts(),ann=getAnnouncements();document.getElementById('statProducts').textContent=products.length;document.getElementById('statAnnouncements').textContent=ann.length;document.getElementById('statActive').textContent=products.filter(p=>p.enabled).length;document.getElementById('statCategories').textContent=new Set(products.map(p=>p.category)).size;renderAdminProducts();renderAdminAnnouncements();renderPreview()}
@@ -46,4 +90,4 @@ function saveAnnouncement(e){e.preventDefault();let arr=getAnnouncements();const
 function toggleAnnouncement(id){setAnnouncements(getAnnouncements().map(a=>a.id===id?{...a,enabled:!a.enabled}:a));renderAdmin()}
 function deleteAnnouncement(id){if(confirm('Delete this announcement?')){setAnnouncements(getAnnouncements().filter(a=>a.id!==id));renderAdmin()}}
 function toast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t)}t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
-document.addEventListener('DOMContentLoaded',()=>{applyIcons();guardAdmin();renderNotifications();renderDashboard();renderProducts();initBell();initSearch();initLogin();initAdmin()});
+document.addEventListener('DOMContentLoaded',()=>{applyIcons();guardAdmin();renderNotifications();renderDashboard();renderProducts();initBell();initSearch();initLogin();initAdmin();loadSharedAnnouncements()});

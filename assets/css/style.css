@@ -957,3 +957,8 @@ body{font-weight:var(--font-regular);}
     pointer-events:auto;
   }
 }
+
+/* Shared notification state: controlled by assets/js/app.js */
+.panel-title:after{
+  content:attr(data-count)!important;
+}
