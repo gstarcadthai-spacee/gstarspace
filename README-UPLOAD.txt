@@ -1,15 +1,25 @@
-GSTAR SALES FULL FIX
+GSTAR HUB CLEAN API V2
 
-Upload/overwrite only:
-1. sales.html
-2. assets/js/hub-resources.js
+Upload/overwrite:
+1. marketing.html
+2. support.html
+3. knowledge.html
+4. assets/js/hub-resources.js
+5. assets/js/management.js
+
+Do not overwrite:
+- sales.html
+- products.html
+- app.js
+- api.js
+- Product files
+- Gstar-Management.html
+- CSS files
 
 Fixes:
-- Restores clickable Sales module cards and modal.
-- Price List modal continues to use API.
-- Sales Resources section continues to use routed API resources.
-- Loading message is fully hidden after resources load.
-- Adds spacing between the loading/status area and resource cards.
-
-No Apps Script redeploy is required.
-Do not overwrite app.js, api.js, products.js, Tower files, or CSS.
+- Removes old mock/static resource blocks from Marketing, Support and Knowledge.
+- Each page shows only published Resources routed from Control Tower.
+- Loading disappears after API finishes.
+- Adds Knowledge to Show in Hubs.
+- Knowledge supports Manual, Document and Website.
+- No Apps Script redeploy required.
