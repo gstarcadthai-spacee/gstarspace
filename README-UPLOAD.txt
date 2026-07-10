@@ -1,23 +1,28 @@
-GSTAR RESOURCE MANAGER UX V1
+GSTAR HUB RESOURCES API V1
 
-Upload/overwrite only:
-1. Gstar-Management.html
-2. assets/js/management.js
+Upload/overwrite:
+1. sales.html
+2. marketing.html
+3. knowledge.html
+4. support.html
+5. assets/js/hub-resources.js
 
 No Apps Script redeploy is required.
-Do not change products.js, app.js, api.js, or CSS.
+Do not overwrite app.js, api.js, products.js, Tower files, or CSS.
 
-Changes:
-- Choose an existing Resource from a dropdown, or choose + New Resource.
-- Existing Resource selection loads its saved form for editing.
-- Primary Product dropdown is generated from Products in Google Sheet.
-- Show in Hubs is restricted by Resource Category:
-  Price List: Sales
-  Brochure: Marketing, Sales, Product
-  Presentation: Marketing, Sales
-  KV: Marketing
-  Manual: Support, Product
-  Installer: Support, Product
-  Canva: Marketing
-  Website: Marketing, Sales, Support, Product
-  Document: Sales, Support, Product
+Filtering:
+Sales:
+- Price List, Brochure, Presentation, Document, Website
+
+Marketing:
+- KV, Brochure, Presentation, Canva, Website
+
+Knowledge:
+- Manual, Document, Website
+
+Support:
+- Manual, Installer, Document, Website
+
+Every page also requires:
+- Status = Published
+- Show in Hubs contains the matching hub
