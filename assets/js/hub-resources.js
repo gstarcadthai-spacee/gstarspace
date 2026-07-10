@@ -104,11 +104,16 @@
           </div>
         `;
         cards.hidden = true;
+        cards.style.display = 'none';
+        status.hidden = false;
+        status.style.display = '';
         return;
       }
 
       status.hidden = true;
+      status.style.display = 'none';
       cards.hidden = false;
+      cards.style.display = '';
       cards.innerHTML = routed.map(resource => resourceCard(resource, products)).join("");
 
       cards.querySelectorAll(".hub-resource-open").forEach(button => {
@@ -134,6 +139,9 @@
         </div>
       `;
       cards.hidden = true;
+      cards.style.display = 'none';
+      status.hidden = false;
+      status.style.display = '';
     }
   }
 
