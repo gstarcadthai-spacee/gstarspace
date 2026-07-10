@@ -15,7 +15,7 @@
   ].map(x=>({
     id:x[0],name:x[1],category:x[2],logo:x[3],tagline:x[4],description:x[4],
     currentVersion:x[5],platform:x[6],license:x[7],website:x[8],
-    downloadURL:x[8],openTicketURL:"https://cs.applicadthai.com/",status:"Active"
+    downloadURL:x[8],trialScriptURL:"",openTicketURL:"https://cs.applicadthai.com/",status:"Active"
   }));
 
   const CATEGORIES=["All","CAD","BIM","BOQ & Estimation","Viewer & Collaboration","Add-ons","3D Printing","Partners"];
@@ -69,6 +69,7 @@
         license:"",
         website:"#",
         downloadURL:"#",
+        trialScriptURL:"",
         openTicketURL:"https://cs.applicadthai.com/",
         status:"Active"
       };
@@ -84,7 +85,8 @@
         platform:row.Platform||base.platform,
         license:row.License||base.license,
         website:row.WebsiteURL||base.website,
-        downloadURL:row.DownloadURL||base.downloadURL||row.WebsiteURL||base.website,
+        downloadURL:row.DownloadURL||base.downloadURL||"",
+        trialScriptURL:row.TrialScriptURL||base.trialScriptURL||"",
         openTicketURL:row.OpenTicketURL||base.openTicketURL,
         status:row.Status||base.status
       };
@@ -111,15 +113,20 @@
 
   function actions(p){
     return [
-      {title:"Download Free Trial",url:p.downloadURL||p.website},
-      {title:"Download Trial + Script",url:p.downloadURL||p.website},
+      {title:"Download Free Trial",url:p.downloadURL||""},
+      {title:"Download Trial + Script",url:p.trialScriptURL||""},
       {title:"Open Ticket",url:p.openTicketURL||"https://cs.applicadthai.com/"},
-      {title:"Open Website",url:p.website}
+      {title:"Open Website",url:p.website||""}
     ];
   }
 
   async function copyUrl(url,button){
-    if(!url||url==="#")return;
+    if(!url||url==="#"){
+      const old=button.innerHTML;
+      button.innerHTML="No link";
+      setTimeout(()=>button.innerHTML=old,1200);
+      return;
+    }
     try{await navigator.clipboard.writeText(url)}
     catch{
       const area=document.createElement("textarea");area.value=url;document.body.appendChild(area);
@@ -188,7 +195,15 @@
       item.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle()}});
     });
     groups.querySelectorAll("[data-open-url]").forEach(btn=>btn.addEventListener("click",e=>{
-      e.stopPropagation();const url=btn.dataset.openUrl;if(url&&url!=="#")window.open(url,"_blank","noopener");
+      e.stopPropagation();
+      const url=btn.dataset.openUrl;
+      if(url&&url!=="#"){
+        window.open(url,"_blank","noopener");
+      }else{
+        const old=btn.innerHTML;
+        btn.innerHTML="No link";
+        setTimeout(()=>btn.innerHTML=old,1200);
+      }
     }));
     groups.querySelectorAll("[data-copy-url]").forEach(btn=>btn.addEventListener("click",e=>{
       e.stopPropagation();copyUrl(btn.dataset.copyUrl,btn);

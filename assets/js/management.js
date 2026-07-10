@@ -109,11 +109,11 @@ function renderAll(){renderStats();renderProducts();renderResources();renderHubs
 
 function populateProductSelect(){const el=byId('rProduct');if(!el)return;if(el.tagName==='SELECT'){const selected=el.value;el.innerHTML='<option value="">All Products</option>'+state.products.map(p=>`<option value="${attr(p.ID)}">${escapeHTML(p.Name)}</option>`).join('');el.value=selected}}
 
-function openProductModal(id){const p=id?state.products.find(x=>x.ID===id):null;byId('productModalTitle').textContent=p?'Edit Product':'Add Product';pId.value=p?.ID||'';pName.value=p?.Name||'';pCategory.value=p?.Category||'';pTagline.value=p?.Tagline||'';pLogo.value=p?.Logo||'';pDeveloper.value=p?.Developer||'';pDesc.value=p?.Description||'';pVersion.value=p?.CurrentVersion||'';pDownload.value=p?.DownloadURL||'';pPlatform.value=p?.Platform||'';pLicense.value=p?.License||'';pWebsite.value=p?.WebsiteURL||'';pStatus.value=p?.Status||'Active';versionList.innerHTML='';versionHistory(p?.ID).forEach(v=>addVersionRow({version:v.Version,url:v.DownloadURL,platform:v.Platform,id:v.ID}));if(!p)addVersionRow();productPreview.style.display='none';showModal('productModal')}
+function openProductModal(id){const p=id?state.products.find(x=>x.ID===id):null;byId('productModalTitle').textContent=p?'Edit Product':'Add Product';pId.value=p?.ID||'';pName.value=p?.Name||'';pCategory.value=p?.Category||'';pTagline.value=p?.Tagline||'';pLogo.value=p?.Logo||'';pDeveloper.value=p?.Developer||'';pDesc.value=p?.Description||'';pVersion.value=p?.CurrentVersion||'';pDownload.value=p?.DownloadURL||'';pTrialScript.value=p?.TrialScriptURL||'';pPlatform.value=p?.Platform||'';pLicense.value=p?.License||'';pWebsite.value=p?.WebsiteURL||'';pStatus.value=p?.Status||'Active';versionList.innerHTML='';versionHistory(p?.ID).forEach(v=>addVersionRow({version:v.Version,url:v.DownloadURL,platform:v.Platform,id:v.ID}));if(!p)addVersionRow();productPreview.style.display='none';showModal('productModal')}
 function addVersionRow(v={version:'',url:'',platform:'Windows',id:''}){const row=document.createElement('div');row.className='version-row';row.dataset.versionId=v.id||'';row.innerHTML=`<input class="mg-input v-version" placeholder="2026 SP4" value="${attr(v.version)}"><input class="mg-input v-url" placeholder="Download URL" value="${attr(v.url)}"><input class="mg-input v-platform" placeholder="Windows" value="${attr(v.platform)}"><button class="mini-action" onclick="this.parentElement.remove()" type="button" aria-label="Delete version"><span data-m-icon="close"></span></button>`;versionList.appendChild(row);applyManagementIcons()}
 async function saveProduct(){
   const editingId=pId.value;
-  const payload={Name:pName.value.trim(),Category:pCategory.value,Tagline:pTagline.value.trim(),Logo:pLogo.value.trim(),Developer:pDeveloper.value.trim(),Description:pDesc.value.trim(),CurrentVersion:pVersion.value.trim(),DownloadURL:pDownload.value.trim(),Platform:pPlatform.value.trim(),License:pLicense.value.trim(),WebsiteURL:pWebsite.value.trim(),Status:pStatus.value,OpenTicketURL:'https://cs.applicadthai.com/'};
+  const payload={Name:pName.value.trim(),Category:pCategory.value,Tagline:pTagline.value.trim(),Logo:pLogo.value.trim(),Developer:pDeveloper.value.trim(),Description:pDesc.value.trim(),CurrentVersion:pVersion.value.trim(),DownloadURL:pDownload.value.trim(),TrialScriptURL:pTrialScript.value.trim(),Platform:pPlatform.value.trim(),License:pLicense.value.trim(),WebsiteURL:pWebsite.value.trim(),Status:pStatus.value,OpenTicketURL:'https://cs.applicadthai.com/'};
   if(!payload.Name){flash('Please enter Product Name',true);return}
   setBusy(true);
   try{
@@ -126,7 +126,19 @@ async function saveProduct(){
     logLocal(`${editingId?'Updated':'Added'} product: ${payload.Name}`);closeModal('productModal');await loadData();flash('Product saved to Google Sheet');
   }catch(error){console.error(error);flash(error.message,true)}finally{setBusy(false)}
 }
-function previewProduct(){productPreview.style.display='block';productPreview.innerHTML=`<h3>${escapeHTML(pName.value||'Product Name')}</h3><p>${escapeHTML(pDesc.value||'Description')}</p><div class="resource-meta"><span class="soft-tag">${escapeHTML(pVersion.value||'Version')}</span><span class="soft-tag gray">${escapeHTML(pPlatform.value||'Platform')}</span><span class="soft-tag gray">${escapeHTML(pLicense.value||'License')}</span></div>`}
+function previewProduct(){
+  productPreview.style.display='block';
+  productPreview.innerHTML=`
+    <h3>${escapeHTML(pName.value||'Product Name')}</h3>
+    <p>${escapeHTML(pDesc.value||'Description')}</p>
+    <div class="resource-meta">
+      <span class="soft-tag">${escapeHTML(pVersion.value||'Version')}</span>
+      <span class="soft-tag gray">${escapeHTML(pPlatform.value||'Platform')}</span>
+      <span class="soft-tag gray">${escapeHTML(pLicense.value||'License')}</span>
+      <span class="soft-tag ${pDownload.value.trim()?'green':'gray'}">Free Trial ${pDownload.value.trim()?'Ready':'Missing'}</span>
+      <span class="soft-tag ${pTrialScript.value.trim()?'green':'gray'}">Trial + Script ${pTrialScript.value.trim()?'Ready':'Missing'}</span>
+    </div>`;
+}
 async function deleteProduct(id){if(!confirm('Delete this product?'))return;setBusy(true);try{for(const v of state.versions.filter(x=>x.ProductID===id))await GstarAPI.remove('versions',v.ID);await GstarAPI.remove('products',id);logLocal('Deleted product');await loadData();flash('Product deleted')}catch(error){flash(error.message,true)}finally{setBusy(false)}}
 
 function openResourceModal(id){const r=id?state.resources.find(x=>x.ID===id):null;resourceModalTitle.textContent=r?'Edit Resource':'Add Resource';rId.value=r?.ID||'';rName.value=r?.Title||'';rCategory.value=r?.Category||'Price List';rType.value=r?.Type||'PDF';rUrl.value=r?.URL||'';rProduct.value=r?.ProductID||'';rStatus.value=r?.Status||'Published';rDesc.value=r?.Description||'';hubChecks.innerHTML=hubs.map(h=>`<label class="hub-check"><input type="checkbox" value="${h}" ${(r?.Hubs||[]).includes(h)?'checked':''}> <span data-m-icon="${h==='Marketing'?'megaphone':h==='Sales'?'package':h==='Support'?'bell':'resource'}"></span>${h}</label>`).join('');showModal('resourceModal')}
