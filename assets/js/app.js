@@ -1,3 +1,4 @@
+(()=>{const v=localStorage.getItem('workspace-theme')||'system';const dark=v==='dark'||(v==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.dataset.theme=dark?'dark':'light';document.documentElement.dataset.themeMode=v;})();
 const MANAGEMENT_PASSWORD='gstar2026';
 const icons={search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>',bell:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path></svg>',package:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>',megaphone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 18-5v12L3 14v-3Z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>',briefcase:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 6V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v1"></path><path d="M3 7h18v11a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V7Z"></path><path d="M3 13h18"></path></svg>',headset:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 13a9 9 0 1 1 18 0"></path><path d="M5 13h3v6H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2Z"></path><path d="M19 13h-3v6h3a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2Z"></path><path d="M16 19a4 4 0 0 1-4 3"></path></svg>',book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 7v14"></path><path d="M3 5a2 2 0 0 1 2-2h4a3 3 0 0 1 3 3v15a3 3 0 0 0-3-3H5a2 2 0 0 0-2 2V5Z"></path><path d="M21 5a2 2 0 0 0-2-2h-4a3 3 0 0 0-3 3v15a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2V5Z"></path></svg>',bot:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"></path><rect x="4" y="8" width="16" height="12" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M9 13v2"></path><path d="M15 13v2"></path><path d="M9 18h6"></path></svg>'};
 const productDefaults=[
@@ -34,7 +35,7 @@ function renderNotifications(){
   if(!p)return;
   if(sharedAnnouncements===null){
     setNotificationBadge('Loading');
-    p.innerHTML='<div class="list-item"><div><strong>Loading updates...</strong><span>Please wait a moment</span></div></div>';
+    p.innerHTML='<div class="list-item skeleton-list"><div style="width:100%"><div class="skeleton skeleton-line lg"></div><div class="skeleton skeleton-line md"></div></div></div><div class="list-item skeleton-list"><div style="width:100%"><div class="skeleton skeleton-line md"></div><div class="skeleton skeleton-line sm"></div></div></div>';
     return;
   }
   const items=sharedAnnouncements.slice(0,5);
@@ -69,7 +70,7 @@ function renderDashboard(){
   const box=document.getElementById('dashboardAnnouncements');
   if(!box)return;
   if(sharedAnnouncements===null){
-    box.innerHTML='<div class="list-item"><div><strong>Loading updates...</strong><span>Connecting to Workspace data</span></div></div>';
+    box.innerHTML='<div class="list-item skeleton-list"><div style="width:100%"><div class="skeleton skeleton-line lg"></div><div class="skeleton skeleton-line md"></div></div></div><div class="list-item skeleton-list"><div style="width:100%"><div class="skeleton skeleton-line md"></div><div class="skeleton skeleton-line sm"></div></div></div>';
     return;
   }
   box.innerHTML=sharedAnnouncements.slice(0,3).map(a=>`<div class="list-item"><div><strong>${a.Title||a.title||'Update'}</strong><span>${a.Description||a.description||''}</span></div><span class="tag blue">Published</span></div>`).join('')||'<div class="list-item"><div><strong>No published announcements</strong><span>Add one from Control Tower.</span></div></div>';
@@ -92,57 +93,38 @@ function deleteAnnouncement(id){if(confirm('Delete this announcement?')){setAnno
 function toast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t)}t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
 
 
-/* =========================================================
-   Shared Mobile Navigation — Final responsive controller
-   ========================================================= */
-function initMobileNavigation(){
-  const sidebar=document.querySelector('.sidebar');
-  const topbar=document.querySelector('.topbar');
-  if(!sidebar||!topbar)return;
-
-  let button=topbar.querySelector('.mobile-menu-btn');
-  if(!button){
-    button=document.createElement('button');
-    button.type='button';
-    button.className='mobile-menu-btn';
-    button.setAttribute('aria-label','Open navigation');
-    button.setAttribute('aria-expanded','false');
-    button.setAttribute('aria-controls','workspaceSidebar');
-    button.innerHTML='<span aria-hidden="true"></span>';
-    topbar.insertBefore(button,topbar.firstChild);
+/* V5.1 shared theme engine */
+const GSTAR_THEME_KEY='workspace-theme';
+const GSTAR_THEME_MODES=['light','dark','system'];
+function getSavedTheme(){const value=localStorage.getItem(GSTAR_THEME_KEY);return GSTAR_THEME_MODES.includes(value)?value:'system'}
+function resolveTheme(mode){return mode==='system'?(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):mode}
+function themeIcon(mode){
+  if(mode==='dark')return '<svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"></path></svg>';
+  if(mode==='light')return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path></svg>';
+  return '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"></rect><path d="M8 22h8M12 18v4"></path></svg>';
+}
+function applyWorkspaceTheme(mode,{persist=false}={}){
+  const normalized=GSTAR_THEME_MODES.includes(mode)?mode:'system';
+  document.documentElement.dataset.theme=resolveTheme(normalized);
+  document.documentElement.dataset.themeMode=normalized;
+  if(persist)localStorage.setItem(GSTAR_THEME_KEY,normalized);
+  const button=document.getElementById('workspaceThemeToggle');
+  if(button){button.dataset.mode=normalized;button.innerHTML=themeIcon(normalized);button.title=`Theme: ${normalized[0].toUpperCase()+normalized.slice(1)} · Click to change`;button.setAttribute('aria-label',button.title)}
+}
+function initWorkspaceTheme(){
+  applyWorkspaceTheme(getSavedTheme());
+  const actions=document.querySelector('.top-actions');
+  if(actions&&!document.getElementById('workspaceThemeToggle')){
+    const button=document.createElement('button');
+    button.type='button';button.id='workspaceThemeToggle';button.className='icon-btn theme-toggle';
+    const bell=document.getElementById('bellButton');
+    if(bell)actions.insertBefore(button,bell);else actions.appendChild(button);
+    button.addEventListener('click',()=>{const current=getSavedTheme();const next=GSTAR_THEME_MODES[(GSTAR_THEME_MODES.indexOf(current)+1)%GSTAR_THEME_MODES.length];applyWorkspaceTheme(next,{persist:true})});
   }
-
-  if(!sidebar.id)sidebar.id='workspaceSidebar';
-
-  let backdrop=document.querySelector('.mobile-drawer-backdrop');
-  if(!backdrop){
-    backdrop=document.createElement('button');
-    backdrop.type='button';
-    backdrop.className='mobile-drawer-backdrop';
-    backdrop.setAttribute('aria-label','Close navigation');
-    document.body.appendChild(backdrop);
-  }
-
-  const closeMenu=()=>{
-    document.body.classList.remove('mobile-nav-open');
-    button.setAttribute('aria-expanded','false');
-    button.setAttribute('aria-label','Open navigation');
-  };
-  const openMenu=()=>{
-    document.body.classList.add('mobile-nav-open');
-    button.setAttribute('aria-expanded','true');
-    button.setAttribute('aria-label','Close navigation');
-  };
-
-  button.addEventListener('click',e=>{
-    e.preventDefault();
-    e.stopPropagation();
-    document.body.classList.contains('mobile-nav-open')?closeMenu():openMenu();
-  });
-  backdrop.addEventListener('click',closeMenu);
-  sidebar.querySelectorAll('a').forEach(link=>link.addEventListener('click',closeMenu));
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
-  window.addEventListener('resize',()=>{if(window.innerWidth>760)closeMenu()},{passive:true});
+  applyWorkspaceTheme(getSavedTheme());
+  const media=window.matchMedia('(prefers-color-scheme: dark)');
+  const sync=()=>{if(getSavedTheme()==='system')applyWorkspaceTheme('system')};
+  if(media.addEventListener)media.addEventListener('change',sync);else if(media.addListener)media.addListener(sync);
 }
 
-document.addEventListener('DOMContentLoaded',()=>{applyIcons();guardAdmin();renderNotifications();renderDashboard();renderProducts();initBell();initSearch();initLogin();initAdmin();initMobileNavigation();loadSharedAnnouncements()});
+document.addEventListener('DOMContentLoaded',()=>{initWorkspaceTheme();applyIcons();guardAdmin();renderNotifications();renderDashboard();renderProducts();initBell();initSearch();initLogin();initAdmin();loadSharedAnnouncements()});

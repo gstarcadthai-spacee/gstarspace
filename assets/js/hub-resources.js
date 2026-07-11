@@ -72,6 +72,12 @@
 
     const allowedCategories = HUB_RULES[hub] || [];
 
+    status.hidden = true;
+    status.style.display = 'none';
+    cards.hidden = false;
+    cards.style.display = '';
+    cards.innerHTML = `<div class="skeleton-grid">${Array.from({length:3},()=>`<article class="skeleton-card"><div class="skeleton skeleton-circle"></div><div class="skeleton skeleton-line lg"></div><div class="skeleton skeleton-line md"></div><div class="skeleton skeleton-line sm"></div></article>`).join('')}</div>`;
+
     try {
       const data = await GstarAPI.bootstrap();
       const resources = Array.isArray(data.resources) ? data.resources : [];
@@ -115,6 +121,8 @@
       cards.hidden = false;
       cards.style.display = '';
       cards.innerHTML = routed.map(resource => resourceCard(resource, products)).join("");
+      cards.classList.add("content-loaded");
+      setTimeout(() => cards.classList.remove("content-loaded"), 450);
 
       cards.querySelectorAll(".hub-resource-open").forEach(button => {
         button.addEventListener("click", () => {
