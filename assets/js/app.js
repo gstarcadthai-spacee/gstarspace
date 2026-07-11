@@ -90,4 +90,59 @@ function saveAnnouncement(e){e.preventDefault();let arr=getAnnouncements();const
 function toggleAnnouncement(id){setAnnouncements(getAnnouncements().map(a=>a.id===id?{...a,enabled:!a.enabled}:a));renderAdmin()}
 function deleteAnnouncement(id){if(confirm('Delete this announcement?')){setAnnouncements(getAnnouncements().filter(a=>a.id!==id));renderAdmin()}}
 function toast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t)}t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
-document.addEventListener('DOMContentLoaded',()=>{applyIcons();guardAdmin();renderNotifications();renderDashboard();renderProducts();initBell();initSearch();initLogin();initAdmin();loadSharedAnnouncements()});
+
+
+/* =========================================================
+   Shared Mobile Navigation — Final responsive controller
+   ========================================================= */
+function initMobileNavigation(){
+  const sidebar=document.querySelector('.sidebar');
+  const topbar=document.querySelector('.topbar');
+  if(!sidebar||!topbar)return;
+
+  let button=topbar.querySelector('.mobile-menu-btn');
+  if(!button){
+    button=document.createElement('button');
+    button.type='button';
+    button.className='mobile-menu-btn';
+    button.setAttribute('aria-label','Open navigation');
+    button.setAttribute('aria-expanded','false');
+    button.setAttribute('aria-controls','workspaceSidebar');
+    button.innerHTML='<span aria-hidden="true"></span>';
+    topbar.insertBefore(button,topbar.firstChild);
+  }
+
+  if(!sidebar.id)sidebar.id='workspaceSidebar';
+
+  let backdrop=document.querySelector('.mobile-drawer-backdrop');
+  if(!backdrop){
+    backdrop=document.createElement('button');
+    backdrop.type='button';
+    backdrop.className='mobile-drawer-backdrop';
+    backdrop.setAttribute('aria-label','Close navigation');
+    document.body.appendChild(backdrop);
+  }
+
+  const closeMenu=()=>{
+    document.body.classList.remove('mobile-nav-open');
+    button.setAttribute('aria-expanded','false');
+    button.setAttribute('aria-label','Open navigation');
+  };
+  const openMenu=()=>{
+    document.body.classList.add('mobile-nav-open');
+    button.setAttribute('aria-expanded','true');
+    button.setAttribute('aria-label','Close navigation');
+  };
+
+  button.addEventListener('click',e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    document.body.classList.contains('mobile-nav-open')?closeMenu():openMenu();
+  });
+  backdrop.addEventListener('click',closeMenu);
+  sidebar.querySelectorAll('a').forEach(link=>link.addEventListener('click',closeMenu));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
+  window.addEventListener('resize',()=>{if(window.innerWidth>760)closeMenu()},{passive:true});
+}
+
+document.addEventListener('DOMContentLoaded',()=>{applyIcons();guardAdmin();renderNotifications();renderDashboard();renderProducts();initBell();initSearch();initLogin();initAdmin();initMobileNavigation();loadSharedAnnouncements()});
